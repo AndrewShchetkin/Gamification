@@ -27,6 +27,8 @@ namespace Gamification
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSignalRCore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,7 @@ namespace Gamification
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -51,6 +54,7 @@ namespace Gamification
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<>("/hub");
             });
 
             app.UseSpa(spa =>
