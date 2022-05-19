@@ -24,14 +24,13 @@ const App = () => {
     return (<>
     <Router history={history}>
         <Navigation/>
-        
             <Route exact path="/" component={Home} />
             <Route  path="/nav" component={Navigation} />
             <Route  path="/help" component={Help} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/lobby' component={Lobby} />
-            <PrivateRoute path='/quiz' component={Quiz} />
+            <Route path='/quiz' component={Quiz} />
             <PrivateRoute path='/game' component={Temp} />
             <PrivateRoute path='/game2' component={Temp2} />
         </Router>
