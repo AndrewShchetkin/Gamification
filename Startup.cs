@@ -60,7 +60,8 @@ namespace Gamification
                     };
 
                 });
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

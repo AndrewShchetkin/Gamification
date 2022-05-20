@@ -2,6 +2,8 @@
 using Gamification.Data;
 using Gamification.Models;
 using Gamification.Models.DTO.Team;
+using Gamification.Models.Errors;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,10 +30,24 @@ namespace Gamification.Controllers
         [HttpPost(template: "teamregister")]
         public async Task<ActionResult<Guid>> RegisterTeam(TeamRegisterDto teamDto)
         {
+            var team = await _teamRepository.GetTeamByName(teamDto.TeamName);
+            if (team != null)
+            {
+                var errorResponse = new ErrorResponse();
+                var error = new ErrorModel
+                {
+                    FieldName = "TeamName",
+                    Message = "Команда с таким названием уже существует уже существует"
+                };
+                errorResponse.Errors.Add(error);
+                return BadRequest(errorResponse);
+            }
+
             var user = _userRepository.GetUserByUserName(User.Identity.Name);
             var newTeam = new Team
             {
                 TeamName = teamDto.TeamName,
+                Password = BCrypt.Net.BCrypt.HashPassword(teamDto.Password),
                 Users = new List<User> { user }
             };
             var teamID = await _teamRepository.Create(newTeam);
@@ -42,20 +58,39 @@ namespace Gamification.Controllers
         [HttpPost(template: "jointheteam")]
         public async Task<ActionResult<Guid>> JoinTheTeam(JoinTheTeamDto joinTheTeamDto)
         {
-            var currentUser = _userRepository.GetUserByUserName(User.Identity.Name);
-            var team = await _teamRepository.JoinToTheExistTeam(joinTheTeamDto.TeamId, currentUser);
-            if(team == null)
+            var team = await _teamRepository.GetTeamById(joinTheTeamDto.TeamId, true);
+            if (team == null)
             {
                 return BadRequest("Такой команды не существует");
             }
-            return Ok(currentUser.TeamId);
+            if (team.Users.Count > 4)
+            {
+                return BadRequest("Нет места в команде");
+            }
+            if(!BCrypt.Net.BCrypt.Verify(joinTheTeamDto.Password, team.Password))
+            {
+                return BadRequest("Не верный пароль");
+            }
+            var currentUser = _userRepository.GetUserByUserName(User.Identity.Name);
+            await _teamRepository.JoinToTheExistTeam(team, currentUser);
+            
+            return Ok(currentUser.Id);
         }
 
+        [Authorize]
         [HttpGet(template: "getallteams")]
         public async Task<ActionResult<TeamDto>> GetAllTeams()
         {
             var teams = await _teamRepository.GetAllTeams();
             var teamsDto = _mapper.Map<List<Team>, List<TeamDto>>(teams);
+            return Ok(teamsDto);
+        }
+
+        [HttpGet(template: "getTeamByID")]
+        public async Task<ActionResult<TeamDto>> GetTeamById([FromQuery] Guid teamID)
+        {
+            var team = await _teamRepository.GetTeamById(teamID, true);
+            var teamsDto = _mapper.Map<Team, TeamDto>(team);
             return Ok(teamsDto);
         }
     }

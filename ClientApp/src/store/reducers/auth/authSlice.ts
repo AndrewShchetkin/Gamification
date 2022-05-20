@@ -1,14 +1,10 @@
-import { LoginResponse } from './loginResponse';
-import { RootState } from './../app/store';
+import { LoginResponse } from '../../../@types/loginResponse';
+import { RootState } from '../../store';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useAppDispatch } from '../app/hooks';
-
-export interface AuthState {
-    isAuthenticated: boolean,
-    requestSended: boolean,
-    error: boolean,
-    name: string
-}
+import { useAppDispatch } from '../../hooks';
+import { AuthState } from '../../../@types/ReduxTypes/AuthState';
+import axios from 'axios';
+import { fetchUser } from './actionCreators';
 
 export const initialState: AuthState = {
     isAuthenticated: false,
@@ -16,28 +12,6 @@ export const initialState: AuthState = {
     error: false,
     name: ''
 }
-
-
-export const userOkFetch = createAsyncThunk('get/api/user', async (): Promise<void> => {
-    const dispatch = useAppDispatch();
-
-    dispatch(startLoadData());
-    try {
-
-        const response = await fetch('api/user');
-        let body: LoginResponse = {};
-        console.log(response);
-        if (response.ok && response.body) {
-            body = await response.json();
-            dispatch(signInComplete(body.username ?? ""));
-        }
-        
-    } catch (ex) {
-        console.error(ex);
-       
-    } 
-    dispatch(endLoadData);
-});
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -56,7 +30,7 @@ export const authSlice = createSlice({
 
     },
     extraReducers: (builder) => {
-        builder.addCase(userOkFetch.fulfilled, (state, action) => {
+        builder.addCase(fetchUser.fulfilled, (state, action) => {
             state.requestSended = false;
         });
     }

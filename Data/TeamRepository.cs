@@ -28,17 +28,24 @@ namespace Gamification.Data
             return teams;
         }
 
-        public async Task<Team> GetTeamById(Guid teamId)
+        public async Task<Team> GetTeamByName(string teamName)
         {
+            return await db.Teams.FirstOrDefaultAsync(t => t.TeamName == teamName);
+        }
+
+        public async Task<Team> GetTeamById(Guid teamId, bool isRetrieveUsers = false)
+        {
+            if (isRetrieveUsers)
+            {
+                return await db.Teams.Include(t => t.Users).FirstOrDefaultAsync(t => t.Id == teamId);
+            }
             return  await db.Teams.FirstOrDefaultAsync(t => t.Id == teamId);
         }
 
-        public async Task<Team> JoinToTheExistTeam(Guid teamId, User user)
+        public async Task JoinToTheExistTeam(Team team, User user)
         {
-            var team = await GetTeamById(teamId);
             user.Team = team;
             await db.SaveChangesAsync();
-            return team;
         }
     }
 }

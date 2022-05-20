@@ -1,6 +1,6 @@
-import { RootState } from './../app/store';
+import { RootState } from '../../store';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useAppDispatch } from '../app/hooks';
+import { useAppDispatch } from '../../hooks';
 import signalR from '@microsoft/signalr';
 
 interface Message{

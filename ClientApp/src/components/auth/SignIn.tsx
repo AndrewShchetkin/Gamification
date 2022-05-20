@@ -12,10 +12,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAppDispatch } from '../app/hooks';
-import { signInComplete } from './authSlice';
+import { useAppDispatch } from '../../store/hooks';
+import { signInComplete } from '../../store/reducers/auth/authSlice';
 import { Redirect, Link as LinkRoute } from 'react-router-dom';
-import { LoginResponse } from './loginResponse';
+import { LoginResponse } from '../../@types/loginResponse';
 
 
 const theme = createTheme();
@@ -76,7 +76,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Войдите в свой аккаунт
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -84,7 +84,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Имя пользователя"
               name="email"
               autoComplete="email"
               autoFocus
@@ -94,29 +94,29 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Пароль"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Войти
             </Button>
-            <Grid container>
-              <Grid item xs>
+            <Grid container justifyContent="flex-end">
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link component={LinkRoute} to='/signup' variant="body2" >
                   {"Регистрация"}

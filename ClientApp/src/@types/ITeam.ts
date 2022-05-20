@@ -1,8 +1,4 @@
-export interface IUser{
-    id: string;
-    userName: string;
-    teamId: string;
-}
+import { IUser } from "./IUser";
 
 export  interface ITeam{
     id: number;

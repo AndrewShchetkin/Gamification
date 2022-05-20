@@ -14,7 +14,7 @@ namespace Gamification.Validators
                 .MaximumLength(30);
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .MinimumLength(6)
+                .MinimumLength(1)
                 .MaximumLength(50);
         }   
     }

@@ -1,7 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { userOkFetch } from "../auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { CircularProgress } from "@mui/material";
 
 const PrivateRoute: React.ComponentType<any> = ({
