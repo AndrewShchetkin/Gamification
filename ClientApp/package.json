@@ -2,7 +2,7 @@
     "name": "my-app",
     "version": "0.0.1",
     "scripts": {
-        "start": " react-scripts start"
+        "start": "react-scripts start"
     },
     "dependencies": {
         "@emotion/react": "^11.4.1",

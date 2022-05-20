@@ -1,10 +1,22 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import Question from './question';
+import { getQuestions, nextQuestion } from './quizeSlice';
 
 export default function Quiz() {
-    const userName = useAppSelector(s => s.auth.name)
+    const userName = useAppSelector(s => s.auth.name);
+    const questionsIsLoaded = useAppSelector(q => q.quize.questionsIsLoaded);
+    
+    const questions = useAppSelector(q => q.quize.questions);
+    const currentQuestionIndex = useAppSelector(q => q.quize.currentQuestionIndex);
+    const dispatch = useAppDispatch();
+    if(!questionsIsLoaded)
+        dispatch(getQuestions())
+    
     return (
         <Box
             sx={{
@@ -38,8 +50,13 @@ export default function Quiz() {
                     <Link to='/game2'>game2</Link>
                 </Box>
                 <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main', textAlign: 'center', gridRow: '3/12' }}>
-                    тут происходит основной кипиш с вопросами,
-                    Предлагаю вынести в отдельный компонент
+                    {/* TODO: if questions are not loaded show loader */}
+                    {questionsIsLoaded ? <div>
+                        {currentQuestionIndex}
+                        <Question question={questions[currentQuestionIndex].text}/>
+                        <Button variant="contained" onClick={()=>dispatch(nextQuestion())}>Next question</Button>
+                    </div>
+                    : <CircularProgress color="inherit" />}
                 </Box>
                 <Box sx={{ gridArea: 'sidebar', bgcolor: 'info.main', textAlign: 'center', gridRow: '3/12' }}>
                     <ul>
