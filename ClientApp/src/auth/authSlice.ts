@@ -34,9 +34,8 @@ export const userOkFetch = createAsyncThunk('get/api/user', async (): Promise<vo
         
     } catch (ex) {
         console.error(ex);
-       
     } 
-    dispatch(endLoadData);
+    dispatch(endLoadData());
 });
 
 export const authSlice = createSlice({
