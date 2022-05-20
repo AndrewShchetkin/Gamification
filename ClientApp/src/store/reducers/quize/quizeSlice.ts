@@ -1,15 +1,6 @@
-import { Question } from './quizeDto';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { useAppDispatch } from '../app/hooks';
-
-
-
-export interface QuizeState{
-    questionsIsLoaded: boolean,
-    requestSended: boolean,
-    currentQuestionIndex: number,
-    questions: Question[]
-}
+import { useAppDispatch } from '../../hooks';
+import { QuizeState } from '../../../@types/ReduxTypes/quizeState';
 
 export const initialState: QuizeState = {
     questionsIsLoaded: false,

@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import Question from './question';
-import { getQuestions, nextQuestion } from './quizeSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getQuestions, nextQuestion } from '../../store/reducers/quize/quizeSlice';
+import QuestionElement from './question';
 
 export default function Quiz() {
     const userName = useAppSelector(s => s.auth.name);
@@ -13,6 +13,7 @@ export default function Quiz() {
     
     const questions = useAppSelector(q => q.quize.questions);
     const currentQuestionIndex = useAppSelector(q => q.quize.currentQuestionIndex);
+    const currentQuestion = questions[currentQuestionIndex];
     const dispatch = useAppDispatch();
     if(!questionsIsLoaded)
         dispatch(getQuestions())
@@ -53,7 +54,8 @@ export default function Quiz() {
                     {/* TODO: if questions are not loaded show loader */}
                     {questionsIsLoaded ? <div>
                         {currentQuestionIndex}
-                        <Question question={questions[currentQuestionIndex].text}/>
+                        <QuestionElement text={currentQuestion.text} />
+                        
                         <Button variant="contained" onClick={()=>dispatch(nextQuestion())}>Next question</Button>
                     </div>
                     : <CircularProgress color="inherit" />}

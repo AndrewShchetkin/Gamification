@@ -8,7 +8,7 @@ import { Temp } from "./components/temp";
 import { Temp2 } from "./components/temp2";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { fetchUser } from "./store/reducers/auth/actionCreators";
-import Quiz from "./components/quiz/Quiz";
+import Quiz from "./components/quiz/quiz";
 import Lobby from "./components/lobby/Lobby";
 import Home from "./components/Home";
 import Navigation from "./components/Navigation";
