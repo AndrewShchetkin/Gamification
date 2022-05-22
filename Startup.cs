@@ -16,6 +16,7 @@ using AutoMapper;
 using Gamification.Mapping;
 using FluentValidation.AspNetCore;
 using Gamification.Filters;
+using Gamification.Data.Interfaces;
 
 namespace Gamification
 {
@@ -38,6 +39,7 @@ namespace Gamification
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<IMapRepository, MapRepository>();
 
             services.AddMvc(options => 
             {
@@ -110,6 +112,7 @@ namespace Gamification
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/hub");
+                endpoints.MapHub<MapHub>("/hubs/map");
                 endpoints.MapControllerRoute( // еще надо уточнить какая будет маршрутизация 
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

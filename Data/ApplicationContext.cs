@@ -15,5 +15,6 @@ namespace Gamification.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; } 
+        public DbSet<Cell> Cells { get; set; }
     }
 }

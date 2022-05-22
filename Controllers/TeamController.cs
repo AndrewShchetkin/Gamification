@@ -52,11 +52,27 @@ namespace Gamification.Controllers
         }
 
         [HttpGet(template: "getallteams")]
-        public async Task<ActionResult<TeamDto>> GetAllTeams()
+        public async Task<ActionResult<List<TeamDto>>> GetAllTeams()
         {
             var teams = await _teamRepository.GetAllTeams();
             var teamsDto = _mapper.Map<List<Team>, List<TeamDto>>(teams);
             return Ok(teamsDto);
+        }
+
+        [HttpGet(template: "getteambyid")]
+        public async Task<ActionResult<TeamDto>> GetTeamById(Guid teamId)
+        {
+            var teams = await _teamRepository.GetTeamById(teamId);
+            var teamsDto = _mapper.Map<Team,TeamDto>(teams);
+            return Ok(teamsDto);
+        }
+
+        [HttpGet(template: "getuserbyid")]
+        public async Task<ActionResult<UsersInTeam>> GetUserById(Guid userId)
+        {
+            var user = await _teamRepository.GetUserById(userId);
+            var userDto = _mapper.Map<User, UsersInTeam>(user);
+            return Ok(userDto);
         }
     }
 }

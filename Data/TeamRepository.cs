@@ -33,6 +33,11 @@ namespace Gamification.Data
             return  await db.Teams.FirstOrDefaultAsync(t => t.Id == teamId);
         }
 
+        public async Task<User> GetUserById(Guid userId)
+        {
+            return await db.Users.SingleOrDefaultAsync(u => u.Id == userId);
+        }
+
         public async Task<Team> JoinToTheExistTeam(Guid teamId, User user)
         {
             var team = await GetTeamById(teamId);

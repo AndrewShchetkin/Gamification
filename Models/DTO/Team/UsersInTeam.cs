@@ -6,5 +6,6 @@ namespace Gamification.Models.DTO.Team
     {
         public string UserName { get; set; }
         public Guid Id { get; set; }
+        public int Points { get; set; }
     }
 }
