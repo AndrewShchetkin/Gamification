@@ -74,7 +74,7 @@ namespace Gamification.Controllers
             var currentUser = _userRepository.GetUserByUserName(User.Identity.Name);
             await _teamRepository.JoinToTheExistTeam(team, currentUser);
             
-            return Ok(currentUser.Id);
+            return Ok(currentUser.TeamId);
         }
 
         [Authorize]

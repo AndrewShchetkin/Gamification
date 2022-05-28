@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Redirect, Link as LinkRoute } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 
 function Copyright(props: any) {
   return (
@@ -39,28 +40,20 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-
     const body = {
       UserName: data.get('email'),
       Password: data.get('password'),
     };
 
-    const response = await fetch('api/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if(response.status === 201){
-      setRedirectToReferrer(true);
-    }
-    console.log(response);
-
+    await axios.post("api/auth/register", body)
+      .then((response) => {
+        if (response.status === 201) {
+          setRedirectToReferrer(true);
+        }
+      })
+      .catch((error: AxiosError) => {
+        console.log(error.message);
+      });
   };
 
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import { createBrowserHistory } from 'history';
@@ -13,21 +13,19 @@ import Lobby from "./components/lobby/Lobby";
 import Home from "./components/Home";
 import Navigation from "./components/Navigation";
 import Help from "./components/Help";
-import LobbyAfterJoinTeam from "./components/lobby/LobbyAfterJoinTeam";
 
 const App = () => {
     const history = createBrowserHistory();
-    // const isAuthenticated = useAppSelctor(state => state.auth.isAuthenticated)
-    // if (!isAuthenticated) {
-        const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
+    useEffect(() => {
         dispatch(fetchUser());
-    // }
+    }, [])
     return (<>
-    <Router history={history}>
-        <Navigation/>
+        <Router history={history}>
+            <Navigation />
             <Route exact path="/" component={Home} />
-            <Route  path="/nav" component={Navigation} />
-            <Route  path="/help" component={Help} />
+            <Route path="/nav" component={Navigation} />
+            <Route path="/help" component={Help} />
             <Route path='/signin' component={SignIn} />
             <Route path='/signup' component={SignUp} />
             <Route path='/lobby' component={Lobby} />
@@ -35,7 +33,7 @@ const App = () => {
             <PrivateRoute path='/game' component={Temp} />
             <PrivateRoute path='/game2' component={Temp2} />
         </Router>
-        </>
+    </>
     );
 }
 

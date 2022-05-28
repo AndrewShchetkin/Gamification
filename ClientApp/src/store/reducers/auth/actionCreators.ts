@@ -8,21 +8,14 @@ function isAxiosError(error: any): error is AxiosError {
     return error.isAxiosError === true;
 }
 
-export const fetchUser = createAsyncThunk('get/api/user', async (): Promise<void> => {
-    const dispatch = useAppDispatch();
-    dispatch(startLoadData());
-    try {
-        const response = await axios.get<LoginResponse>('api/auth/user');
-        dispatch(signInComplete(response.data.username ?? ""));
-    } catch (e) {
-       if(isAxiosError(e)){
-           if(e.response?.status != 401){
-               console.error(e.message);
-           }
-       }
-       else{
-           console.error(e);
-       }
+export const fetchUser = createAsyncThunk(
+    'get/api/user',
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get<LoginResponse>('api/auth/user')
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e);
+        }
     }
-    dispatch(endLoadData());
-});
+)

@@ -16,6 +16,7 @@ import { useAppDispatch } from '../../store/hooks';
 import { signInComplete } from '../../store/reducers/auth/authSlice';
 import { Redirect, Link as LinkRoute } from 'react-router-dom';
 import { LoginResponse } from '../../@types/loginResponse';
+import axios, { AxiosError } from 'axios';
 
 
 const theme = createTheme();
@@ -26,38 +27,26 @@ export default function SignIn() {
   const [redirectToReferrer, setRedirectToReferrer] = React.useState(false)
 
   if (redirectToReferrer === true) {
-    return <Redirect to='/quiz' />
+    return <Redirect to='/lobby' />
   }
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
     const body = {
       UserName: data.get('email'),
       Password: data.get('password'),
     };
 
-    const response = await fetch('api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    
-    if(response.ok){
-      // меняю глобальный стейт 
-      const body: LoginResponse = await response.json();
-      dispatch(signInComplete(body.username ?? ''));
-      // меняю стейт чтоб обновить форму
-      setRedirectToReferrer(true);
-    } else {
-      alert('Ошибка!!!');
-    }
+    await axios.post<LoginResponse>("api/auth/login", body)
+      .then((response) => {
+        dispatch(signInComplete(response.data));
+        setRedirectToReferrer(true);
+      })
+      .catch((error : AxiosError) => {
+        alert(error.message);
+      });
   };
 
   return (

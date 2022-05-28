@@ -66,7 +66,7 @@ namespace Gamification.Controllers
 
             await AuthenticateAsync(userDto.UserName);
 
-            return Ok(new { message = "success", username = user.UserName , userTeamID = user.TeamId});
+            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId});
         }
         
         [HttpPost(template: "logout")]
@@ -82,22 +82,13 @@ namespace Gamification.Controllers
             if(string.IsNullOrEmpty(User.Identity.Name))
                 return Unauthorized(new { message = "Invalid Credentials" });
 
-            return Ok(new {username = User.Identity.Name });
-
-        }
-
-        //Временный метод, получение команды пользователя
-        [AllowAnonymous]
-        [HttpGet(template: "getUserTeam")]
-        public IActionResult GetUserTeam()
-        {
-            string userName = User.Identity.Name;
-            var user = _userRepository.GetUserByUserName(userName);
-            if(user == null)
+            var user = _userRepository.GetUserByUserName(User.Identity.Name);
+            if (user == null)
             {
                 return BadRequest("Пользователь не найден");
             }
-            return Ok(new {user.TeamId});
+
+            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId});
         }
 
         // Helpers methods

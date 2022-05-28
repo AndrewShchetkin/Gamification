@@ -15,7 +15,7 @@ export const Temp = () => {
 
 
     const s = useAppSelector(state => state.auth.isAuthenticated);
-    const username = useAppSelector((state) => state.auth.name);
+    const username = useAppSelector((state) => state.auth.userName);
 
     const send = async() => {
         const response = await connection?.send("NewMessage", username, message);

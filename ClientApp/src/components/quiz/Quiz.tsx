@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 
 export default function Quiz() {
-    const userName = useAppSelector(s => s.auth.name)
+    const userName = useAppSelector(s => s.auth.userName)
     return (
         <Box
             sx={{
