@@ -27,7 +27,6 @@ function TeamsInfoWhenUserInTeam(props: Props) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const fetchUserTeam = async () => {
-        debugger;
         try {
             const response = await axios.get('api/team/getTeamByID', { params: { teamID: props.teamId } });
             setUsersTeam(response.data);
@@ -57,8 +56,6 @@ function TeamsInfoWhenUserInTeam(props: Props) {
                         />
                     </Box>
                 </Box>
-
-
             }
         </Box>
     )
