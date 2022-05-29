@@ -78,7 +78,7 @@ public class HexMapEditor : MonoBehaviour
 		{
 			if (isEdit)
 			{				
-				if (brushSize == 1)
+				if (brushSize == 0)
 				{
 					EditCell(cell);
 				}
@@ -136,8 +136,6 @@ public class HexMapEditor : MonoBehaviour
             {
                 cell.Elevation = activeElevation;
             }
-            Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z);
-            UpdateTargetCell(updatedCell);
         }
     }
 
