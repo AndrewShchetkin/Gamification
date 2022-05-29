@@ -13,6 +13,6 @@ namespace Gamification.Models
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
-        public Guid? Owner { get; set; }
+        public Guid? OwnerId { get; set; }
     }
 }

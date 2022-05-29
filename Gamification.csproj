@@ -14,6 +14,7 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
@@ -23,8 +24,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="UnityProj\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="UnityProj\**" />
+    <EmbeddedResource Remove="UnityProj\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="UnityProj\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 

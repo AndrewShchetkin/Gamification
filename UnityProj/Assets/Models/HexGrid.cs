@@ -246,7 +246,7 @@ public class HexGrid : MonoBehaviour
 			var targetCell = cells.SingleOrDefault(c => c.coordinates.X == cell.x && c.coordinates.Y == cell.y && c.coordinates.Z == cell.z);
 			targetCell.ColorIndex = cell.color;
 			targetCell.Elevation = cell.elevation;			
-            if (cell.ownerId != null)
+            if (!string.IsNullOrEmpty(cell.ownerId))
             {
 				targetCell.ownerColorHighligh = GameController.GetTeamColor(cell.ownerId);
 				targetCell.OwnerId = Guid.Parse(cell.ownerId);

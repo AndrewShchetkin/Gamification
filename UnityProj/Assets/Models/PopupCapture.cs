@@ -10,19 +10,33 @@ namespace Assets.Models
 {    
     public class PopupCapture : MonoBehaviour
     {
-        Delegate editCellFunc;
         HexCell currentHexCell;
-        public void ShowPopup(Delegate callback, HexCell cell)
+        public HexMapEditor mapEditor;
+
+        public HexCell CurrentHexCell { 
+            get
+            {
+                return currentHexCell;
+            } 
+            set
+            {
+                if(value)
+                {                    
+                    ShowPopup();
+                }
+                currentHexCell = value;
+            }
+        }
+        public void ShowPopup()
         {
-            editCellFunc = callback;
-            currentHexCell = cell;
             gameObject.SetActive(true);
         }
 
         public void OnOkClick()
         {
-            editCellFunc.DynamicInvoke(currentHexCell);
             gameObject.SetActive(false);
+            mapEditor.EditCell(CurrentHexCell);
+            CurrentHexCell = null;
         }
 
         public void OnCancelClick()

@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e943e0bf98e624b846c4dfaca9d175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 0}
+  gameController: {fileID: 824299214}
   colors:
   - {r: 0.9172869, g: 0.9339623, b: 0.14538093, a: 0}
   - {r: 0.0588235, g: 0.93333334, b: 0.08198549, a: 0}
@@ -2555,6 +2555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00b2fe96b0002b4dbcafa9af760dab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapEditor: {fileID: 97681558}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
