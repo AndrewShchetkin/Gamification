@@ -35,7 +35,7 @@ namespace Assets.Models
         public void OnOkClick()
         {
             gameObject.SetActive(false);
-            mapEditor.EditCell(CurrentHexCell);
+            mapEditor.CaptureCell(CurrentHexCell);
             CurrentHexCell = null;
         }
 

@@ -39,6 +39,7 @@ public class HexMapEditor : MonoBehaviour
 	// Размер кисти
 	int brushSize;
 	ILogger logger;
+	bool isEdit = false;
 	public HexMapEditor(ILogger logger)
 	{
 		this.logger = logger;
@@ -72,9 +73,24 @@ public class HexMapEditor : MonoBehaviour
 			SelectedCell = cell;
 		}
 		cell.EnableHighlight(Color.green);
+        
 		if (Input.GetMouseButtonDown((int)PointerEventData.InputButton.Left) && !EventSystem.current.IsPointerOverGameObject())
 		{
-			ConfirmCapture(cell);
+			if (isEdit)
+			{				
+				if (brushSize == 1)
+				{
+					EditCell(cell);
+				}
+                else
+                {
+					EditCells(cell);
+                }
+			}
+            else
+            {
+				ConfirmCapture(cell);
+			}			
 		}
 	}
 
@@ -107,19 +123,28 @@ public class HexMapEditor : MonoBehaviour
 		}
 	}
 
-	public void EditCell(HexCell cell)
+    public void EditCell(HexCell cell)
+    {
+        if (cell)
+        {
+            if (applyColor)
+            {
+                cell.ColorIndex = Array.IndexOf(hexGrid.colors, activeColor);
+                cell.Color = activeColor;
+            }
+            if (applyElevation)
+            {
+                cell.Elevation = activeElevation;
+            }
+            Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z);
+            UpdateTargetCell(updatedCell);
+        }
+    }
+
+    public void CaptureCell(HexCell cell)
 	{
 		if (cell)
 		{
-			if (applyColor)
-			{
-				cell.ColorIndex = Array.IndexOf(hexGrid.colors, activeColor);
-				cell.Color = activeColor;
-			}
-			if (applyElevation)
-			{
-				cell.Elevation = activeElevation;
-			}
 			var playerTeam = gameController.GetPlayerTeam();
 			cell.ownerColorHighligh = playerTeam.colorIndex;
 			cell.OwnerId = Guid.Parse(playerTeam.id);
@@ -181,6 +206,15 @@ public class HexMapEditor : MonoBehaviour
 	public void SetBrushSize(float size)
 	{
 		brushSize = (int)size;
+	}
+
+	/// <summary>
+	/// Переключатель редактирования карты
+	/// </summary>
+	/// <param name="size"></param>
+	public void SetEdit(bool toggle)
+	{
+		isEdit = toggle;
 	}
 
 	/// <summary>
