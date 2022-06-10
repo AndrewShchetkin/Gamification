@@ -95,9 +95,12 @@ public class GameController : MonoBehaviour
 		GetCurrentUser();
         GetAllTeams();
 #endif
+#if UNITY_EDITOR == true
+        SetTeams("");
+#endif
     }
 
-        [DllImport("__Internal")]
+    [DllImport("__Internal")]
     private static extern void GameOver(string userName, int score);
     public void SomeMethod()
     {
@@ -118,8 +121,10 @@ public class GameController : MonoBehaviour
 
     public void SetTeams(string allTeams)
     {
+#if UNITY_EDITOR == true
+        allTeams = "[{ \"id\":\"33e198ff-bceb-4cec-a89e-2f97daca2930\",\"teamName\":\"PechalBeda\",\"users\":[{ \"userName\":\"vlad\",\"id\":\"f51c9e93-ffd1-491a-c95a-08da3b1a2a6b\",\"points\":10}],\"points\":20,\"colorIndex\":{ \"r\":0.0,\"g\":1.0,\"b\":0.0,\"a\":1.0} },{ \"id\":\"33e198ff-bceb-4cec-a89e-2f97daca2931\",\"teamName\":\"GMCS\",\"users\":[{ \"userName\":\"neVlad\",\"id\":\"43e94935-72c5-4108-8d5a-08da3b42f870\",\"points\":15}],\"points\":25,\"colorIndex\":{ \"r\":1.0,\"g\":0.0,\"b\":0.0,\"a\":1.0} }]";
+#endif
         Teams teams = JsonUtility.FromJson<Teams>("{\"teams\" :" + allTeams + "}");
-        //Teams teams = JsonUtility.FromJson<Teams>("{ \"teams\":[{ \"id\":\"33e198ff-bceb-4cec-a89e-2f97daca2930\",\"teamName\":\"PechalBeda\",\"users\":[{ \"userName\":\"vlad\",\"id\":\"f51c9e93-ffd1-491a-c95a-08da3b1a2a6b\",\"points\":10}],\"points\":20,\"colorIndex\":{ \"r\":0.0,\"g\":1.0,\"b\":0.0,\"a\":1.0} },{ \"id\":\"33e198ff-bceb-4cec-a89e-2f97daca2931\",\"teamName\":\"GMCS\",\"users\":[{ \"userName\":\"neVlad\",\"id\":\"43e94935-72c5-4108-8d5a-08da3b42f870\",\"points\":15}],\"points\":25,\"colorIndex\":{ \"r\":1.0,\"g\":0.0,\"b\":0.0,\"a\":1.0} }]}");
         Teams = teams.teams;
         Debug.Log(JsonUtility.ToJson(teams));
     }

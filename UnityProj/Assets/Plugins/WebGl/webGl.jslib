@@ -38,5 +38,11 @@ mergeInto(LibraryManager.library, {
       "SubtractPoints",
       Pointer_stringify(CurrentPlayer, points)
     );
+  },
+   BlockCell: function (cell) {
+    window.dispatchReactUnityEvent(
+      "BlockCell",
+      Pointer_stringify(cell)
+    );
   }
 });

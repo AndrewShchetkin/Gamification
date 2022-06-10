@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -21,7 +22,9 @@ namespace Assets.Models
             set
             {
                 if(value)
-                {                    
+                {
+
+                    BlockCell(CurrentHexCell);
                     ShowPopup();
                 }
                 currentHexCell = value;
@@ -42,6 +45,19 @@ namespace Assets.Models
         public void OnCancelClick()
         {
             gameObject.SetActive(false);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void BlockCell(string jsonCell);
+
+        void BlockCell(HexCell cell)
+        {
+            Cell targetCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z);
+            targetCell.isBlocked = true;
+            string jsonCell = JsonUtility.ToJson(targetCell);
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+				BlockCell(jsonCell);
+#endif
         }
     }
 }

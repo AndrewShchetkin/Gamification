@@ -249,7 +249,7 @@ public class HexGrid : MonoBehaviour
             if (!string.IsNullOrEmpty(cell.ownerId))
             {
 				targetCell.ownerColorHighligh = GameController.GetTeamColor(cell.ownerId);
-				targetCell.OwnerId = Guid.Parse(cell.ownerId);
+				targetCell.OwnerId = cell.ownerId;
 			}
         }
 		for (int i = 0; i < chunks.Length; i++)

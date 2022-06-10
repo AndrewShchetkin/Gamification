@@ -50,9 +50,9 @@ public class HexCell : MonoBehaviour
             }
         }
     }
-    Guid? ownerId;
+    string ownerId;
     public Color ownerColorHighligh;
-    public Guid? OwnerId { 
+    public string OwnerId { 
         get
         {
             return ownerId;
@@ -135,6 +135,7 @@ public class HexCell : MonoBehaviour
             return transform.localPosition;
         }
     }
+
     /// <summary>
     /// Получение соседа ячейки в одном направлении
     /// </summary>
@@ -144,6 +145,16 @@ public class HexCell : MonoBehaviour
     {
         return neighbors[(int)direction];
     }
+
+    /// <summary>
+    /// Метод получения соседей
+    /// </summary>
+    /// <returns></returns>
+    public HexCell[] GetNeighbors()
+    {
+        return neighbors;
+    }
+
     /// <summary>
     /// Метод установки соседа
     /// </summary>

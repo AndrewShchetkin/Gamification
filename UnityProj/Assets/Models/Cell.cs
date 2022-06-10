@@ -18,5 +18,6 @@ public class Cell
     public int y;
     public int z;
     public string ownerId;
+    public bool isBlocked;
 }
 
