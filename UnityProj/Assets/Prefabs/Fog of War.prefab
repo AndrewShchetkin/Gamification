@@ -293,7 +293,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 26.11
+      scalar: 30
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -751,11 +751,11 @@ ParticleSystem:
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
     m_TextureBilinearFiltering: 0
-    randomDirectionAmount: 0
+    randomDirectionAmount: 1
     sphericalDirectionAmount: 1
     randomPositionAmount: 1
     radius:
-      value: 7.96
+      value: 10
       mode: 0
       spread: 0
       speed:

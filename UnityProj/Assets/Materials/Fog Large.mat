@@ -82,7 +82,7 @@ Material:
     - _CameraFadingEnabled: 1
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
-    - _CombinedNoiseRemap: 0.155
+    - _CombinedNoiseRemap: 0.066
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -106,10 +106,10 @@ Material:
     - _QueueControl: -1
     - _QueueOffset: 0
     - _SimpleNoiseAmount: 0
-    - _SimpleNoiseRemap: 0.262
+    - _SimpleNoiseRemap: 0.226
     - _SimpleNoiseScale: 20
-    - _SimplexNoiseAmount: 0.262
-    - _SimplexNoiseRemap: 0.381
+    - _SimplexNoiseAmount: 0.155
+    - _SimplexNoiseRemap: 0.417
     - _SimplexNoiseScale: 2
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 1
@@ -119,8 +119,8 @@ Material:
     - _SrcBlend: 5
     - _SurfaceDepthFade: 1
     - _UVSec: 0
-    - _VoronoiNoiseAmount: 0.149
-    - _VoronoiNoiseRemap: 0.286
+    - _VoronoiNoiseAmount: 0.042
+    - _VoronoiNoiseRemap: 0.459
     - _VoronoiScale: 5
     - _ZWrite: 0
     - __dirty: 0
