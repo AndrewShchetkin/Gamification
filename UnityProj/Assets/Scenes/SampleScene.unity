@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 143878387}
   - component: {fileID: 143878389}
   - component: {fileID: 143878388}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 159958655}
   - component: {fileID: 159958657}
   - component: {fileID: 159958656}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PointsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,6 +814,7 @@ MonoBehaviour:
   cellPrefab: {fileID: 8485139230368286537, guid: 2b42cc000b2417947ab2e690967c024d, type: 3}
   cellLabelPrefab: {fileID: 4513875676441177937, guid: 7e6472a208f8b264f8eb8e06d5512d0c, type: 3}
   chunkPrefab: {fileID: 8283592208098908577, guid: 470a70256824e204ab1b03509f9f6e1e, type: 3}
+  fogOfWarPrefab: {fileID: 5954830537209425797, guid: 4e2ad518a7a29d54fa9a22f78a6e1160, type: 3}
   noiseSource: {fileID: 2800000, guid: 93de3be4ba29f494ab95c77b9c8bc2c3, type: 3}
   colors:
   - {r: 0.91764706, g: 0.93333334, b: 0.14509805, a: 0}
@@ -821,6 +822,7 @@ MonoBehaviour:
   - {r: 0.05882353, g: 0.19215687, b: 0.93333334, a: 0}
   - {r: 1, g: 0.3647059, b: 0, a: 0}
   - {r: 1, g: 1, b: 1, a: 0}
+  gameController: {fileID: 824299214}
 --- !u!4 &255305078
 Transform:
   m_ObjectHideFlags: 0
@@ -922,7 +924,7 @@ GameObject:
   - component: {fileID: 299644557}
   - component: {fileID: 299644559}
   - component: {fileID: 299644558}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2591,7 +2593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 954559866}
   - component: {fileID: 954559867}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UIPropupCapture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3370,7 +3372,7 @@ GameObject:
   - component: {fileID: 1197141810}
   - component: {fileID: 1197141812}
   - component: {fileID: 1197141811}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: MainContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3987,7 +3989,7 @@ GameObject:
   - component: {fileID: 1324550788}
   - component: {fileID: 1324550790}
   - component: {fileID: 1324550789}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4372,7 +4374,7 @@ GameObject:
   - component: {fileID: 1476107952}
   - component: {fileID: 1476107951}
   - component: {fileID: 1476107950}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4459,7 +4461,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 101
   m_TargetDisplay: 0
 --- !u!1 &1521652948
 GameObject:
@@ -4752,7 +4754,7 @@ GameObject:
   - component: {fileID: 1611303302}
   - component: {fileID: 1611303301}
   - component: {fileID: 1611303303}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4920,7 +4922,7 @@ GameObject:
   - component: {fileID: 1723801015}
   - component: {fileID: 1723801014}
   - component: {fileID: 1723801013}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CancelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5367,7 +5369,7 @@ GameObject:
   - component: {fileID: 1856538042}
   - component: {fileID: 1856538044}
   - component: {fileID: 1856538043}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UIPopupCapture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5445,7 +5447,7 @@ GameObject:
   - component: {fileID: 1861306830}
   - component: {fileID: 1861306832}
   - component: {fileID: 1861306831}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5599,7 +5601,7 @@ GameObject:
   - component: {fileID: 1998038803}
   - component: {fileID: 1998038805}
   - component: {fileID: 1998038804}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PlayerNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5678,7 +5680,7 @@ GameObject:
   - component: {fileID: 2004269688}
   - component: {fileID: 2004269690}
   - component: {fileID: 2004269689}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PlayerName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5932,7 +5934,7 @@ GameObject:
   - component: {fileID: 2083009256}
   - component: {fileID: 2083009255}
   - component: {fileID: 2083009254}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: OkButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6095,7 +6097,7 @@ GameObject:
   - component: {fileID: 2143573083}
   - component: {fileID: 2143573085}
   - component: {fileID: 2143573084}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Anticlicker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

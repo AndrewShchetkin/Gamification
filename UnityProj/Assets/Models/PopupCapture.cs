@@ -23,11 +23,10 @@ namespace Assets.Models
             {
                 if(value)
                 {
-
-                    BlockCell(CurrentHexCell);
+                    currentHexCell = value;
+                    BlockCell(value);
                     ShowPopup();
-                }
-                currentHexCell = value;
+                }                
             }
         }
         public void ShowPopup()

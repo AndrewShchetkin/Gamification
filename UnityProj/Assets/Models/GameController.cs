@@ -87,6 +87,14 @@ public class GameController : MonoBehaviour
         Teams.ForEach(t => t.colorIndex = TeamsColors[counter++]);
     }
 
+    public void Awake()
+    {
+#if UNITY_EDITOR == true
+        SetTeams("");
+        SetPlayer("vlad");
+#endif
+    }
+
     public void Start()
     {
         QualitySettings.vSyncCount = 0;
@@ -94,9 +102,6 @@ public class GameController : MonoBehaviour
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
 		GetCurrentUser();
         GetAllTeams();
-#endif
-#if UNITY_EDITOR == true
-        SetTeams("");
 #endif
     }
 
@@ -164,8 +169,8 @@ public class GameController : MonoBehaviour
             .Where(u => u.userName == UserName)
             .SingleOrDefault();
     }
-    public static Color GetTeamColor(string ownerId)
+    public Color GetTeamColor(string ownerId)
     {
-        return teams.Where(t => t.id == ownerId).SingleOrDefault().colorIndex;
+        return Teams.Where(t => t.id == ownerId).SingleOrDefault().colorIndex;
     }
 }

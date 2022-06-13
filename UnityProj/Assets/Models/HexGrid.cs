@@ -32,11 +32,15 @@ public class HexGrid : MonoBehaviour
 	/// </summary>
 	public Text cellLabelPrefab;
 	// HexMesh hexMesh;
-
 	/// <summary>
 	/// Префаб сегмента
 	/// </summary>
 	public HexGridChunk chunkPrefab;
+
+	/// <summary>
+	/// Префаб тумана
+	/// </summary>
+	public FogOfWar fogOfWarPrefab;
 
 	/// <summary>
 	/// Канвас грида
@@ -62,6 +66,11 @@ public class HexGrid : MonoBehaviour
 	/// Для сохранения
 	/// </summary>
 	public Color[] colors;
+
+	/// <summary>
+	/// Обьект игрового контроллера
+	/// </summary>
+	public GameController gameController;
 
 	//private void Start()
 	//   {
@@ -166,6 +175,10 @@ public class HexGrid : MonoBehaviour
 		label.text = cell.coordinates.ToStringOnSeparateLines();
 		cell.uiRect = label.rectTransform;
 
+		FogOfWar fogOfWar = Instantiate<FogOfWar>(fogOfWarPrefab);
+		fogOfWar.gameObject.transform.SetParent(transform);
+		fogOfWar.InstatiateFog(position, cell.coordinates);
+		
 		cell.Elevation = 0;
 
 		AddCellToChunk(x, z, cell);
@@ -248,7 +261,7 @@ public class HexGrid : MonoBehaviour
 			targetCell.Elevation = cell.elevation;			
             if (!string.IsNullOrEmpty(cell.ownerId))
             {
-				targetCell.ownerColorHighligh = GameController.GetTeamColor(cell.ownerId);
+				targetCell.ownerColorHighligh = gameController.GetTeamColor(cell.ownerId);
 				targetCell.OwnerId = cell.ownerId;
 			}
         }

@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Linq;
 
 public class HexCell : MonoBehaviour
 {
@@ -61,7 +62,23 @@ public class HexCell : MonoBehaviour
         {
             ownerId = value;
             EnableOwnerHighlight(ownerColorHighligh);
+            Array.ForEach(neighbors, n => DisableFog(n?.coordinates));
+            DisableFog(coordinates);
         }
+    }
+
+    private void DisableFog(HexCoordinates? coordinates)
+    {
+        var hexGridParent = GetComponentInParent<HexGrid>();
+        if (coordinates == null || hexGridParent.gameController.GetPlayerTeam().id != OwnerId)
+        {
+            return;
+        }
+        var fogOfWar = hexGridParent.GetComponentsInChildren<FogOfWar>()
+            .Where(f => f.hexCoordinates.Equals(coordinates))
+            .Single();
+        var fogOfWarInstance = fogOfWar.gameObject.GetComponentInChildren<ParticleSystem>();
+        fogOfWarInstance.Stop();
     }
 
     // Для сохранения(сохраняем не цвет, а его индекс)    

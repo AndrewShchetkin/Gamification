@@ -177,7 +177,7 @@ public class HexMapEditor : MonoBehaviour
     {
 		var cellCoordinates = new HexCoordinates(cell.x, cell.z);
 		var selectedCell = hexGrid.GetCell(cellCoordinates);
-		selectedCell.ownerColorHighligh = GameController.GetTeamColor(cell.ownerId);
+		selectedCell.ownerColorHighligh = gameController.GetTeamColor(cell.ownerId);
 		selectedCell.OwnerId = cell.ownerId;
     }
 
