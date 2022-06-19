@@ -6,6 +6,7 @@ import { ITeam } from '../../@types/ITeam';
 import { IUser } from '../../@types/IUser';
 import Chat from '../chat/Chat';
 import ReusedList from '../shared/components/ReusedList'
+import Tabs, { ITab } from '../shared/components/UI/CustomTab/Tabs';
 import TeamItem from './TeamItem'
 import UserItem from './UserItem';
 
@@ -26,7 +27,16 @@ function TeamsInfoWhenUserInTeam(props: Props) {
         }]
     });
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [selectedTab , setSelectedTab] = useState<string|number>(1);
 
+    const chatTabs: ITab[] = [
+        {id: 1, header: 'Командный чат'},
+        {id: 2, header: 'Общий чат'}]
+    
+    
+    const onTabClick = (selectedTab: string | number) =>{
+        setSelectedTab(selectedTab);
+    }
     const fetchUserTeam = async () => {
         try {
             const response = await axios.get('api/team/getTeamByID', { params: { teamID: props.teamId } });
@@ -47,9 +57,17 @@ function TeamsInfoWhenUserInTeam(props: Props) {
             <Box className="chatBlock"
                 sx={{
                     flex: '0 0 30%',
-                    maxWidth: "30%"
+                    maxWidth: "30%",
+                    display: "flex",
+                    flexDirection: 'column'
                 }}>
-                <Chat chatRoom={props.teamId}/>
+                <Tabs tabs={chatTabs} onClick={onTabClick} selectedTab={selectedTab} />
+                {selectedTab === chatTabs[0].id && (
+                    <Chat chatRoom={props.teamId}/>
+                )}
+                {selectedTab === chatTabs[1].id && (
+                    <Chat chatRoom='generalRoom'/>
+                )}
             </Box>
 
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import classes from './Chat.module.css';
 
 interface Props {
     message: string,
@@ -9,15 +10,11 @@ export function MessageLeft(props: Props) {
     const {message, userName} = props
 
     return (
-        <div style={{display: "flex"}}>
-            <div style={{
-                marginTop: "5px",
-                width: "100%", 
-                display: 'flex', 
-                justifyContent: 'flex-start'}}>
-                <div style={{color: "#1f5b9c"}}>{userName + ":" }</div>
-                <div style={{maxWidth: "60%"}}>
-                    <p style={{margin: "0px 0px 0px 5px"}}>{message}</p>
+        <div className={classes.messageLeftWrapper}>
+            <div className={classes.messageLeftContent}>
+                <div className={classes.messageLeftAuthor}>{userName + ":" }</div>
+                <div className={classes.messageLeftText}>
+                    <p>{message}</p>
                 </div>
             </div>
         </div>
@@ -28,17 +25,11 @@ export function MessageRight(props: Props) {
     const {message, userName} = props
 
     return (
-        <div style={{
-            display: "flex",
-            justifyContent: "flex"}}>
-            <div style={{
-                marginTop: "5px",
-                width: "100%",
-                display: 'flex', 
-                justifyContent: 'flex-end'}}>
-                <div style={{color: "#55a392"}}>{userName + ":"}</div>
-                <div style={{maxWidth: "60%"}}>
-                    <p style={{margin: "0px 0px 0px 5px"}}>{message}</p>
+        <div className={classes.messageRightWrapper}>
+            <div className={classes.messageRightContent}>
+                <div className={classes.messageRightAuthor}>{userName + ":"}</div>
+                <div className={classes.messageRightText}>
+                    <p>{message}</p>
                 </div>
             </div>
         </div>

@@ -4,7 +4,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import ChatService from '../../services/ChatService';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {CustomButton} from '../shared/components/UI/CustomButton/CustomButton';
 import { MessageLeft, MessageRight } from './Message';
+import classes from './Chat.module.css';
 
 export interface ChatMessage { 
      author: string,
@@ -86,14 +88,8 @@ function Chat(props: Props) {
     };
 
     return (
-        <div style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            border: "1px solid"}}
-        >
-            <div style={{flex: "1 1 auto"}}>
-                
+        <div className={classes.chatContent}>
+            <div className={classes.messageContent}>   
             {messages.map( (item) =>{
                     if(item.author == userName){
                        return <MessageRight message={item.text} userName={item.author}/>
@@ -104,24 +100,16 @@ function Chat(props: Props) {
                 }
             )}      
             </div>
-            <div style={{
-                flex: '0 0 15%',
-                display: 'flex'
-            }}
-            >
-                <textarea 
-                    style={{flex: "1 1 auto"}}
+            <div className={classes.inputContent}>
+                <textarea className={classes.chatTextArea}
                     onChange={handleTextAreaChange}
-                    value={message}>
-                    
-                </textarea>
-                <button 
-                style={{
-                    flex: '0 0 10%'}}
-                onClick={sendMessage}
-                >
-                    Отправить
-                </button>
+                    value={message}
+                    placeholder="Введите сообщение..."/>
+                <CustomButton 
+                    style={{flex: '0 0 10%'}}
+                    onClick={sendMessage}
+                >Отправить
+                </CustomButton>
             </div>
         </div>
     )
