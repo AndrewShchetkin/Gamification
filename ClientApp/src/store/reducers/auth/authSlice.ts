@@ -64,7 +64,7 @@ export const authSlice = createSlice({
 
 export const { signInComplete, startLoadData, endLoadData, setTeamId } = authSlice.actions;
 
-export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated
+export const selectIsAuthenticated = (state: RootState) => state.authReduser.isAuthenticated
 
 export default authSlice.reducer;
 

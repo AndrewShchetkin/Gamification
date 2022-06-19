@@ -1,11 +1,13 @@
+import React, {} from "react";
 import { Box, Container, CssBaseline } from '@mui/material'
 import { useAppSelector } from '../../store/hooks';
-import Chat from './Chat';
+import Chat from '../chat/Chat';
 import TeamsInfoWhenUserInTeam from './TeamsInfoWhenUserInTeam';
 import TeamsInfoWhenUserNotInTeam from './TeamsInfoWhenUserNotInTeam';
+import { Temp } from "../temp";
 
 function Lobby() {
-    const teamId = useAppSelector(state => state.auth.teamId);
+    const teamId = useAppSelector(state => state.authReduser.teamId);
 
     return (
         <Container maxWidth="xl">
@@ -27,10 +29,10 @@ function Lobby() {
                         display: 'flex',
                         flex: '1 1 auto'
                     }}>
-                    <Box className="chatBlock"
+                    {/* <Box className="chatBlock"
                         sx={{
                             flex: '0 0 30%',
-                            bgcolor: '#98bf93'
+                            maxWidth: "30%"
                         }}>
                         <Chat />
                     </Box>
@@ -46,8 +48,8 @@ function Lobby() {
                             bgcolor: '#c1c7b7'
                         }}>Информация о командах</Box>
                         {teamId ? <TeamsInfoWhenUserInTeam teamId={teamId} /> : <TeamsInfoWhenUserNotInTeam />}
-                    </Box>
-
+                    </Box> */}
+                    {teamId ? <TeamsInfoWhenUserInTeam teamId={teamId} /> : <TeamsInfoWhenUserNotInTeam />}
                 </Box>
                 <Box className="contentFooter" sx={{ 
                     height: '10%', 
