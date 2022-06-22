@@ -1,12 +1,12 @@
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../store/hooks";
 import React, { useState } from 'react'
 
 
 export const Temp2 = () => {
     const [state, setState] = useState(false);
-    const s = useAppSelector(state => state.auth.isAuthenticated);
+    const s = useAppSelector(state => state.authReduser.isAuthenticated);
     return (
         <>
             <Link to='/game'>game</Link>

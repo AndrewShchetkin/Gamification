@@ -1,6 +1,6 @@
 import { ListItem } from '@mui/material';
 import React, {FC} from 'react';
-import { IUser } from '../../shared/Data/DataTypes';
+import { IUser } from '../../@types/IUser';
 
 interface IUserProps{
     user: IUser

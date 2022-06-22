@@ -1,4 +1,5 @@
 export interface LoginResponse{
     message?: string,
-    username?: string
+    userName?: string,
+    userTeamId?: string
 }

@@ -95,6 +95,10 @@ export default function Navigation() {
                         <QuizIcon />
                         <ListItemText primary="Quiz" />
                     </ListItem>
+                    <ListItem component={Link} to="/lobby" onClick={() => toggleDrawer(false)} >
+                        <QuizIcon />
+                        <ListItemText primary="Lobby" />
+                    </ListItem>
                 </List>
             </Drawer>
         </Box>

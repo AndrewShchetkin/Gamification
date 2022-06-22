@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../app/hooks';
+import { useAppSelector } from '../store/hooks';
 import * as signalR from "@microsoft/signalr";
 
 
@@ -14,8 +14,8 @@ export const Temp = () => {
     const [connection, setConnection] = useState<signalR.HubConnection>();
 
 
-    const s = useAppSelector(state => state.auth.isAuthenticated);
-    const username = useAppSelector((state) => state.auth.name);
+    const s = useAppSelector(state => state.authReduser.isAuthenticated);
+    const username = useAppSelector((state) => state.authReduser.userName);
 
     const send = async() => {
         const response = await connection?.send("NewMessage", username, message);
@@ -27,6 +27,7 @@ export const Temp = () => {
     };
 
     const openConnection = async () => {
+        debugger;
         const conn = new signalR.HubConnectionBuilder()
             .withUrl("/hub")
             .configureLogging(signalR.LogLevel.Information)

@@ -21,9 +21,9 @@ namespace Gamification.Filters
 
                 var errorResponse = new ErrorResponse();
 
-                foreach(var error in errorsInModelState)
+                foreach (var error in errorsInModelState)
                 {
-                    foreach(var subError in error.Value)
+                    foreach (var subError in error.Value)
                     {
                         var errorModel = new ErrorModel
                         {
