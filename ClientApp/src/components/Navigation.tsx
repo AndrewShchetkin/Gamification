@@ -99,6 +99,10 @@ export default function Navigation() {
                         <QuizIcon />
                         <ListItemText primary="Lobby" />
                     </ListItem>
+                    <ListItem component={Link} to="/adminpanel" onClick={() => toggleDrawer(false)} >
+                        <QuizIcon />
+                        <ListItemText primary="Admin Panel" />
+                    </ListItem>
                 </List>
             </Drawer>
         </Box>

@@ -8,6 +8,7 @@ const PrivateRoute: React.ComponentType<any> = ({
   ...rest
 }) => {
   const isAuthenticated = useAppSelector(state => state.authReduser.isAuthenticated) // получаем текущее состояние 
+  console.log(isAuthenticated)
   const requestProcess = useAppSelector(state => state.authReduser.requestSended)
 
   return (
