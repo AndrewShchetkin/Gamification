@@ -1,8 +1,8 @@
 import React from 'react';
-import { CustomButton } from '../CustomButton/CustomButton';
-import classes from './CustomTable.module.css'; 
+import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
+import classes from '../../styles/AdminPanel/QuizTable/QuizTable.module.css';
 
-function CustomTable() {
+function QuizTable() {
     return (
         
         <table className={classes.customTable}>
@@ -31,4 +31,4 @@ function CustomTable() {
     );
 }
 
-export default CustomTable;
+export default QuizTable;
