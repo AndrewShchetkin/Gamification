@@ -94,11 +94,7 @@ public class HexMapEditor : MonoBehaviour
 				if (neighbors.Any(n => n.OwnerId == gameController.GetPlayerTeam().id))
                 {
 					ConfirmCapture(cell);
-				}
-                else
-                {
-
-                }				
+				}			
 			}			
 		}
 	}

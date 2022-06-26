@@ -78,7 +78,12 @@ public class HexCell : MonoBehaviour
             .Where(f => f.hexCoordinates.Equals(coordinates))
             .Single();
         var fogOfWarInstance = fogOfWar.gameObject.GetComponentInChildren<ParticleSystem>();
-        fogOfWarInstance.Stop();
+        
+        if (!fogOfWarInstance.isStopped)
+        {
+            fogOfWarInstance.Stop();
+            fogOfWarInstance.Clear();
+        }
     }
 
     // Для сохранения(сохраняем не цвет, а его индекс)    
