@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Gamification.Models.Errors;
 
 namespace Gamification.Controllers
 {
@@ -27,16 +28,25 @@ namespace Gamification.Controllers
         [HttpPost(template: "register")]
         public async Task<IActionResult> Register(UserRegisterDto userDto)
         {
-            if(userDto == null)
+            var user = _userRepository.GetUserByUserName(userDto.UserName);
+            // если пользователь с таким именем уже существует
+            if (user != null)
             {
-                return BadRequest();
+                var errorResponse = new ErrorResponse();
+                var error = new ErrorModel
+                {
+                    FieldName = "UserName",
+                    Message = "Пользователь с таким именем уже существует"
+                };
+                errorResponse.Errors.Add(error);
+                return BadRequest(errorResponse);
             }
-            var user = new User
+            var newUser = new User
             {
                 UserName = userDto.UserName,
                 Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password)
             };
-            return Created("success", await _userRepository.Create(user));
+            return Created("success", await _userRepository.Create(newUser));
         }
         [AllowAnonymous]
         [HttpPost(template: "login")]
@@ -56,7 +66,7 @@ namespace Gamification.Controllers
 
             await AuthenticateAsync(userDto.UserName);
 
-            return Ok(new { message = "success", username = userDto.UserName });
+            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId});
         }
         
         [HttpPost(template: "logout")]
@@ -72,8 +82,13 @@ namespace Gamification.Controllers
             if(string.IsNullOrEmpty(User.Identity.Name))
                 return Unauthorized(new { message = "Invalid Credentials" });
 
-            return Ok(new {username = User.Identity.Name });
+            var user = _userRepository.GetUserByUserName(User.Identity.Name);
+            if (user == null)
+            {
+                return BadRequest("Пользователь не найден");
+            }
 
+            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId});
         }
 
         // Helpers methods

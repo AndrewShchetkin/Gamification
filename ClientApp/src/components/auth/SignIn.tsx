@@ -12,10 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAppDispatch } from '../app/hooks';
-import { signInComplete } from './authSlice';
+import { useAppDispatch } from '../../store/hooks';
+import { signInComplete } from '../../store/reducers/auth/authSlice';
 import { Redirect, Link as LinkRoute } from 'react-router-dom';
-import { LoginResponse } from './loginResponse';
+import { LoginResponse } from '../../@types/loginResponse';
+import axios, { AxiosError } from 'axios';
 
 
 const theme = createTheme();
@@ -26,38 +27,26 @@ export default function SignIn() {
   const [redirectToReferrer, setRedirectToReferrer] = React.useState(false)
 
   if (redirectToReferrer === true) {
-    return <Redirect to='/quiz' />
+    return <Redirect to='/lobby' />
   }
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
     const body = {
       UserName: data.get('email'),
       Password: data.get('password'),
     };
 
-    const response = await fetch('api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    
-    if(response.ok){
-      // меняю глобальный стейт 
-      const body: LoginResponse = await response.json();
-      dispatch(signInComplete(body.username ?? ''));
-      // меняю стейт чтоб обновить форму
-      setRedirectToReferrer(true);
-    } else {
-      alert('Ошибка!!!');
-    }
+    await axios.post<LoginResponse>("api/auth/login", body)
+      .then((response) => {
+        dispatch(signInComplete(response.data));
+        setRedirectToReferrer(true);
+      })
+      .catch((error : AxiosError) => {
+        alert(error.message);
+      });
   };
 
   return (
@@ -76,7 +65,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Войдите в свой аккаунт
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -84,7 +73,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Имя пользователя"
               name="email"
               autoComplete="email"
               autoFocus
@@ -94,29 +83,29 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Пароль"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Войти
             </Button>
-            <Grid container>
-              <Grid item xs>
+            <Grid container justifyContent="flex-end">
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link component={LinkRoute} to='/signup' variant="body2" >
                   {"Регистрация"}

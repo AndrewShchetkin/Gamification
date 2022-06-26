@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Gamification.Models;
 using Gamification.Models.DTO.Map;
+using Gamification.Models.DTO;
 using Gamification.Models.DTO.Team;
 
 namespace Gamification.Mapping
@@ -16,6 +17,7 @@ namespace Gamification.Mapping
             CreateMap<User, UsersInTeam>();
             CreateMap<Team, TeamDto>();
             CreateMap<Map, MapDto>();
+            CreateMap<CommonMessage, CommonMessageDto>();
         }
     }
 }

@@ -1,0 +1,11 @@
+.customBtn{
+    padding: 5px 15px;
+    color: #fff;
+    font-size: 14px;
+    background: #0258d9;
+    border: 2px solid;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 5px;
+    height: 60%;
+}

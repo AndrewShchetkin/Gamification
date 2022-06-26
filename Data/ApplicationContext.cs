@@ -14,7 +14,10 @@ namespace Gamification.Models
             Database.EnsureCreated();
         }
         public DbSet<User> Users { get; set; }
+
         public DbSet<Team> Teams { get; set; } 
         public DbSet<Cell> Cells { get; set; }
+
+        public DbSet<CommonMessage> CommonMessages { get; set; }
     }
 }

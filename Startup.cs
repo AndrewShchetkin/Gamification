@@ -39,7 +39,9 @@ namespace Gamification
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
+
             services.AddScoped<IMapRepository, MapRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddMvc(options => 
             {
@@ -62,8 +64,12 @@ namespace Gamification
                     };
 
                 });
+
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -112,8 +118,10 @@ namespace Gamification
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/hub");
+
                 endpoints.MapHub<MapHub>("/hubs/map");
+                endpoints.MapHub<ChatHub>("/chat");
+
                 endpoints.MapControllerRoute( // еще надо уточнить какая будет маршрутизация 
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
