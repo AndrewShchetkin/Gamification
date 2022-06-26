@@ -1,0 +1,18 @@
+.customTable {
+    border-collapse: collapse;
+}
+
+.row {
+    border: 1px solid;
+}
+
+
+.column {
+    text-align: center;
+    border: 1px solid;
+    padding: 7px;
+}
+
+.column:last-child {
+    border: none;
+}

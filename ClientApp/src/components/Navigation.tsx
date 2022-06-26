@@ -15,6 +15,7 @@ export default function Navigation() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null); // для привязки меню к кнопке
 
+
     // Привязка меню настроек к текущему элементу 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
