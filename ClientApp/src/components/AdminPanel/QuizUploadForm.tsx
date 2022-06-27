@@ -6,18 +6,30 @@ import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextI
 function QuizUploadForm({addQuiz}:any) {
 
     const [quiz, setQuiz] = useState<IQuiz>({name:'', 
-        dateBegin:'', dateEnd:''})
+        dateBegin:'', dateEnd:'', xlsxPath:''})
     
-    const submitAdd = (e:any) => {
+
+    const submitAdd = async (e:any) => {
         e.preventDefault();
+        
+        // file work
+        const response = await fetch('api/quiz', {
+            method: 'POST',
+            body: new FormData(e.target)
+        });
+        const result = await response.json();
+        // если ответ - ок, то добавляем, иначе - нет
+        console.log('Успех:', JSON.stringify(result));
+        //
+
         addQuiz(quiz);
 
-        setQuiz({name:'', dateBegin:'', dateEnd:''});
+        setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
     }
 
     return (
         <form encType="multipart/form-data" action="" style={{display:'flex', 
-            flexDirection:'column', alignItems:'center'}}>
+            flexDirection:'column', alignItems:'center'}} onSubmit={submitAdd} >
             <CustomTextInput
             type="text"
             placeholder='Название'
@@ -39,8 +51,10 @@ function QuizUploadForm({addQuiz}:any) {
             onChange={(e:any) => setQuiz({...quiz,
                  dateEnd: e.target.value})}
               />
-
-            <CustomButton onClick={submitAdd}>Добавить</CustomButton>
+            <input id='file' type="file" value={quiz.xlsxPath} 
+               onChange={(e:any) => setQuiz({...quiz,
+                xlsxPath: e.target.value})} />
+            <CustomButton type='submit'>Добавить</CustomButton>
          </form>
     );
 }
