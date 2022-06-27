@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextInput';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 function QuizUploadForm({addQuiz}:any) {
 
@@ -13,14 +14,16 @@ function QuizUploadForm({addQuiz}:any) {
         e.preventDefault();
         
         // file work
-        const response = await fetch('api/quiz', {
+
+        const response = await fetch('api/quiz', { // -> axios
             method: 'POST',
             body: new FormData(e.target)
         });
         const result = await response.json();
+        
         // если ответ - ок, то добавляем, иначе - нет
-        console.log('Успех:', JSON.stringify(result));
-        //
+        console.log('Успех:', result);
+        
 
         addQuiz(quiz);
 
@@ -31,13 +34,14 @@ function QuizUploadForm({addQuiz}:any) {
         <form encType="multipart/form-data" action="" style={{display:'flex', 
             flexDirection:'column', alignItems:'center'}} onSubmit={submitAdd} >
             <CustomTextInput
+            name='name'
             type="text"
             placeholder='Название'
             value={quiz.name}
             onChange={(e:any) => setQuiz({...quiz, name: e.target.value})}
-            /> {/* TODO: custom text input
-            + custom file input + fill quiz */}
+            /> 
             <CustomTextInput
+            name='db'
             type="text"
             placeholder='Дата начала'
             value={quiz.dateBegin}
@@ -45,15 +49,16 @@ function QuizUploadForm({addQuiz}:any) {
                 dateBegin: e.target.value})}
             />
             <CustomTextInput
+            name='de'
             type="text"
             placeholder='Дата окончания'
             value={quiz.dateEnd}
             onChange={(e:any) => setQuiz({...quiz,
                  dateEnd: e.target.value})}
               />
-            <input id='file' type="file" value={quiz.xlsxPath} 
+            <input type="file" value={quiz.xlsxPath} 
                onChange={(e:any) => setQuiz({...quiz,
-                xlsxPath: e.target.value})} />
+                xlsxPath: e.target.value})} name='file' />
             <CustomButton type='submit'>Добавить</CustomButton>
          </form>
     );
