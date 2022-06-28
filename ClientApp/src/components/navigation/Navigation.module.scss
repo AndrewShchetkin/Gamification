@@ -1,28 +1,60 @@
 @import "../../style/variables.scss";
 
-.navBar {
+@mixin flexInline {
     display: flex;
+    align-items: center;
+}
+
+.navBar {
+    @include flexInline();
     flex-wrap: nowrap;
     align-content: center;
-    align-items: center;
     justify-content: space-evenly;
 }
 
-.logo, .menu {
-    display: flex;
-    align-items: center;
+.logo {
+    @include flexInline();
 }
 
+.menu {
+    @include flexInline();
 
-.menu > ul {
-    display: flex;
-    gap: 2rem;
-    list-style-type: none;
-    margin-right: 5rem;
-    
     a {
         color: $textColor;
+        text-decoration: none;
+        padding: 5px 25px;
+        border: 1px solid $backColor !important;
+
+        &:hover {
+            border: 1px solid $aquaColor !important;
+        }
+
+        &:link,
+        &:visited {
+            border-radius: 9px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+    }
+
+    a.active {
+        background-color: $aquaColor;
+        color: $backColor;
+        border: 1px solid $backColor !important;
+
+        &:hover {
+            color: $textColor;
+            border: 1px solid $aquaColor  !important;
+            background-color: $backColor;
+        }
+    }
+
+
+    ul {
+        @include flexInline();
+        gap: 1rem;
+        list-style-type: none;
+        margin-right: 4rem;
     }
 }
-
-
