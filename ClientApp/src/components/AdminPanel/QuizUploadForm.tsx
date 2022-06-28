@@ -33,6 +33,7 @@ function QuizUploadForm({addQuiz}:any) {
     return (
         <form encType="multipart/form-data" action="" style={{display:'flex', 
             flexDirection:'column', alignItems:'center'}} onSubmit={submitAdd} >
+                
             <CustomTextInput
             name='name'
             type="text"
@@ -40,22 +41,23 @@ function QuizUploadForm({addQuiz}:any) {
             value={quiz.name}
             onChange={(e:any) => setQuiz({...quiz, name: e.target.value})}
             /> 
-            <CustomTextInput
+
+            <input
             name='db'
-            type="text"
-            placeholder='Дата начала'
+            type="datetime-local"
             value={quiz.dateBegin}
             onChange={(e:any) => setQuiz({...quiz,
                 dateBegin: e.target.value})}
             />
-            <CustomTextInput
+
+            <input
             name='de'
-            type="text"
-            placeholder='Дата окончания'
+            type="datetime-local"
             value={quiz.dateEnd}
             onChange={(e:any) => setQuiz({...quiz,
                  dateEnd: e.target.value})}
               />
+
             <input type='file' value={quiz.xlsxPath} 
                onChange={(e:any) => setQuiz({...quiz,
                 xlsxPath: e.target.value})} name='file' />

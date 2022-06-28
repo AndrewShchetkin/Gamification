@@ -12,7 +12,7 @@ namespace Gamification.Models
         [Key]
         public Guid QuizId { get; set; }
         public string QuizName { get; set; }
-        public string QuizStartTime { get; set; }
-        public string QuizFinishTime { get; set; }
+        public DateTime QuizStartTime { get; set; }
+        public DateTime QuizFinishTime { get; set; }
     }
 }
