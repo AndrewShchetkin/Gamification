@@ -5,7 +5,7 @@ using Gamification.Models;
 
 namespace Gamification.Data.Interfaces
 {
-    interface IRoundRepository
+    public interface IRoundRepository
     {
         Task<Guid> Create(Round newRound);
         Task<Round> GetRoundById(Guid roundId);

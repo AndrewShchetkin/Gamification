@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Gamification.Models
 {
+    [Serializable]
     public class Quiz
     {
         [Key]
         public Guid QuizId { get; set; }
         public string QuizName { get; set; }
+        public string QuizStartTime { get; set; }
+        public string QuizFinishTime { get; set; }
     }
 }

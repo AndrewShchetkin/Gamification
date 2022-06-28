@@ -5,7 +5,7 @@ using Gamification.Models;
 
 namespace Gamification.Data.Interfaces
 {
-    interface IQuestionRepository
+    public interface IQuestionRepository
     {
         Task<Guid> Create(Question newQuestion);
         Task<Question> GetQuestionById(Guid quizId);

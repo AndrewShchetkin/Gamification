@@ -9,41 +9,51 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Gamification.Data;
+using Gamification.Models;
+using Gamification.Data.Interfaces;
+using Gamification.Utilities.Parsers;
 
 namespace Gamification.Controllers
 {
-    public class UserMod // for test
-    {
-        public string Name { get; set; }
-        public string Age { get; set; }
-    }
+    
     
 
     [Route("api/[controller]")]
     [ApiController]
     public class QuizController : ControllerBase
     {
+
+        private readonly IQuizRepository _quizRepository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IAnswerRepository _answerRepository;
+
+        public QuizController(IQuizRepository quizRepository, IQuestionRepository questionRepository,
+            IAnswerRepository answerRepository)
+        {
+            _quizRepository = quizRepository;
+            _questionRepository = questionRepository;
+            _answerRepository = answerRepository;
+        }
+
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public ActionResult Import ([FromForm(Name = "file")] IFormFile excel, [FromForm(Name = "name")] string quizName,
+        public async Task<ActionResult> Import ([FromForm(Name = "file")] IFormFile excel, [FromForm(Name = "name")] string quizName,
             [FromForm(Name = "db")] string dateBegin, [FromForm(Name = "de")] string dateEnd)
         {
-            List<UserMod> users = new List<UserMod>();
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            using (var stream = new MemoryStream())
-            {
-                excel.CopyTo(stream);
-                stream.Position = 0;
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
-                {
-                    while (reader.Read()) 
-                    {
-                        users.Add(new UserMod { Name = reader.GetValue(0).ToString(), Age = reader.GetValue(1).ToString() });
-                    }
-                }
-            }
+            Quiz quiz = new Quiz {QuizName = "QuizName", QuizStartTime= dateBegin, QuizFinishTime = dateEnd };
+            ExcelParser excelParser = new ExcelParser(excel, quiz);
+            Dictionary<Question, List<Answer>> questToAnswers = excelParser.Parse();
 
-            return Ok(new { name = users[1].Name, age = users[1].Age, quizName= quizName, dateBegin= dateBegin, dateEnd= dateEnd });
+            await _quizRepository.Create(quiz);
+            foreach (var question in questToAnswers.Keys)
+                await _questionRepository.Create(question);
+
+            foreach (var answers in questToAnswers.Values)
+                foreach (var answer in answers)
+                    await _answerRepository.Create(answer);
+
+            return Ok(quiz);
         }
     }
 }
