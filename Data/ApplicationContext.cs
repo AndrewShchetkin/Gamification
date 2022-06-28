@@ -19,5 +19,12 @@ namespace Gamification.Models
         public DbSet<Cell> Cells { get; set; }
 
         public DbSet<CommonMessage> CommonMessages { get; set; }
+
+        public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<Round> Rounds { get; set; }
+        public DbSet<Question> Qusestions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<UserAnswer> UserAnswers { get; set; }
+        public DbSet<TeamAnswer> TeamAnswers { get; set; }
     }
 }
