@@ -27,9 +27,7 @@ function QuizUploadForm({addQuiz, modal}:{addQuiz:any, modal:boolean}) {
         if (response.ok) {
 
             console.log('Успех:', result);
-
             addQuiz(quiz);
-
             setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
         }
         else {
@@ -51,27 +49,39 @@ function QuizUploadForm({addQuiz, modal}:{addQuiz:any, modal:boolean}) {
             onChange={(e:any) => setQuiz({...quiz, name: e.target.value})}
             /> 
 
+            <div style={{display:'flex', justifyContent:'center',alignItems:'center', marginTop:'15px'}}>
+                <div style={{width:'100px' }}>Дата начала: </div>
+                <input
+                name='db'
+                type="datetime-local"
+                value={quiz.dateBegin}
+                onChange={(e:any) => setQuiz({...quiz,
+                    dateBegin: e.target.value})}
+                />
+            </div>
+
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'15px'}}>
+                <div style={{width:'100px'}}>Дата окончания: </div>
+                <input
+                name='de'
+                type="datetime-local"
+                value={quiz.dateEnd}
+                onChange={(e:any) => setQuiz({...quiz,
+                    dateEnd: e.target.value})}
+                style={{height:'fit-content'}}
+                />
+            </div>
+
             <input
-            name='db'
-            type="datetime-local"
-            value={quiz.dateBegin}
+            type='file'
+            value={quiz.xlsxPath} 
             onChange={(e:any) => setQuiz({...quiz,
-                dateBegin: e.target.value})}
+                xlsxPath: e.target.value})}
+            name='file'
+            style={{marginTop:'15px'}}
             />
-
-            <input
-            name='de'
-            type="datetime-local"
-            value={quiz.dateEnd}
-            onChange={(e:any) => setQuiz({...quiz,
-                 dateEnd: e.target.value})}
-              />
-
-            <input type='file' value={quiz.xlsxPath} 
-               onChange={(e:any) => setQuiz({...quiz,
-                xlsxPath: e.target.value})} name='file' />
                 
-            <CustomButton type='submit'>Добавить</CustomButton>
+            <CustomButton type='submit' style={{marginTop:'15px'}}>Добавить</CustomButton>
          </form>
     );
 }

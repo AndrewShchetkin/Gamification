@@ -10,8 +10,7 @@ function AdminPanelBody() {
     const [modal, setModal] = useState(false);
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
-    console.log(quizList)
-    const addQuiz = (quiz:IQuiz) => {
+    const addQuiz = (quiz:IQuiz) => { // добавить гет запрос на useMemo[]
         console.log(quiz);
         setQuizList([...quizList, quiz]);
 
