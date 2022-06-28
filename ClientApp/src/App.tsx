@@ -14,6 +14,8 @@ import Home from "./components/Home";
 import Navigation from "./components/navigation/Navigation";
 import Help from "./components/Help";
 import Map from "./components/Map";
+import './app.module.scss';
+
 
 const App = () => {
     const history = createBrowserHistory();

@@ -1,0 +1,28 @@
+@import "../../style/variables.scss";
+
+.navBar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.logo, .menu {
+    display: flex;
+    align-items: center;
+}
+
+
+.menu > ul {
+    display: flex;
+    gap: 2rem;
+    list-style-type: none;
+    margin-right: 5rem;
+    
+    a {
+        color: $textColor;
+    }
+}
+
+

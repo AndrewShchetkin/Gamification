@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
-import classes from './Navigation.module.css'
+import classes from './Navigation.module.scss'
+import Logo from '../../img/Logo.svg';
 
 export default function Navigation() {
 
@@ -11,14 +12,17 @@ export default function Navigation() {
 
     return (
         <div className={classes.navBar}>
-            <div>
+            <div className={classes.logo}>
+                <Logo />
                 <h2>The Game</h2>
             </div>
-            <ul>
-                <li><Link to={"/quiz"}>Quize</Link></li>
-                <li><Link to={"/Lobby"}>Lobby</Link></li>
-                <li>Help</li>
-            </ul>
-            {isAuthenticated ? <div>{userName}</div> : <div><Link to={"/Login"}>Login</Link>Login</div>}
+            <div className={classes.menu}>
+                <ul>
+                    <li><Link to={"/quiz"}>Quize</Link></li>
+                    <li><Link to={"/Lobby"}>Lobby</Link></li>
+                    <li>Help</li>
+                </ul>
+                {isAuthenticated ? <div className={classes.userName}>{userName}</div> : <div><Link to={"/Login"}>Login</Link></div>}
+            </div>
         </div>)
 }
