@@ -11,7 +11,7 @@ import { fetchUser } from "./store/reducers/auth/actionCreators";
 import Quiz from "./components/quiz/Quiz";
 import Lobby from "./components/lobby/Lobby";
 import Home from "./components/Home";
-import Navigation from "./components/Navigation";
+import Navigation from "./components/navigation/Navigation";
 import Help from "./components/Help";
 import Map from "./components/Map";
 

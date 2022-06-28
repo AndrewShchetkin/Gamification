@@ -133,7 +133,8 @@ namespace Gamification
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                    //spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
         }
