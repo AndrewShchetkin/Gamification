@@ -8,10 +8,12 @@ import IQuiz from '../../@types/AdminPanel/IQuiz';
 function AdminPanelBody() {
 
     const [modal, setModal] = useState(false);
-    const [quizList, setQuizList] = useState<IQuiz[]>()
+    const [quizList, setQuizList] = useState<IQuiz[]>([])
 
+    console.log(quizList)
     const addQuiz = (quiz:IQuiz) => {
-        console.log(quiz); //TODO: post on the server
+        console.log(quiz);
+        setQuizList([...quizList, quiz]);
 
         setModal(false);
     }
@@ -25,10 +27,10 @@ function AdminPanelBody() {
             </CustomButton>
 
             <CustomModal modal={modal} setModal={setModal}>
-                <QuizUploadForm addQuiz={addQuiz}/>
+                <QuizUploadForm addQuiz={addQuiz} modal={modal}/>
             </CustomModal>
 
-            <QuizTable/>
+            <QuizTable quizList={quizList}/>
 
 
         </div>

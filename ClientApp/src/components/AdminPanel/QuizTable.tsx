@@ -1,8 +1,12 @@
 import React from 'react';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import classes from '../../styles/AdminPanel/QuizTable/QuizTable.module.css';
+import IQuiz from '../../@types/AdminPanel/IQuiz';
 
-function QuizTable() {
+function QuizTable({quizList}:{quizList:IQuiz[]}) {
+
+    
+
     return (
         
         <table className={classes.customTable}>
@@ -13,24 +17,34 @@ function QuizTable() {
                     <th style={{border:'1px solid'}} className={classes.column}>Дата окончания</th>
                 </tr>
             </thead>
+            {quizList.length ?
+            <tbody>
+                {quizList.map((quiz) => 
+                    <tr key={quiz.name}>
+                        <td className={classes.column}> 
+                            {quiz.name}
+                        </td>
+                        <td className={classes.column}> 
+                            {quiz.dateBegin.split('T').join(' ')}
+                        </td>
+                        <td className={classes.column}> 
+                            {quiz.dateEnd.split('T').join(' ')}
+                        </td>
+                        <td className={classes.column}>
+                            <CustomButton>Удалить</CustomButton>
+                        </td>
+                    </tr>
+                )}
+                   
+            </tbody> :
             <tbody>
                 <tr>
-                    <td className={classes.column}>Столбец 1</td>
-                    <td className={classes.column}>Столбец 2</td>
-                    <td className={classes.column}>Столбец 3</td>
-                    <td className={classes.column}>
-                        <CustomButton>Delete</CustomButton>
-                    </td>
-                </tr>
-                <tr>
-                    <td className={classes.column}>Столбец 1</td>
-                    <td className={classes.column}>Столбец 2</td>
-                    <td className={classes.column}>Столбец 3</td>
-                    <td className={classes.column}>
-                        <CustomButton>Delete</CustomButton>
-                    </td>
+                    <td colSpan={3} style={{textAlign:'center',
+                        fontSize:'20px'}}>Ожидаю викторину...</td>
                 </tr>
             </tbody>
+                 }
+            
             
         </table>
     );

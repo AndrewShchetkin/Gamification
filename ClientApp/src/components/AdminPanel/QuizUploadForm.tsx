@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextInput';
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
-function QuizUploadForm({addQuiz}:any) {
+function QuizUploadForm({addQuiz, modal}:{addQuiz:any, modal:boolean}) {
 
     const [quiz, setQuiz] = useState<IQuiz>({name:'', 
         dateBegin:'', dateEnd:'', xlsxPath:''})
     
+    useEffect(() => { // при скрытии мод. окна поля стираются
+        if (!modal)
+            setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
+    }, [modal])
 
     const submitAdd = async (e:any) => {
         e.preventDefault();
@@ -21,19 +24,25 @@ function QuizUploadForm({addQuiz}:any) {
         });
         const result = await response.json();
         
-        // если ответ - ок, то добавляем, иначе - нет
-        console.log('Успех:', result);
-        
+        if (response.ok) {
 
-        addQuiz(quiz);
+            console.log('Успех:', result);
 
-        setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
+            addQuiz(quiz);
+
+            setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
+        }
+        else {
+            console.log('Error', result);
+        }
+
+       
     }
 
     return (
         <form encType="multipart/form-data" action="" style={{display:'flex', 
             flexDirection:'column', alignItems:'center'}} onSubmit={submitAdd} >
-                
+
             <CustomTextInput
             name='name'
             type="text"
