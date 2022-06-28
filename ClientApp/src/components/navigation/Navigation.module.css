@@ -1,0 +1,13 @@
+.navBar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.navBar > ul {
+    display: flex;
+    column-gap: 10px;
+    list-style-type: none;
+}
