@@ -11,7 +11,7 @@ export default function Navigation() {
 
     return (
         <div className={classes.navBar} >
-            <div className={classes.logo}>
+            <div className={classes.logo} >
 
                 <Link to={"/"} >
                     <Logo />
