@@ -56,9 +56,10 @@ function QuizUploadForm({addQuiz}:any) {
             onChange={(e:any) => setQuiz({...quiz,
                  dateEnd: e.target.value})}
               />
-            <input type="file" value={quiz.xlsxPath} 
+            <input type='file' value={quiz.xlsxPath} 
                onChange={(e:any) => setQuiz({...quiz,
                 xlsxPath: e.target.value})} name='file' />
+                
             <CustomButton type='submit'>Добавить</CustomButton>
          </form>
     );
