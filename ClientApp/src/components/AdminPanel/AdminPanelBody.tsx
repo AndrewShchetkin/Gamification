@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import CustomModal from '../shared/components/UI/CustomModal/CustomModal';
 import QuizTable from './QuizTable';
@@ -8,14 +8,12 @@ import IQuiz from '../../@types/AdminPanel/IQuiz';
 function AdminPanelBody() {
 
     const [modal, setModal] = useState<boolean>(false);
+    const [quizAdded, setQuizAdded] = useState<boolean>(false);
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
-    const addQuiz = (quiz:IQuiz) => { // добавить гет запрос на useEffect[]
-        console.log(quiz);
-        setQuizList([...quizList, quiz]);
-
-        setModal(false);
-    }
+    useEffect(() => {
+        console.log('quizAdded');
+    }, [quizAdded])
 
     return (
         <div style={{display:'flex', flexDirection:'column',
@@ -26,7 +24,7 @@ function AdminPanelBody() {
             </CustomButton>
 
             <CustomModal modal={modal} setModal={setModal}>
-                <QuizUploadForm addQuiz={addQuiz} modal={modal}/>
+                <QuizUploadForm setQuizAdded={setQuizAdded} modal={modal}/>
             </CustomModal>
 
             <QuizTable quizList={quizList}/>

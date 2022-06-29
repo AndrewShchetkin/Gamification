@@ -2,42 +2,38 @@ import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextInput';
+import axios from 'axios';
 
 export interface IUploadForm {
-    addQuiz: (quiz:IQuiz) => void,
+    setQuizAdded:React.Dispatch<React.SetStateAction<boolean>>,
     modal: boolean
 }
 
-const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
+const initialQuiz ={name:'', dateBegin:'', dateEnd:'', xlsxPath:''};
 
-    const [quiz, setQuiz] = useState<IQuiz>({name:'', 
-        dateBegin:'', dateEnd:'', xlsxPath:''})
+const QuizUploadForm:FC<IUploadForm> = ({setQuizAdded, modal}) => {
 
-    console.log(quiz);
+    const [quiz, setQuiz] = useState<IQuiz>(initialQuiz)
 
     useEffect(() => { // при скрытии мод. окна поля стираются
         if (!modal)
-            setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
+            setQuiz(initialQuiz);
     }, [modal])
 
     const submitAdd = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         // file work
-        const response = await fetch('api/quiz', { // -> axios
-            method: 'POST',
-            body: new FormData(e.currentTarget)
-        });
-        const result = await response.json();
-        
-        if (response.ok) {
+        const response = await axios.post('api/quiz', new FormData(e.currentTarget));
 
-            console.log('Успех:', result);
-            addQuiz(quiz);
-            setQuiz({name:'', dateBegin:'', dateEnd:'', xlsxPath:''});
+        if (response.status === 200) {
+
+            console.log('Успех:', response.data);
+            setQuizAdded(true);
+            setQuiz(initialQuiz);
         }
         else {
-            console.log('Error', result);
+            console.log('Error', response.data);
         }
 
        
