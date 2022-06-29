@@ -4,6 +4,7 @@ import CustomModal from '../shared/components/UI/CustomModal/CustomModal';
 import QuizTable from './QuizTable';
 import QuizUploadForm from './QuizUploadForm';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
+import axios from 'axios';
 
 function AdminPanelBody() {
 
@@ -11,8 +12,16 @@ function AdminPanelBody() {
     const [quizAdded, setQuizAdded] = useState<boolean>(false);
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
+    const getAllQuizzes = async () => {
+        const response = await axios.get<IQuiz[]>('api/quiz');
+        if (response.status === 200) 
+            setQuizList(response.data);
+    }
+
     useEffect(() => {
         console.log('quizAdded');
+        getAllQuizzes();
+
     }, [quizAdded])
 
     return (

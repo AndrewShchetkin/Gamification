@@ -9,7 +9,7 @@ export interface IUploadForm {
     modal: boolean
 }
 
-const initialQuiz ={name:'', dateBegin:'', dateEnd:'', xlsxPath:''};
+const initialQuiz ={name:'', dateBegin:'', dateEnd:''};
 
 const QuizUploadForm:FC<IUploadForm> = ({setQuizAdded, modal}) => {
 
@@ -76,9 +76,6 @@ const QuizUploadForm:FC<IUploadForm> = ({setQuizAdded, modal}) => {
 
             <input
             type='file'
-            value={quiz.xlsxPath} 
-            onChange={(e:ChangeEvent<HTMLInputElement>) => setQuiz({...quiz,
-                xlsxPath: e.currentTarget.value})}
             name='file'
             style={{marginTop:'15px'}}
             />

@@ -55,5 +55,14 @@ namespace Gamification.Controllers
 
             return Ok(quiz);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAllQuizzes()
+        {
+            var allQuizzes = await _quizRepository.GetAllQuizzes();
+            return Ok(allQuizzes.Select((quiz) => new { name = quiz.QuizName,
+                dateBegin = quiz.QuizStartTime,
+                dateEnd = quiz.QuizFinishTime }));
+        }
     }
 }
