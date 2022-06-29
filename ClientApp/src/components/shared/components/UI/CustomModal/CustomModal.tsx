@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {FC, MouseEvent} from 'react';
 import classes from './CustomModal.module.css';
 
-function CustomModal({children, modal, setModal} : {children:JSX.Element,
-    modal:boolean, setModal:any}) {
+export interface ICustomModal {
+
+    children:JSX.Element,
+    modal:boolean,
+    setModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CustomModal:FC<ICustomModal> = ({children,modal, setModal}) => {
 
     const modalState: string[] = [classes.modal];
     if (modal)
@@ -12,7 +18,7 @@ function CustomModal({children, modal, setModal} : {children:JSX.Element,
         <div className={modalState.join(' ')} onClick={() => 
             setModal(false)
         }>
-            <div className={classes.modalContent} onClick={(e:any) => {
+            <div className={classes.modalContent} onClick={(e:MouseEvent<HTMLDivElement>) => {
                 e.stopPropagation()
             }}>
                 {children}

@@ -7,10 +7,10 @@ import IQuiz from '../../@types/AdminPanel/IQuiz';
 
 function AdminPanelBody() {
 
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState<boolean>(false);
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
-    const addQuiz = (quiz:IQuiz) => { // добавить гет запрос на useMemo[]
+    const addQuiz = (quiz:IQuiz) => { // добавить гет запрос на useEffect[]
         console.log(quiz);
         setQuizList([...quizList, quiz]);
 

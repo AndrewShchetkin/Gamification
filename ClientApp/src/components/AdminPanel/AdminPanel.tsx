@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
-import CustomTable from './QuizTable';
 import AdminPanelBody from './AdminPanelBody';
 import AdminPanelHeader from './AdminPanelHeader';
 
