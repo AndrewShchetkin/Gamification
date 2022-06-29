@@ -9,7 +9,8 @@ module.exports = {
     mode: "development", //production
     devServer: {
         historyApiFallback: true,
-        hot: true
+        hot: true,
+        
      },
     output: {
         path: path.join(__dirname, "/dist/"),

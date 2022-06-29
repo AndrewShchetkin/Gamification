@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
-import { createBrowserHistory } from 'history';
-// import { Route, Router } from "react-router";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import { Temp } from "./components/temp";
@@ -40,7 +38,7 @@ const App = () => {
                 </Route>
                 <Route path='/signup' component={SignUp} />
                 <Route path='/lobby' component={Lobby} />
-                <PrivateRoute path='/quiz' component={Quiz} />
+                <Route path='/quiz' component={Quiz} />
                 <PrivateRoute path='/game' component={Temp} />
                 <PrivateRoute path='/game2' component={Temp2} />
                 <Route exact path="/map">
