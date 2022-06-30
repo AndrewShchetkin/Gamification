@@ -25,6 +25,7 @@
         "redux-observable": "^2.0.0"
     },
     "devDependencies": {
+        "@svgr/webpack": "^6.2.1",
         "@types/history": "^4.7.9",
         "@types/node": "^16.11.1",
         "@types/react": "^17.0.28",
@@ -38,6 +39,8 @@
         "css-loader": "^6.7.1",
         "html-webpack-plugin": "^5.5.0",
         "postcss-loader": "^7.0.0",
+        "sass": "^1.53.0",
+        "sass-loader": "^13.0.2",
         "style-loader": "^3.3.1",
         "ts-loader": "^9.3.1",
         "ts-node": "^10.3.0",
