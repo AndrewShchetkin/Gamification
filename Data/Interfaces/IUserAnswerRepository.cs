@@ -5,7 +5,7 @@ using Gamification.Models;
 
 namespace Gamification.Data.Interfaces
 {
-    interface IUserAnswerRepository
+    public interface IUserAnswerRepository
     {
         Task<Guid> Create(UserAnswer newUserAnswer);
         Task<UserAnswer> GetUserAnswerById(Guid userAnswerId);

@@ -44,6 +44,10 @@ namespace Gamification
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IAnswerRepository, AnswerRepository>();
 
+            services.AddScoped<IRoundRepository, RoundRepository>();
+            services.AddScoped<ITeamAnswerRepository, TeamAnswerRepository>();
+            services.AddScoped<IUserAnswerRepository, UserAnswerRepository>();
+
             services.AddScoped<IMapRepository, MapRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
