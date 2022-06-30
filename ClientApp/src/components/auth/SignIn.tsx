@@ -4,7 +4,8 @@ import { signInComplete } from '../../store/reducers/auth/authSlice';
 import { Redirect, Link } from 'react-router-dom';
 import { LoginResponse } from '../../@types/loginResponse';
 import axios, { AxiosError } from 'axios';
-import "./signin.scss"
+import classes from "./signin.module.scss"
+import Input from '../shared/components/UI/input/input';
 
 
 
@@ -38,43 +39,32 @@ export default function SignIn() {
   };
 
   return (
-    <div className='form'>
-      <h1>
+    <div className={classes.formClass}>
+      <h2>
         Войдите в свой аккаунт
-      </h1>
+      </h2>
       <form onSubmit={handleSubmit} >
 
-        <label>
-          Имя пользователя
-          <input
-            required
-            id="email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            placeholder='username'
-          />
+        <Input
+          name='email'
+          placeholder='username'
+          label='Имя пользователя'
+          type='email' />
+        <Input
+          name='password'
+          placeholder='password'
+          label='Имя пользователя'
+          type='password' />
 
-        </label>
-        <label>
-          Пароль
-          <input
-            required
-            name="password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-        </label>
 
         <button type="submit" >
           Войти
         </button>
-
-        <Link to='/signup' >
-          Регистрация
-        </Link>
       </form>
+
+      <Link to='/signup' className={classes.signup}>
+        Регистрация
+      </Link>
     </div>
   );
 }

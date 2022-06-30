@@ -1,0 +1,59 @@
+@import "../../style/variables";
+
+@mixin fliexColumnDirection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formClass {
+    @include fliexColumnDirection();
+
+    margin-top: 8rem;
+}
+
+form {
+    @include fliexColumnDirection();
+}
+
+button {
+    border: 1px solid $aquaColor !important;
+    background-color: $aquaColor;
+    border-radius: 6px;
+    font: inherit;
+    letter-spacing: inherit;
+    color: $backColor;
+    padding: 4px 0 5px;
+    border: 0;
+    box-sizing: content-box;
+    height: 1em;
+    margin-top: 1rem;
+    display: block;
+    min-width: 0;
+    width: 100%;
+    animation-duration: 10ms;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    &:hover{
+        color: $textColor;
+        background-color: $backColor;
+    }
+}
+
+a.signup {
+    color: $textColor;
+    text-decoration: none;
+    padding: 5px 25px;
+    border: 1px solid $backColor  !important;
+    margin-top: 1.5em;    
+    border-radius: 9px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+
+    &:hover {
+        border: 1px solid $aquaColor  !important;
+    }
+
+}

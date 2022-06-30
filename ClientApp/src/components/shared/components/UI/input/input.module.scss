@@ -1,0 +1,30 @@
+@import "/src/style/variables.scss";
+
+label.customLabel {
+    display: block;
+    margin-bottom: 0.25rem;
+    margin-bottom: 1rem;
+
+    input {
+        border: 1px solid $textColor  !important;
+        border-radius: 6px;
+        font: inherit;
+        letter-spacing: inherit;
+        color: $textColor;
+        padding: 4px 0 5px;
+        border: 0;
+        box-sizing: content-box;
+        background: none;
+        height: 1em;
+        margin: 0;
+        display: block;
+        min-width: 0;
+        animation-duration: 10ms;
+        padding: 16.5px 14px;
+
+        &::placeholder {
+            color: $textColor;
+            opacity: 0.4;
+        }
+    }
+}
