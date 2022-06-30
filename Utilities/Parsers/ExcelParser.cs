@@ -21,9 +21,9 @@ namespace Gamification.Utilities.Parsers
             _quiz = quiz;
         }
 
-        public Dictionary<Question, List<Answer>> Parse()
+        public List<Question> Parse()
         {
-            Dictionary<Question, List<Answer>> questToAnswers = new Dictionary<Question, List<Answer>>();
+            List<Question> questionList = new List<Question>();
 
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             using (var stream = new MemoryStream())
@@ -53,14 +53,15 @@ namespace Gamification.Utilities.Parsers
                         for (int i = 3; i <= 5; ++i)
                             answers.Add(new Answer { AnswerText = reader.GetValue(i).ToString(), RightAnswer = false, Question = question });
 
-                        questToAnswers.Add(question, answers);
+                        question.Answers = answers;
+                        questionList.Add(question);
                         
                         
                     }
                 }
             }
 
-            return questToAnswers;
+            return questionList;
         }
     }
 }

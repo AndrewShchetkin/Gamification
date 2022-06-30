@@ -14,7 +14,7 @@ namespace Gamification.Models
         public bool RightAnswer { get; set; }
 
         // added
-        public Guid QuestionId { get; set; }
+        public Guid QuestionId { get; set; } // for cascade delete
         //
         public Question Question { get; set; }
     }

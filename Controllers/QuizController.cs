@@ -43,17 +43,18 @@ namespace Gamification.Controllers
         public async Task<ActionResult> Import ([FromForm(Name = "file")] IFormFile excel, [FromForm(Name = "name")] string quizName,
             [FromForm(Name = "db")] DateTime dateBegin, [FromForm(Name = "de")] DateTime dateEnd)
         {
-            Quiz quiz = new Quiz {QuizName = quizName, QuizStartTime= dateBegin, QuizFinishTime = dateEnd};
+            Quiz quiz = new Quiz {
+
+                QuizName = quizName,
+                QuizStartTime= dateBegin,
+                QuizFinishTime = dateEnd
+            };
+            
             ExcelParser excelParser = new ExcelParser(excel, quiz);
-            Dictionary<Question, List<Answer>> questToAnswers = excelParser.Parse();
+            List<Question> parsedQuestions = excelParser.Parse();
 
+            quiz.Questions = parsedQuestions;
             await _quizRepository.Create(quiz);
-            foreach (var question in questToAnswers.Keys)
-                await _questionRepository.Create(question);
-
-            foreach (var answers in questToAnswers.Values)
-                foreach (var answer in answers)
-                    await _answerRepository.Create(answer);
 
             return Ok(new { name=quiz.QuizName, dateBegin=quiz.QuizStartTime, dateEnd=quiz.QuizFinishTime});
         }
