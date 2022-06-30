@@ -14,6 +14,7 @@ import Navigation from "./components/navigation/Navigation";
 import Help from "./components/Help";
 import Map from "./components/Map";
 import './app.module.scss';
+import { LandingPage } from "./components/landingPage/landing";
 
 
 const App = () => {
@@ -22,13 +23,15 @@ const App = () => {
     useEffect(() => {
         dispatch(fetchUser());
     }, [])
-    return (<>
+    return (
+    <>
 
         <BrowserRouter>
             <Navigation />
             <Switch>
                 <Route exact path="/" >
-                    <Home />
+                    {/* <Home /> */}
+                    <LandingPage />
                 </Route>
                 <Route path="/help" >
                     <Help/>
