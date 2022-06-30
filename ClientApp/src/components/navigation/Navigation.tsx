@@ -11,29 +11,41 @@ export default function Navigation() {
 
     return (
         <div className={classes.navBar} >
-            <div className={classes.logo} >
+            <div >
 
-                <Link to={"/"} >
+                <Link to={"/"} className={classes.logo} >
                     <Logo />
                 </Link>
-
-                <h2>The Game</h2>
+{/*                 <h2>The Game</h2> */}
             </div>
-            <div className={classes.menu}>
-                <ul>
-                    <li><Link to={"/quiz"} >Quize</Link></li>
-                    <li><Link to={"/Lobby"}>Lobby</Link></li>
-                    <li><Link to={"/Help"}>Help</Link></li>
-                </ul>
 
-                {isAuthenticated ?
-                    <div>{userName}</div> :
-                    <div>
-                        <Link to={"/signin"}
-                            className={classes.active}>
-                            SignIn
-                        </Link>
-                    </div>}
-            </div>
+            {!isAuthenticated &&
+
+                <div className={classes.loginBar}>
+                    <Link to={"/signin"}
+                        className={classes.active}>
+                        SignIn
+                    </Link>
+                    <Link to={"/signup"}
+                        className={classes.second}>
+                        SignUp
+                    </Link>
+                </div>
+            }
+            {!!isAuthenticated && (
+                <>
+                    <div className={classes.menu}>
+                        <ul>
+                            <li><Link to={"/quiz"} >Quize</Link></li>
+                            <li><Link to={"/Lobby"}>Lobby</Link></li>
+                            <li><Link to={"/Help"}>Help</Link></li>
+                        </ul>
+                    </div>
+                    <div>{userName}Tratata</div> 
+
+                </>
+
+            )}
+
         </div>)
 }

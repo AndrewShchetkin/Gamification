@@ -5,28 +5,32 @@
     align-items: center;
 }
 
+@mixin coloringLink($primaryColor, $secondColor) {
+    background-color: $primaryColor;
+    color: $secondColor;
+    border: 1px solid $secondColor  !important;
+
+    &:hover {
+        color: $primaryColor;
+        border: 1px solid $primaryColor  !important;
+        background-color: $secondColor;
+    }
+}
+
 .navBar {
     @include flexInline();
     flex-wrap: nowrap;
     align-content: center;
     justify-content: space-evenly;
-}
-
-.logo {
-    @include flexInline();
-}
-
-.menu {
-    @include flexInline();
 
     a {
         color: $textColor;
         text-decoration: none;
         padding: 5px 25px;
-        border: 1px solid $backColor !important;
+        border: 1px solid $backColor  !important;
 
         &:hover {
-            border: 1px solid $aquaColor !important;
+            border: 1px solid $aquaColor  !important;
         }
 
         &:link,
@@ -39,21 +43,34 @@
     }
 
     a.active {
-        background-color: $aquaColor;
-        color: $backColor;
-        border: 1px solid $backColor !important;
-
-        &:hover {
-            color: $textColor;
-            border: 1px solid $aquaColor  !important;
-            background-color: $backColor;
-        }
+        @include coloringLink($aquaColor, $backColor);
     }
+
+    a.second {
+        @include coloringLink($backColor, $aquaColor);
+    }
+
+    a.logo:hover {
+        border: 1px solid $backColor  !important;
+    }
+
+}
+
+.menu {
+    @include flexInline();
 
     ul {
         @include flexInline();
         gap: 1rem;
         list-style-type: none;
         margin-right: 4rem;
+    }
+}
+
+.loginBar {
+    margin-left: 15rem;
+
+    a {
+        margin-left: 1.3rem;
     }
 }
