@@ -14,5 +14,7 @@ namespace Gamification.Models
         public string QuizName { get; set; }
         public DateTime QuizStartTime { get; set; }
         public DateTime QuizFinishTime { get; set; }
+
+        public List<Question> Questions { get; set; }
     }
 }

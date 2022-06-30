@@ -5,13 +5,13 @@ import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextI
 import axios from 'axios';
 
 export interface IUploadForm {
-    setQuizAdded:React.Dispatch<React.SetStateAction<boolean>>,
+    addQuiz:() => void,
     modal: boolean
 }
 
 const initialQuiz ={name:'', dateBegin:'', dateEnd:''};
 
-const QuizUploadForm:FC<IUploadForm> = ({setQuizAdded, modal}) => {
+const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
 
     const [quiz, setQuiz] = useState<IQuiz>(initialQuiz)
 
@@ -29,7 +29,7 @@ const QuizUploadForm:FC<IUploadForm> = ({setQuizAdded, modal}) => {
         if (response.status === 200) {
 
             console.log('Успех:', response.data);
-            setQuizAdded(true);
+            await addQuiz();
             setQuiz(initialQuiz);
         }
         else {

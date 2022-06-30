@@ -9,20 +9,30 @@ import axios from 'axios';
 function AdminPanelBody() {
 
     const [modal, setModal] = useState<boolean>(false);
-    const [quizAdded, setQuizAdded] = useState<boolean>(false);
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
     const getAllQuizzes = async () => {
         const response = await axios.get<IQuiz[]>('api/quiz');
         if (response.status === 200) 
             setQuizList(response.data);
+        else
+            console.log('error', response.statusText);
+    }
+
+    const addQuiz = async () => {
+        getAllQuizzes();
+        setModal(false);
+    }
+
+    const deleteQuiz = async () => {
+        getAllQuizzes();
     }
 
     useEffect(() => {
         console.log('quizAdded');
         getAllQuizzes();
 
-    }, [quizAdded])
+    }, [])
 
     return (
         <div style={{display:'flex', flexDirection:'column',
@@ -33,10 +43,10 @@ function AdminPanelBody() {
             </CustomButton>
 
             <CustomModal modal={modal} setModal={setModal}>
-                <QuizUploadForm setQuizAdded={setQuizAdded} modal={modal}/>
+                <QuizUploadForm addQuiz={addQuiz} modal={modal}/>
             </CustomModal>
 
-            <QuizTable quizList={quizList}/>
+            <QuizTable quizList={quizList} deleteQuiz={deleteQuiz}/>
 
 
         </div>

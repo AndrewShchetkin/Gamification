@@ -21,6 +21,14 @@ namespace Gamification.Data
             await db.SaveChangesAsync();
             return newQuiz.QuizId;
         }
+
+        public async Task<Guid> Remove(Quiz quiztoDelete)
+        {
+            db.Quizzes.Remove(quiztoDelete);
+            await db.SaveChangesAsync();
+            return quiztoDelete.QuizId;
+        }
+
         public async Task<List<Quiz>> GetAllQuizzes()
         {
             var quizzes = await db.Quizzes.ToListAsync();

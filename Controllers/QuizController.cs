@@ -13,6 +13,8 @@ using Gamification.Data;
 using Gamification.Models;
 using Gamification.Data.Interfaces;
 using Gamification.Utilities.Parsers;
+using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace Gamification.Controllers
 {
@@ -41,7 +43,7 @@ namespace Gamification.Controllers
         public async Task<ActionResult> Import ([FromForm(Name = "file")] IFormFile excel, [FromForm(Name = "name")] string quizName,
             [FromForm(Name = "db")] DateTime dateBegin, [FromForm(Name = "de")] DateTime dateEnd)
         {
-            Quiz quiz = new Quiz {QuizName = quizName, QuizStartTime= dateBegin, QuizFinishTime = dateEnd };
+            Quiz quiz = new Quiz {QuizName = quizName, QuizStartTime= dateBegin, QuizFinishTime = dateEnd};
             ExcelParser excelParser = new ExcelParser(excel, quiz);
             Dictionary<Question, List<Answer>> questToAnswers = excelParser.Parse();
 
@@ -53,7 +55,7 @@ namespace Gamification.Controllers
                 foreach (var answer in answers)
                     await _answerRepository.Create(answer);
 
-            return Ok(quiz);
+            return Ok(new { name=quiz.QuizName, dateBegin=quiz.QuizStartTime, dateEnd=quiz.QuizFinishTime});
         }
 
         [HttpGet]
@@ -63,6 +65,14 @@ namespace Gamification.Controllers
             return Ok(allQuizzes.Select((quiz) => new { name = quiz.QuizName,
                 dateBegin = quiz.QuizStartTime,
                 dateEnd = quiz.QuizFinishTime }));
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteQuiz(string quizName)
+        {
+            Quiz quizToDelete = await _quizRepository.GetQuizByName(quizName);
+            await _quizRepository.Remove(quizToDelete);
+            return Ok(new { msg = "ok!" });
         }
     }
 }

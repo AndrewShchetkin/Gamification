@@ -12,6 +12,10 @@ namespace Gamification.Models
         public Guid AnswerId { get; set; }
         public string AnswerText { get; set; }
         public bool RightAnswer { get; set; }
+
+        // added
+        public Guid QuestionId { get; set; }
+        //
         public Question Question { get; set; }
     }
 }
