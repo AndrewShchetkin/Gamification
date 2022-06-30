@@ -1,11 +1,5 @@
 import IQuiz from "../@types/AdminPanel/IQuiz";
-
-export interface IQuizErrorMsg {
-    name: string,
-    dateBegin: string,
-    dateEnd: string,
-    filePath: string
-}
+import IQuizErrorMsg from "../@types/AdminPanel/IQuizErrorMsg";
 
 export class Validator {
 

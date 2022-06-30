@@ -52,6 +52,10 @@ namespace Gamification.Controllers
             
             ExcelParser excelParser = new ExcelParser(excel, quiz);
             List<Question> parsedQuestions = excelParser.Parse();
+            if (excelParser.Error != "")
+            {
+                return BadRequest(new { error = excelParser.Error });
+            }
 
             quiz.Questions = parsedQuestions;
             await _quizRepository.Create(quiz);

@@ -2,7 +2,8 @@ import React, { ChangeEvent, FC, FormEvent, MutableRefObject, useEffect, useRef,
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextInput';
-import { IQuizErrorMsg, Validator } from '../../services/ValidationService';
+import {Validator} from '../../services/ValidationService';
+import IQuizErrorMsg from '../../@types/AdminPanel/IQuizErrorMsg';
 import axios from 'axios';
 
 export interface IUploadForm {
