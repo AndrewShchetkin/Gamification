@@ -19,7 +19,7 @@ export default function Navigation() {
 {/*                 <h2>The Game</h2> */}
             </div>
 
-            {!isAuthenticated &&
+            {isAuthenticated &&
 
                 <div className={classes.loginBar}>
                     <Link to={"/signin"}
@@ -32,7 +32,7 @@ export default function Navigation() {
                     </Link>
                 </div>
             }
-            {!!isAuthenticated && (
+            {!isAuthenticated && (
                 <>
                     <div className={classes.menu}>
                         <ul>
@@ -41,7 +41,7 @@ export default function Navigation() {
                             <li><Link to={"/Help"}>Help</Link></li>
                         </ul>
                     </div>
-                    <div>{userName}Tratata</div> 
+                    <div>{userName}</div> 
 
                 </>
 

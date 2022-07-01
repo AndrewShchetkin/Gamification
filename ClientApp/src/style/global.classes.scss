@@ -1,0 +1,7 @@
+@import 'mixins.scss';
+
+
+.formClass {
+    @include fliexColumnDirection();
+    margin-top: 8rem;
+}

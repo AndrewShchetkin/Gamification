@@ -1,4 +1,6 @@
 @import "style/variables.scss";
+@import "style/mixins.scss";
+
 
 body {
     background: $backColor;
@@ -8,4 +10,34 @@ body {
     font-size: 20px;
     line-height: 24px;
     color: $textColor;
+}
+
+
+form {
+    @include fliexColumnDirection();
+}
+
+button {
+    border: 1px solid $aquaColor !important;
+    background-color: $aquaColor;
+    border-radius: 6px;
+    font: inherit;
+    letter-spacing: inherit;
+    color: $backColor;
+    padding: 4px 0 5px;
+    border: 0;
+    box-sizing: content-box;
+    height: 1em;
+    margin-top: 1rem;
+    display: block;
+    min-width: 0;
+    width: 100%;
+    animation-duration: 10ms;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    &:hover{
+        color: $textColor;
+        background-color: $backColor;
+    }
 }

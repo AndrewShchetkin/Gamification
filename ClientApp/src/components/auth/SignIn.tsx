@@ -4,11 +4,8 @@ import { signInComplete } from '../../store/reducers/auth/authSlice';
 import { Redirect, Link } from 'react-router-dom';
 import { LoginResponse } from '../../@types/loginResponse';
 import axios, { AxiosError } from 'axios';
-import classes from "./signin.module.scss"
+import classes from "./auth.module.scss"
 import Input from '../shared/components/UI/input/input';
-
-
-
 
 export default function SignIn() {
   const dispatch = useAppDispatch();
@@ -49,7 +46,7 @@ export default function SignIn() {
           name='email'
           placeholder='username'
           label='Имя пользователя'
-          type='email' />
+          />
         <Input
           name='password'
           placeholder='password'
