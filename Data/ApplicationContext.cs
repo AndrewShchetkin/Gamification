@@ -16,7 +16,12 @@ namespace Gamification.Models
 
         }
 
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Quiz>()
+                .HasAlternateKey(quiz => quiz.QuizName);
+        }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Team> Teams { get; set; } 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Gamification.Models
     {
         [Key]
         public Guid QuizId { get; set; }
+
         public string QuizName { get; set; }
         public DateTime QuizStartTime { get; set; }
         public DateTime QuizFinishTime { get; set; }

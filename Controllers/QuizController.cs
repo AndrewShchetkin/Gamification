@@ -15,11 +15,13 @@ using Gamification.Data.Interfaces;
 using Gamification.Utilities.Parsers;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gamification.Controllers
 {
-    
-    
+
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -40,9 +42,12 @@ namespace Gamification.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<ActionResult> Import ([FromForm(Name = "file")] IFormFile excel, [FromForm(Name = "name")] string quizName,
+        public async Task<ActionResult> Import([FromForm(Name = "file")] IFormFile excel, [FromForm(Name = "name")] string quizName,
             [FromForm(Name = "db")] DateTime dateBegin, [FromForm(Name = "de")] DateTime dateEnd)
         {
+            if (excel == null || quizName == null || dateBegin == default(DateTime) || dateEnd == default(DateTime))
+                return BadRequest(new { error = "Один из параметров запроса не передан!" });
+
             Quiz quiz = new Quiz {
 
                 QuizName = quizName,
@@ -52,13 +57,30 @@ namespace Gamification.Controllers
             
             ExcelParser excelParser = new ExcelParser(excel, quiz);
             List<Question> parsedQuestions = excelParser.Parse();
-            if (excelParser.Error != "")
+            if (parsedQuestions == null)
             {
-                return BadRequest(new { error = excelParser.Error });
+                return BadRequest(new { error = excelParser.Validator.Error });
             }
 
             quiz.Questions = parsedQuestions;
-            await _quizRepository.Create(quiz);
+
+            try
+            {
+                await _quizRepository.Create(quiz);
+            }
+            catch(DbUpdateException ex)
+            {
+
+                if (ex.InnerException is SqlException sqlException)
+                {
+                    switch (sqlException.Number)
+                    {
+                        case 2627: // unique key constraint failed
+                            return BadRequest(new { error = "Ошибка БД: Викторина с таким именем уже существует!" });
+                    }
+                }
+
+            }
 
             return Ok(new { name=quiz.QuizName, dateBegin=quiz.QuizStartTime, dateEnd=quiz.QuizFinishTime});
         }
