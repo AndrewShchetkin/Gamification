@@ -29,7 +29,7 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
             {quizList.length ?
             <tbody>
                 {quizList.map((quiz) => 
-                    <tr key={quiz.dateBegin}>
+                    <tr key={quiz.name}>
                         <td className={classes.column}> 
                             {quiz.name}
                         </td>

@@ -4,7 +4,7 @@ import IQuiz from '../../@types/AdminPanel/IQuiz';
 import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextInput';
 import {Validator} from '../../services/ValidationService';
 import IQuizErrorMsg from '../../@types/AdminPanel/IQuizErrorMsg';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export interface IUploadForm {
     addQuiz:() => void,
@@ -12,7 +12,7 @@ export interface IUploadForm {
 }
 
 const initialQuiz ={name:'', dateBegin:'', dateEnd:''};
-const initialQuizErrorMsg ={name:'', dateBegin:'', dateEnd:'', filePath:''};
+const initialQuizErrorMsg ={name:'', dateBegin:'', dateEnd:'', filePath:'', serverError:''};
 
 const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
 
@@ -31,15 +31,11 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
     const submitAdd = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        const validator = new Validator();
-        if (!validator.uploadFormValidate(quiz,filePath,setQuizErrorMsgs))
+        if (!Validator.uploadFormValidate(quiz,filePath,setQuizErrorMsgs, quizErrorMsgs))
             return;
 
-        // file work
-
-        const response = await axios.post('api/quiz', new FormData(e.currentTarget));
-
-        if (response.status === 200) {
+        try {
+            const response = await axios.post('api/quiz', new FormData(e.currentTarget));
 
             console.log('Успех:', response.data);
             await addQuiz();
@@ -47,9 +43,23 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             setFilePath('');
             setQuizErrorMsgs(initialQuizErrorMsg);
         }
-        else {
-            console.log('Error', response.data);
+        
+        catch(err) {
+
+            const error: AxiosError = (err as AxiosError);
+            if (error.message === 'Network Error') // изменили файл
+            {
+                setFilePath('');
+                setQuizErrorMsgs({...initialQuizErrorMsg, filePath:'Файл был изменен. Загрузите файл еще раз'});
+            }
+            else if (error.response?.status === 400)
+                setQuizErrorMsgs({...initialQuizErrorMsg, serverError: error.response?.data.error})
+            else 
+                setQuizErrorMsgs({...initialQuizErrorMsg, serverError: 'Непредвиденная ошибка на сервере'})
         }
+        
+       
+        
 
        
     }
@@ -102,6 +112,7 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             <div style={{marginTop:'5px', color:'red'}}>{quizErrorMsgs.filePath}</div>
                 
             <CustomButton type='submit' style={{marginTop:'15px'}}>Добавить</CustomButton>
+            <div style={{marginTop:'15px', color:'red', width:'250px'}}>{quizErrorMsgs.serverError}</div>
          </form>
     );
 }

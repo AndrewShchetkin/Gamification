@@ -76,7 +76,7 @@ namespace Gamification.Controllers
                     switch (sqlException.Number)
                     {
                         case 2627: // unique key constraint failed
-                            return BadRequest(new { error = "Ошибка БД: Викторина с таким именем уже существует!" });
+                            return BadRequest(new { error = "Ошибка БД: Викторина с таким названием уже существует!" });
                     }
                 }
 
@@ -99,7 +99,7 @@ namespace Gamification.Controllers
         {
             Quiz quizToDelete = await _quizRepository.GetQuizByName(quizName);
             await _quizRepository.Remove(quizToDelete);
-            return Ok(new { msg = "ok!" });
+            return Ok();
         }
     }
 }
