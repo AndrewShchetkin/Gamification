@@ -7,6 +7,10 @@ import axios from 'axios';
 function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => void}) {
 
     const onDelete = async (quiz: IQuiz) => {
+
+        if (!confirm("Вы точно хотите удалить?"))
+            return;
+
         const response = await axios.delete(`api/quiz?quizName=${quiz.name}`)
         
         if (response.status === 200) {

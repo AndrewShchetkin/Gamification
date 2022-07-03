@@ -3,7 +3,9 @@ import IQuizErrorMsg from "../@types/AdminPanel/IQuizErrorMsg";
 
 export class Validator {
 
-    static uploadFormValidate(quiz:IQuiz, filePath:string, setErrorMsgs:any, errorMsgs:IQuizErrorMsg): boolean {
+    static uploadFormValidate(quiz:IQuiz, filePath:string,
+         setErrorMsgs:React.Dispatch<React.SetStateAction<IQuizErrorMsg>>,
+          errorMsgs:IQuizErrorMsg): boolean {
         
         const dateBegin: number = Date.parse(quiz.dateBegin);
         const dateEnd: number = Date.parse(quiz.dateEnd);
