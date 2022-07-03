@@ -5,6 +5,7 @@ import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextI
 import {Validator} from '../../services/ValidationService';
 import IQuizErrorMsg from '../../@types/AdminPanel/IQuizErrorMsg';
 import axios, { AxiosError } from 'axios';
+import classes from './styles/UploadForm.module.css';
 
 export interface IUploadForm {
     addQuiz:() => void,
@@ -65,8 +66,7 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
     }
 
     return (
-        <form encType="multipart/form-data" action="" style={{display:'flex', 
-            flexDirection:'column', alignItems:'center'}} onSubmit={submitAdd} >
+        <form encType="multipart/form-data" action="" className={classes.uploadForm} onSubmit={submitAdd} >
 
             <CustomTextInput
             name='name'
@@ -75,10 +75,10 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             value={quiz.name}
             onChange={(e:ChangeEvent<HTMLInputElement>) => setQuiz({...quiz, name: e.currentTarget.value})}
             /> 
-            <div style={{marginTop:'5px', color:'red'}}>{quizErrorMsgs.name}</div>
+            <div className={classes.errorInput}>{quizErrorMsgs.name}</div>
 
-            <div style={{display:'flex', justifyContent:'center',alignItems:'center', marginTop:'15px'}}>
-                <div style={{width:'100px' }}>Дата начала: </div>
+            <div className={classes.dateContainer}>
+                <div className={classes.dateText}>Дата начала: </div>
                 <input
                 name='db'
                 type="datetime-local"
@@ -87,20 +87,19 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
                     dateBegin: e.currentTarget.value})}
                 />
             </div>
-            <div style={{marginTop:'5px', color:'red'}}>{quizErrorMsgs.dateBegin}</div>
+            <div className={classes.errorInput}>{quizErrorMsgs.dateBegin}</div>
 
-            <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'15px'}}>
-                <div style={{width:'100px'}}>Дата окончания: </div>
+            <div className={classes.dateContainer}>
+                <div className={classes.dateText}>Дата окончания: </div>
                 <input
                 name='de'
                 type="datetime-local"
                 value={quiz.dateEnd}
                 onChange={(e:ChangeEvent<HTMLInputElement>) => setQuiz({...quiz,
                     dateEnd: e.currentTarget.value})}
-                style={{height:'fit-content'}}
                 />
             </div>
-            <div style={{marginTop:'5px', color:'red'}}>{quizErrorMsgs.dateEnd}</div>
+            <div className={classes.errorInput}>{quizErrorMsgs.dateEnd}</div>
             
             <input
             value={filePath}
@@ -109,10 +108,10 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             name='file'
             style={{marginTop:'15px'}}
             />
-            <div style={{marginTop:'5px', color:'red'}}>{quizErrorMsgs.filePath}</div>
+            <div className={classes.errorInput}>{quizErrorMsgs.filePath}</div>
                 
             <CustomButton type='submit' style={{marginTop:'15px'}}>Добавить</CustomButton>
-            <div style={{marginTop:'15px', color:'red', width:'250px'}}>{quizErrorMsgs.serverError}</div>
+            <div className={classes.errorServer}>{quizErrorMsgs.serverError}</div>
          </form>
     );
 }

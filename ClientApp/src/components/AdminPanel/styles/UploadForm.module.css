@@ -1,0 +1,28 @@
+.uploadForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.errorInput {
+    margin-top: 15px;
+    color:red;
+}
+
+.errorServer {
+    margin-top: 15px;
+    color: red;
+    width: 250px;
+}
+
+.dateContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.dateText {
+    width: 100px;
+
+}

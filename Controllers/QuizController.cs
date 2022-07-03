@@ -97,9 +97,20 @@ namespace Gamification.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeleteQuiz(string quizName)
         {
-            Quiz quizToDelete = await _quizRepository.GetQuizByName(quizName);
-            await _quizRepository.Remove(quizToDelete);
-            return Ok();
+            try
+            {
+                Quiz quizToDelete = await _quizRepository.GetQuizByName(quizName);
+                await _quizRepository.Remove(quizToDelete);
+                return Ok();
+            }
+            catch(DbUpdateException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new { error = "Ошибка БД: Такой викторины нет!" });
+            }
         }
     }
 }

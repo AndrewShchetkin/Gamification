@@ -1,8 +1,8 @@
 import React from 'react';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
-import classes from '../../styles/AdminPanel/QuizTable/QuizTable.module.css';
+import classes from './styles/QuizTable.module.css';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => void}) {
 
@@ -10,14 +10,21 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
 
         if (!confirm("Вы точно хотите удалить?"))
             return;
-
-        const response = await axios.delete(`api/quiz?quizName=${quiz.name}`)
         
-        if (response.status === 200) {
-            deleteQuiz()
+        try {
+            await axios.delete(`api/quiz?quizName=${quiz.name}`);
+            deleteQuiz();
+        }
+        catch(err) {
+            const error: AxiosError = err as AxiosError;
+            if (error.response?.status === 400)
+                alert((err as AxiosError).response?.data);
+            else
+                alert(error.message);
         }
 
-        console.log(response.data);
+        
+
     }
 
     return (
@@ -30,7 +37,6 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
                     <th style={{border:'1px solid'}} className={classes.column}>Дата окончания</th>
                 </tr>
             </thead>
-            {quizList.length ?
             <tbody>
                 {quizList.map((quiz) => 
                     <tr key={quiz.name}>
@@ -48,15 +54,7 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
                         </td>
                     </tr>
                 )}
-                   
-            </tbody> :
-            <tbody>
-                <tr>
-                    <td colSpan={3} style={{textAlign:'center',
-                        fontSize:'20px'}}>Ожидаю викторину...</td>
-                </tr>
             </tbody>
-                 }
             
             
         </table>

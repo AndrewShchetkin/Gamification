@@ -4,7 +4,8 @@ import CustomModal from '../shared/components/UI/CustomModal/CustomModal';
 import QuizTable from './QuizTable';
 import QuizUploadForm from './QuizUploadForm';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import classes from './styles/Body.module.css';
 
 function AdminPanelBody() {
 
@@ -12,11 +13,13 @@ function AdminPanelBody() {
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
     const getAllQuizzes = async () => {
-        const response = await axios.get<IQuiz[]>('api/quiz');
-        if (response.status === 200) 
+        try {
+            const response = await axios.get<IQuiz[]>('api/quiz');
             setQuizList(response.data);
-        else
-            console.log('error', response.statusText);
+        }
+        catch(error) {
+            alert((error as AxiosError).message);
+        }
     }
 
     const addQuiz = async () => {
@@ -35,8 +38,7 @@ function AdminPanelBody() {
     }, [])
 
     return (
-        <div style={{display:'flex', flexDirection:'column',
-            alignItems:'center'}}>
+        <div className={classes.content}>
             <CustomButton style={{alignSelf:'flex-end'}} 
                 onClick={() => setModal(true)}>
                 Загрузить викторину
@@ -46,7 +48,9 @@ function AdminPanelBody() {
                 <QuizUploadForm addQuiz={addQuiz} modal={modal}/>
             </CustomModal>
 
-            <QuizTable quizList={quizList} deleteQuiz={deleteQuiz}/>
+            {quizList.length ? <QuizTable quizList={quizList} deleteQuiz={deleteQuiz} />
+                : <div>Викторины не найдены!</div>}
+            
 
 
         </div>
