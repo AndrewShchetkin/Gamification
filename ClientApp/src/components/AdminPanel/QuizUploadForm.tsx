@@ -12,20 +12,20 @@ export interface IUploadForm {
     modal: boolean
 }
 
-const initialQuiz ={name:'', dateBegin:'', dateEnd:''};
-const initialQuizErrorMsg ={name:'', dateBegin:'', dateEnd:'', filePath:'', serverError:''};
+const INITIAL_QUIZ ={name:'', dateBegin:'', dateEnd:''};
+const INITIAL_QUIZ_ERROR_MSG ={name:'', dateBegin:'', dateEnd:'', filePath:'', serverError:''};
 
 const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
 
-    const [quiz, setQuiz] = useState<IQuiz>(initialQuiz);
-    const [quizErrorMsgs, setQuizErrorMsgs] = useState<IQuizErrorMsg>(initialQuizErrorMsg);
+    const [quiz, setQuiz] = useState<IQuiz>(INITIAL_QUIZ);
+    const [quizErrorMsgs, setQuizErrorMsgs] = useState<IQuizErrorMsg>(INITIAL_QUIZ_ERROR_MSG);
     const [filePath, setFilePath] = useState<string>('');
 
     useEffect(() => { // при скрытии мод. окна поля стираются
         if (!modal) {
-            setQuiz(initialQuiz);
+            setQuiz(INITIAL_QUIZ);
             setFilePath('');
-            setQuizErrorMsgs(initialQuizErrorMsg);
+            setQuizErrorMsgs(INITIAL_QUIZ_ERROR_MSG);
         }
     }, [modal])
 
@@ -40,9 +40,9 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
 
             console.log('Успех:', response.data);
             await addQuiz();
-            setQuiz(initialQuiz);
+            setQuiz(INITIAL_QUIZ);
             setFilePath('');
-            setQuizErrorMsgs(initialQuizErrorMsg);
+            setQuizErrorMsgs(INITIAL_QUIZ_ERROR_MSG);
         }
         
         catch(err) {
@@ -51,12 +51,12 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             if (error.message === 'Network Error') // изменили файл
             {
                 setFilePath('');
-                setQuizErrorMsgs({...initialQuizErrorMsg, filePath:'Файл был изменен. Загрузите файл еще раз'});
+                setQuizErrorMsgs({...INITIAL_QUIZ_ERROR_MSG, filePath:'Файл был изменен. Загрузите файл еще раз'});
             }
             else if (error.response?.status === 400)
-                setQuizErrorMsgs({...initialQuizErrorMsg, serverError: error.response?.data.error})
+                setQuizErrorMsgs({...INITIAL_QUIZ_ERROR_MSG, serverError: error.response?.data.error})
             else 
-                setQuizErrorMsgs({...initialQuizErrorMsg, serverError: 'Непредвиденная ошибка на сервере'})
+                setQuizErrorMsgs({...INITIAL_QUIZ_ERROR_MSG, serverError: 'Непредвиденная ошибка на сервере'})
         }
         
        

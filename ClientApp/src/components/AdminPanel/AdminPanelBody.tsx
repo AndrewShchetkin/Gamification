@@ -15,7 +15,7 @@ function AdminPanelBody() {
     const getAllQuizzes = async () => {
         try {
             const response = await axios.get<IQuiz[]>('api/quiz');
-            setQuizList(response.data);
+            await setQuizList(response.data);
         }
         catch(error) {
             alert((error as AxiosError).message);
@@ -23,12 +23,12 @@ function AdminPanelBody() {
     }
 
     const addQuiz = async () => {
-        getAllQuizzes();
+        await getAllQuizzes();
         setModal(false);
     }
 
     const deleteQuiz = async () => {
-        getAllQuizzes();
+        await getAllQuizzes();
     }
 
     useEffect(() => {

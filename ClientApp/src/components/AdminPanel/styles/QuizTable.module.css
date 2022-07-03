@@ -17,3 +17,23 @@
 .column:last-child {
     border: none;
 }
+
+.paginationList {
+    display: flex;
+    list-style: none;
+}
+
+.paginationListItem {
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid lightblue;
+    padding: 5px;
+    
+}
+
+.test {
+    margin-right: 10px;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid red;
+}
