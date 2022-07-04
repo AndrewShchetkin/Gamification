@@ -18,20 +18,3 @@
     border: none;
 }
 
-.paginationList {
-    display: flex;
-    justify-content: flex-start;
-    list-style: none;
-}
-
-.paginationListItem {
-    margin-right: 10px;
-    cursor: pointer;
-    border: 1px solid lightblue;
-    padding: 5px;
-    
-}
-
-.extend {
-    border: 1px solid red;
-}

@@ -3,29 +3,20 @@ import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton'
 import classes from './styles/QuizTable.module.css';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import axios, { AxiosError } from 'axios';
+import Pagination from '../shared/components/UI/CustomPagination/Pagination';
 
-const QUIZZES_PER_PAGE = 1;
+const LIMIT = 1;
 
 function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => void}) {
 
     const [currPage, setCurrPage] = useState<number>(1);
-    
-    const pageNumbers = useMemo(() => {
-        
-        const arr = [];
-        for (let i = 1; i <= Math.ceil(quizList.length / QUIZZES_PER_PAGE); ++i) {
-            arr.push(i);
-        }
-        return arr;
-    }, [quizList]);
-
-    const nextPageIndex = currPage * QUIZZES_PER_PAGE;
-    const prevPageIndex = nextPageIndex - QUIZZES_PER_PAGE;
 
     const pageQuizzes = useMemo(() => {
+        const nextPageIndex = currPage * LIMIT;
+        const prevPageIndex = nextPageIndex - LIMIT;
+
         return quizList.slice(prevPageIndex, nextPageIndex);
     }, [currPage, quizList]);
-
 
     useEffect(() => { // если удаляем последний элемент на странице - переходим на пред. страницу
         if (!pageQuizzes.length)
@@ -58,20 +49,12 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
     return (
         
         <div>
-            <ul className={classes.paginationList}>
-                {pageNumbers.map(number => 
-                    <li
-                    className= {currPage === number ?
-                         `${classes.paginationListItem} ${classes.extend}`
-                     : classes.paginationListItem}
-                    key={number}
-                    id={`${number}`}
-                    onClick={() => setCurrPage(number)}
-                    >
-                    {number}
-                    </li>
-                )}
-            </ul>
+            <Pagination
+             list={quizList}
+             limit={LIMIT}
+             currPage={currPage}
+             setCurrPage={setCurrPage}
+             />
 
             <table className={classes.customTable}>
                 <thead>
