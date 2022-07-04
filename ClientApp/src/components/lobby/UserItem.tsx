@@ -1,6 +1,6 @@
-import { ListItem } from '@mui/material';
 import React, {FC} from 'react';
 import { IUser } from '../../@types/IUser';
+import classes from './UserItem.module.scss'
 
 interface IUserProps{
     user: IUser
@@ -8,10 +8,9 @@ interface IUserProps{
 
 const UserItem: FC<IUserProps> = ({user}) => {
     return(
-        <ListItem sx={{ pl: 4 }}>
+        <div className={classes.userItem}>
             {user.userName}
-            
-        </ListItem>
+        </div>
     )
 }
 

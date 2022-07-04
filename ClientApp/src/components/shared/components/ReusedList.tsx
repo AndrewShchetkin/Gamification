@@ -1,4 +1,3 @@
-import { List } from "@mui/material";
 import React from "react";
 
 interface ListProps<T> {
@@ -9,8 +8,8 @@ interface ListProps<T> {
 export default function ReusedList<T>(props: ListProps<T>) {
 
     return (
-        <List>
+        <div>
             {props.items.map(props.renderItem)}
-        </List>
+        </div>
     )
 }

@@ -1,14 +1,9 @@
-import { Collapse, IconButton, ListItem, ListItemButton, Typography } from '@mui/material';
 import React, { FC, useState } from 'react';
 import ReusedList from '../shared/components/ReusedList';
 import UserItem from './UserItem';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
-import { Label } from '@mui/icons-material';
-import Box from '@mui/system/Box';
 import { IUser } from '../../@types/IUser';
 import { ITeam } from '../../@types/ITeam';
+import classes from './TeamItem.module.scss'
 
 interface ITeamProps {
     team: ITeam;
@@ -28,23 +23,22 @@ const TeamItem: FC<ITeamProps> = ({ team, users, selectedIndex, onClickListItem 
 
     return (
         <>
-            <ListItemButton sx={{ display: 'flex', justifyContent: 'space-between' }}
-                selected={team.id === selectedIndex}
-                onClick={() => onClickListItem(team.id)}
-            >
-                {team.teamName}
-                <Box sx={{display: 'flex' ,justifyContent: 'space-between' }}>
-                    <Typography padding={1}>{team.users.length}/{maxNumbesOfUsers}</Typography>
-                    <IconButton onClick={onArrowClick}>
-                        {open ? <ArrowDropUpIcon /> : <ArrowDropDown />}
-                    </IconButton>
-                </Box>
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                <ReusedList items={users} renderItem={(user: IUser) =>
-                    <UserItem user={user} key={user.id} />}
-                />
-            </Collapse>
+        <div className={team.id === selectedIndex ? classes.teamItemSelected : classes.teamItem }
+            onClick={() => onClickListItem(team.id)}>
+            {team.teamName}
+            <div className={classes.teamItemInfo}>
+                <p>{team.users.length}/{maxNumbesOfUsers}</p>
+                    <div onClick={onArrowClick} className={open? classes.arrowUp : classes.arrowDown}></div>
+                    {/* {open ? <button>Свернуть</button> : <button>Развернуть</button>} */}
+            </div>
+        </div>
+        {open &&
+        <div>
+            <ReusedList items={users} renderItem={(user: IUser) =>
+                <UserItem user={user} key={user.id} />}
+            />
+        </div>
+        }
         </>
     )
 }

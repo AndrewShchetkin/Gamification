@@ -1,17 +1,19 @@
-import { Box, DialogContent, DialogTitle, TextField, DialogActions, Button } from '@mui/material'
 import axios from 'axios';
 import React from 'react'
 import { useAppDispatch } from '../../store/hooks';
 import { setTeamId } from '../../store/reducers/auth/authSlice';
+import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
+import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput';
+import classes from "./CreateTeamForm.module.scss"
 
 interface Props {
     closeForm: () => void;
- }
+}
 
 function CreateTeamForm(props: Props) {
     const { closeForm } = props
     const dispatch = useAppDispatch();
-    
+
     // Обработчик создания команды
     const handleCreateFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -32,36 +34,53 @@ function CreateTeamForm(props: Props) {
     }
 
     return (
-        <Box component="form" onSubmit={handleCreateFormSubmit}>
-            <DialogTitle>Создать команду</DialogTitle>
-            <DialogContent>
-                <TextField
-                    autoFocus
-                    autoComplete='off'
+        <form
+            onSubmit={handleCreateFormSubmit}>
+            <div className={classes.formContent}>
+                <p>Создать команду</p>
+                <CustomInput 
                     name="teamName"
-                    margin="normal"
-                    id="teamName"
-                    label="Введите название команды"
-                    type="text"
-                    fullWidth
-                    variant="outlined"
                 />
-                <TextField
-                    autoComplete='off'
-                    name="teamPassword"
-                    margin="normal"
-                    id="teamName"
-                    label="Введите пароль"
+                <CustomInput
                     type="password"
-                    fullWidth
-                    variant="outlined"
+                    name="teamPassword"
                 />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={closeForm}>Отмена</Button>
-                <Button type="submit">Подтвердить</Button>
-            </DialogActions>
-        </Box>
+            </div>
+            <div className={classes.formBtnGroup}>
+                <CustomButton type="submit">Подтвердить</CustomButton>
+                <CustomButton onClick={closeForm} >Отмена</CustomButton>
+            </div>
+        </form>
+        // <Box component="form" onSubmit={handleCreateFormSubmit}>
+        //     <DialogTitle>Создать команду</DialogTitle>
+        //     <DialogContent>
+        //         <TextField
+        //             autoFocus
+        //             autoComplete='off'
+        //             name="teamName"
+        //             margin="normal"
+        //             id="teamName"
+        //             label="Введите название команды"
+        //             type="text"
+        //             fullWidth
+        //             variant="outlined"
+        //         />
+        //         <TextField
+        //             autoComplete='off'
+        //             name="teamPassword"
+        //             margin="normal"
+        //             id="teamName"
+        //             label="Введите пароль"
+        //             type="password"
+        //             fullWidth
+        //             variant="outlined"
+        //         />
+        //     </DialogContent>
+        //     <DialogActions>
+        //         <Button onClick={closeForm}>Отмена</Button>
+        //         <Button type="submit">Подтвердить</Button>
+        //     </DialogActions>
+        // </Box>
     )
 }
 

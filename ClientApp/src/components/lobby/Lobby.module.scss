@@ -1,0 +1,70 @@
+@import "../../style/variables.scss";
+
+// Lobby.tsx
+.wrapper{
+    background-color: $backColor; 
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.header{
+    display: block;
+    margin-bottom: 10px;
+    flex: 0 0 10%;
+    background-color: $backColor;
+    color: $textColor;
+}
+
+.content{
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.footer {
+    height: 10%;
+    background-color: $backColor;
+    margin-top: 10px;
+}
+
+//LobbyWhenUserInTeam
+
+//LobbyWhenUserNotInTeam
+
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.chatBlock{
+    flex: 0 0 30%;
+    max-width: 30%;
+}
+
+.teamsBlock{
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    background-color: $backColor;
+    margin-left: 10px;
+}
+.teamsContent{
+    display: flex;
+    flex-grow: 10;
+    flex-direction: column;
+}
+.teamsList{
+    flex-grow: 10;
+    background-color: #fff;
+}
+.teamsFooter{
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-end;
+}

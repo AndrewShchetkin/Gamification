@@ -37,6 +37,15 @@ module.exports = {
                     // Compiles Sass to CSS
                     "sass-loader",
                 ],
+                // test: /\.s[ac]ss$/i,
+                // use: ['style-loader', {
+                //     loader: 'css-loader',
+                //     options: {
+                //         modules:{
+                //             localIdentName: "[name]"
+                //         }
+                //     }
+                // }, "sass-loader",]
             },
             {
                 test: /\.tsx?$/,

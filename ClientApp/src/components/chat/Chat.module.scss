@@ -1,10 +1,10 @@
+@import "../../style/variables.scss";
+
 .chatContent {
     display: flex;
     flex-direction: column;
     height: 100%;
-    border: 1px solid #0258d9;
-    border-radius: 5px;
-    
+    border: 1px solid $mycolor;
 }
 .messageContent {
     flex: 1 1 auto;
@@ -14,18 +14,26 @@
     flex: 0 0 15%;
     display: flex;
     align-items: center;
+    border-top: 1px solid $mycolor;
+    margin: 0px;
 }
 
 .chatTextArea { 
     flex: 1 1 auto;
     resize: none;
     margin: 5px;
-    border: 1px solid #0258d9;
-    border-radius: 5px;
-    height: 80%;
+    background-color: $backColor;
+    border: none;
+    height: 50%;
+    color: $textColor;
+    &::placeholder{
+        color: $textColor;
+    }
 }
 .chatTextArea:focus {
-    border: 3px solid #0258d9;
+    //border: 3px solid #0258d9;
+    border: none;
+    outline: none;
 }
 .sendMessageBtn {
     flex: 0 0 10%;
@@ -63,7 +71,7 @@
 }
 
 .messageRightAuthor{
-    color: #36cead;
+    color: $mycolor;
 }
 
 .messageRightText{
@@ -72,5 +80,27 @@
 
 .messageRightText p {
     margin: 0 0 0 5px;
+}
+
+.sendBtn{
+    background-image: url("/src/assets/sendIcon.svg");
+    background-size: 60%;
+    width: 50px;
+    height: 40px;
+    background-color: $mycolor;
+    border: 2px solid $mycolor;
+    border-radius: 50%;
+    outline: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    display: inline;
+    display: inline-block;
+    margin-right: 10px;
+
+    &:hover{
+        background-color: transparent;
+        border: 2px solid $mycolor;
+    }
 }
 

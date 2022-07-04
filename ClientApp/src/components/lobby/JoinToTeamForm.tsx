@@ -1,9 +1,11 @@
-import { Box, Button, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
 import { ITeam } from '../../@types/ITeam'
 import { useAppDispatch } from '../../store/hooks'
 import { setTeamId } from '../../store/reducers/auth/authSlice'
+import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton'
+import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput'
+import classes from "./JoinTeamForm.module.scss"
 
 interface Props {
     team: ITeam,
@@ -16,6 +18,7 @@ function JoinToTeamForm(props: Props) {
 
     // Обработчик присоединения к команде команды
     const handleJoinFormSubmit = async (event: React.FormEvent<HTMLFormElement>, teamId: number) => {
+        debugger;
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const body = {
@@ -33,25 +36,19 @@ function JoinToTeamForm(props: Props) {
 
         }
         return (
-            <Box component="form" onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleJoinFormSubmit(event, team.id)}>
-                <DialogTitle>Присоедениться к команде {team.teamName} </DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        name="teamPassword"
-                        margin="dense"
-                        id="teamName"
-                        label="Введите пароль команды"
-                        type="password"
-                        fullWidth
-                        variant="outlined"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={closeForm}>Отмена</Button>
-                    <Button type="submit">Подтвердить</Button>
-                </DialogActions>
-            </Box>
+            <form
+                onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleJoinFormSubmit(event, team.id)}>
+                <div className={classes.formContent}>
+                    <p>Присоедениться к команде</p>
+                    <CustomInput
+                    type="password"
+                    name="teamPassword"/>
+                </div>
+                <div className={classes.formBtnGroup}>
+                    <CustomButton type="submit">Подтвердить</CustomButton>
+                    <CustomButton onClick={closeForm} >Отмена</CustomButton>
+                </div>
+            </form>
         )
 }
 

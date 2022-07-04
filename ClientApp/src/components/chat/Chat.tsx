@@ -6,7 +6,7 @@ import ChatService from '../../services/ChatService';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {CustomButton} from '../shared/components/UI/CustomButton/CustomButton';
 import { MessageLeft, MessageRight } from './Message';
-import classes from './Chat.module.css';
+import classes from './Chat.module.scss';
 
 export interface ChatMessage { 
      author: string,
@@ -105,11 +105,11 @@ function Chat(props: Props) {
                     onChange={handleTextAreaChange}
                     value={message}
                     placeholder="Введите сообщение..."/>
-                <CustomButton 
+                <div className={classes.sendBtn} 
                     style={{flex: '0 0 10%'}}
                     onClick={sendMessage}
-                >Отправить
-                </CustomButton>
+                >
+                </div>
             </div>
         </div>
     )

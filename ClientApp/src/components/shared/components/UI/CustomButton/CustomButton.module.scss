@@ -1,0 +1,26 @@
+@import "../../../../../style/variables.scss";
+
+.customBtn{
+    color: $textColor;
+    background-color: $mycolor;
+    border: none;
+    padding: 7px 15px;
+    //border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    /* padding: 5px 15px;
+    color: #fff;
+    font-size: 14px;
+    background: #0258d9;
+    border: 2px solid;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 5px;
+    height: 60%; */
+
+    &:hover{
+        background-color: transparent;
+        border: 2px solid $mycolor;
+        padding: 5px 13px;
+    }
+}

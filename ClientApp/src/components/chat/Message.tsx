@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './Chat.module.css';
+import classes from './Chat.module.scss';
 
 interface Props {
     message: string,

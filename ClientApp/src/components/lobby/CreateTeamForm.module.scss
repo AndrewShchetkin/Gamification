@@ -1,0 +1,18 @@
+@import "../../style/variables.scss";
+
+.formContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    p {
+        color: $textColor
+    }
+}
+
+.formBtnGroup{
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
