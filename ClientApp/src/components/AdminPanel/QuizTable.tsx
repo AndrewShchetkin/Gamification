@@ -4,7 +4,7 @@ import classes from './styles/QuizTable.module.css';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import axios, { AxiosError } from 'axios';
 
-const QUIZZES_PER_PAGE = 3;
+const QUIZZES_PER_PAGE = 1;
 
 function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => void}) {
 
@@ -31,10 +31,6 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
         if (!pageQuizzes.length)
             setCurrPage(currPage-1);
     }, [pageQuizzes])
-
-    const switchPage = (e: any) => {
-        setCurrPage(e.target.id);
-    }
 
     const onDelete = async (quiz: IQuiz) => {
 
@@ -63,17 +59,18 @@ function QuizTable({quizList, deleteQuiz}:{quizList:IQuiz[], deleteQuiz: () => v
         
         <div>
             <ul className={classes.paginationList}>
-                {pageNumbers.map(number => {
-                    return (
+                {pageNumbers.map(number => 
                     <li
-                    className= {classes.paginationListItem}
+                    className= {currPage === number ?
+                         `${classes.paginationListItem} ${classes.extend}`
+                     : classes.paginationListItem}
                     key={number}
                     id={`${number}`}
-                    onClick={switchPage}
+                    onClick={() => setCurrPage(number)}
                     >
                     {number}
                     </li>
-                )})}
+                )}
             </ul>
 
             <table className={classes.customTable}>
