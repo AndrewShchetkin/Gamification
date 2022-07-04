@@ -7,11 +7,12 @@
 .paginationListItem {
     margin-right: 10px;
     cursor: pointer;
-    border: 1px solid lightblue;
     padding: 5px;
     
 }
 
 .extend {
-    border: 1px solid red;
+    border: none;
+    font-weight: 700;
+    border-bottom: 2px solid blue;
 }
