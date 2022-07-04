@@ -27,7 +27,7 @@ namespace Gamification.Data
         }
         public async Task<List<Answer>> GetAllAnswersByQuestion(Question question)
         {
-            var answers = await (from a in db.Answers where a.Question == question select a).ToListAsync();
+            var answers = await (from a in db.Answers where a.Question.QuestionId == question.QuestionId select a).ToListAsync();
             return answers;
         }
     }

@@ -129,6 +129,7 @@ namespace Gamification
 
                 endpoints.MapHub<MapHub>("/hubs/map");
                 endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHub<QuizHub>("/quizHub");
 
                 endpoints.MapControllerRoute( // еще надо уточнить какая будет маршрутизация 
                     name: "default",

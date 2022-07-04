@@ -1,10 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import QuestionBox from './QuestionsBox'
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 
 export default function Quiz() {
     const userName = useAppSelector(state => state.authReduser.userName)
+    const teamId = useAppSelector(state => state.authReduser.teamId)
     return (
         <Box
             sx={{
@@ -38,8 +40,7 @@ export default function Quiz() {
                     <Link to='/game2'>game2</Link>
                 </Box>
                 <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main', textAlign: 'center', gridRow: '3/12' }}>
-                    тут происходит основной кипиш с вопросами,
-                    Предлагаю вынести в отдельный компонент
+                    <QuestionBox teamName={teamId}/>
                 </Box>
                 <Box sx={{ gridArea: 'sidebar', bgcolor: 'info.main', textAlign: 'center', gridRow: '3/12' }}>
                     <ul>

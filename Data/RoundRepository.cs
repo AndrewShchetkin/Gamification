@@ -29,5 +29,15 @@ namespace Gamification.Data
         {
             return await db.Rounds.ToListAsync();
         }
+        public async Task<Round> GetCurrentRoundByTeamName(string teamName)
+        {
+            var round = await db.Rounds.SingleOrDefaultAsync((r)=> r.Team.TeamName == teamName && r.EndTime.Year == DateTime.Parse("0001-01-01").Year);
+            return round;
+        }
+        public async Task UpdataEndDate(Round round, DateTime dateTime)
+        {
+            round.EndTime = dateTime;
+            await db.SaveChangesAsync();
+        }
     }
 }
