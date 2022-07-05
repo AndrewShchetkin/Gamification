@@ -1,0 +1,134 @@
+@import "../../style/variables.scss";
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.tabBlock{
+    display: flex;
+    flex: 0 0 30px;
+}
+
+.contentBlock {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.quizBlock{
+    display: flex;
+    flex: 0 0 40%;
+    background-color: chocolate;
+}
+
+.teamBlock{
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+
+.teamInfoBlock{
+    border: 5px solid $textColor;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 550px;
+    max-width: 650px;
+    margin: 30px 0px 20px 0px;
+
+    p{
+        margin: 10px 0px;
+    }
+}
+
+// .userItems{
+// }
+.userItem {
+    display: flex;
+
+}
+
+.userOnline{
+    color: green
+}
+
+.userOffline{
+    color: red;
+}
+
+.userName{
+    border: 1px solid white;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    width: 300px;
+    max-width: 300px;
+}
+
+.userItemReadyButton{
+    border: 1px solid white;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #97ea97;
+    color: $textColor;
+    width: 85px;
+    max-width: 85px;
+
+    &:disabled{
+        cursor: default;
+        &:hover{
+            background-color: #97ea97;
+        }
+    }
+    
+    &:hover{
+        background-color: #73bb73
+    }
+}
+.userItemNotReadyButton{
+    border: 1px solid white;
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: $backColor;
+    color: $textColor;
+    width: 85px;
+    max-width: 85px;
+}
+
+.chatBtn{
+    position: fixed;
+    right: 30px;
+    bottom: 10px;
+    transform: translateY(-50%);
+    padding: 5px 15px;
+    color: $textColor;
+    border: 1px solid $textColor;
+    background-color: $mycolor;
+    cursor: pointer;
+
+    &:hover{
+        background-color: #083a2d;
+    }
+}
+
+.chatModal{
+    position: fixed;
+    width: 450px;
+    height: 520px;
+    background-color: $backColor;
+    right: 150px;
+    bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatTabBlock{
+    display: flex;
+    flex: 0 0 30px;
+}
+
+// .chatModalContent{
+//     display: flex;
+//     flex: 1 1 auto;
+// }

@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import ReusedList from '../shared/components/ReusedList';
-import UserItem from './UserItem';
-import { IUser } from '../../@types/IUser';
-import { ITeam } from '../../@types/ITeam';
+import ReusedList from '../../shared/components/ReusedList';
+import UserItem from '../UserItem/UserItem';
+import { IUser } from '../../../@types/IUser';
+import { ITeam } from '../../../@types/ITeam';
 import classes from './TeamItem.module.scss'
 
 interface ITeamProps {

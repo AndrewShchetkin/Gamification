@@ -4,14 +4,14 @@ import { IError } from '../../@types/IError';
 import { ITeam } from '../../@types/ITeam';
 import Chat from '../chat/Chat';
 import ReusedList from '../shared/components/ReusedList';
-import CreateTeamForm from './CreateTeamForm';
-import JoinToTeamForm from './JoinToTeamForm';
-import TeamItem from './TeamItem';
-import classes from './Lobby.module.scss'
+import CreateTeamForm from './CreateTeamForm/CreateTeamForm';
+import JoinToTeamForm from './JoinTeamForm/JoinToTeamForm';
+import TeamItem from './TeamItem/TeamItem';
+import classes from './LobbyWhenUserNotInTeam.module.scss'
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import CustomModal from '../shared/components/UI/CustomModal/CustomModal';
 
-function TeamsInfoWhenUserNotInTeam() {
+function LobbyWhenUserNotInTeam() {
     const [selectedTeam, setSelectedTeam] = useState<ITeam>({ id: 0, teamName: '', users: [] })
     const [openCreateTeamForm, setOpenCreateTeamForm] = useState<boolean>(false);
     const [openJoinTeamForm, setOpenJoinTeamForm] = useState<boolean>(false);
@@ -23,12 +23,7 @@ function TeamsInfoWhenUserNotInTeam() {
     async function fetchTeams() {
         try {
             const response = await axios.get<ITeam[]>('api/team/getallteams')
-            // const response: ITeam[] = [
-            //     {id: 123141 , teamName: "Team1", users: [ { id: 'sdf', userName: 'User1', teamId: "1"}, { id: 'sdfa', userName: 'User2', teamId: "1"}]},
-            //     {id: 2141241 , teamName: "Team2", users: [ { id: 'sdf', userName: 'User1', teamId: "2"}]}
-            // ]
             setTeams(response.data);
-            //setTeams(response)
         }
         catch (e) {
             console.log(e);
@@ -226,4 +221,4 @@ function TeamsInfoWhenUserNotInTeam() {
     )
 }
 
-export default TeamsInfoWhenUserNotInTeam
+export default LobbyWhenUserNotInTeam

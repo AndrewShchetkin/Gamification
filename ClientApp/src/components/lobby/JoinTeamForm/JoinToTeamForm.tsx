@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React from 'react'
-import { ITeam } from '../../@types/ITeam'
-import { useAppDispatch } from '../../store/hooks'
-import { setTeamId } from '../../store/reducers/auth/authSlice'
-import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton'
-import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput'
+import { ITeam } from '../../../@types/ITeam'
+import { useAppDispatch } from '../../../store/hooks'
+import { setTeamId } from '../../../store/reducers/auth/authSlice'
+import { CustomButton } from '../../shared/components/UI/CustomButton/CustomButton'
+import { CustomInput } from '../../shared/components/UI/CustomInput/CustomInput'
 import classes from "./JoinTeamForm.module.scss"
 
 interface Props {

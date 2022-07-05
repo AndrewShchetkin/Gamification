@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from "./Tabs.module.css";
+import classes from "./Tabs.module.scss";
 
 interface Props<T> {
     tabs: ITab[],
@@ -12,14 +12,17 @@ export interface ITab {
     header: string
 }
 function Tabs<T>(props: Props<T>) {
+
     const {tabs, selectedTab , onClick} = props
+    const widthInPersent: string = (100/tabs.length).toString() + "%";
+
 
     return (
         <div className={classes.tabs}>
             {tabs && tabs.map(tab =>
-            <div className={classes.tab} key={tab.id} onClick={() => onClick(tab.id)}>
+            <div className={classes.tab} key={tab.id} onClick={() => onClick(tab.id)} style={{width: widthInPersent}}>
                 <div className={selectedTab == tab.id ? classes.active_header : classes.header }>
-                    {tab.header}
+                   <p>{tab.header}</p> 
                 </div>
             </div>
             )}

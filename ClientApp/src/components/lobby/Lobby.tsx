@@ -1,9 +1,8 @@
 import React, {} from "react";
 import { useAppSelector } from '../../store/hooks';
 import Chat from '../chat/Chat';
-import TeamsInfoWhenUserInTeam from './TeamsInfoWhenUserInTeam';
-import TeamsInfoWhenUserNotInTeam from './TeamsInfoWhenUserNotInTeam';
-import { Temp } from "../temp";
+import LobbyWhenUserInTeam from './LobbyWhenUserInTeam';
+import LobbyWhenUserNotInTeam from './LobbyWhenUserNotInTeam';
 import classes from './Lobby.module.scss'
 
 
@@ -15,7 +14,7 @@ function Lobby() {
         <div className={classes.container}>
             <div className={classes.header}>header content</div>
             <div className={classes.content}>
-                {teamId ? <TeamsInfoWhenUserInTeam teamId={teamId} /> : <TeamsInfoWhenUserNotInTeam />}
+                 {teamId ? <LobbyWhenUserInTeam teamId={teamId} /> : <LobbyWhenUserNotInTeam />}
             </div>
             <div className={classes.footer}>footer content</div>
         </div>

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React from 'react'
-import { useAppDispatch } from '../../store/hooks';
-import { setTeamId } from '../../store/reducers/auth/authSlice';
-import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
-import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput';
+import { useAppDispatch } from '../../../store/hooks';
+import { setTeamId } from '../../../store/reducers/auth/authSlice';
+import { CustomButton } from '../../shared/components/UI/CustomButton/CustomButton';
+import { CustomInput } from '../../shared/components/UI/CustomInput/CustomInput';
 import classes from "./CreateTeamForm.module.scss"
 
 interface Props {
