@@ -2,7 +2,7 @@ import * as signalR from '@microsoft/signalr';
 import { Console } from 'console';
 import * as quizeDto from './../components/quiz/quizeDto'
 export default class QuizService {
-    static async openQuizConnection(teamId: string, handleConnection: (connection: signalR.HubConnection) => void,handleQuestion :(question: quizeDto.Question)=> void)
+    static async openQuizConnection(teamId: string, handleConnection: (connection: signalR.HubConnection) => void,handleQuestion :(question: quizeDto.Question)=> void, stopTimer: () => void)
     {
         const connection = new signalR.HubConnectionBuilder()
         .withUrl("/quizHub")
@@ -14,6 +14,7 @@ export default class QuizService {
         connection.on("RoundEnded", ()=>{
             connection.invoke("RoundOver", teamId);
             console.log("RoundOver");
+            stopTimer();
         })
 
         connection.on("NewQuestion", (question)=>{

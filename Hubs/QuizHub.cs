@@ -85,19 +85,20 @@ namespace Gamification.Hubs
         {
             var timer = (CustomTimer)sender;
             IClientProxy hubClients = timer.hubCallerClients;
-            string teamId = timer.team.Id.ToString();
-            Question question = timer.questions[timer.currentQuiestion];
-            await hubClients.SendAsync("NewQuestion", new
+            
+            if (timer.questions.Count > timer.currentQuiestion)
             {
-                text = question.QuestionText,
-                answers = timer.answers[timer.currentQuiestion].Select((answer) => new
+                string teamId = timer.team.Id.ToString();
+                Question question = timer.questions[timer.currentQuiestion];
+                await hubClients.SendAsync("NewQuestion", new
                 {
-                    id = answer.AnswerId,
-                    text = answer.AnswerText,
-                })
-            });
-            if (timer.questions.Count > timer.currentQuiestion + 1)
-            {
+                    text = question.QuestionText,
+                    answers = timer.answers[timer.currentQuiestion].Select((answer) => new
+                    {
+                        id = answer.AnswerId,
+                        text = answer.AnswerText,
+                    })
+                });
                 timer.currentQuiestion++;
             }
             else
@@ -113,9 +114,10 @@ namespace Gamification.Hubs
             Answer answer = await _answerRepository.GetAnswerById(Guid.Parse(answerId));
             await _userAnswerRepository.Create(new UserAnswer { UserAnswerId = Guid.NewGuid(), Answer = answer, User = user, AnswerDate = DateTime.UtcNow });
         }
-        public async void TeamAnswer() //выбор ответа команды
+        public async void TeamAnswer(Team team, Round round) //выбор ответа команды
         {
-
+            //List<User> teamUsers = team.Users;
+            //List<UserAnswer> asnwersOfUsersInTeam = await _userAnswerRepository.GetAllUserAnswersByUser(teamUsers[0]);
         }
         public async Task RoundOver(string teamId)//запись времени конца раунда
         {
@@ -126,10 +128,10 @@ namespace Gamification.Hubs
             {
                 await _roundRepository.UpdataEndDate(round, DateTime.UtcNow);
             }
+            TeamAnswer(team, round);
         }
         public override Task OnDisconnectedAsync(Exception exception)
         {
-
             return base.OnDisconnectedAsync(exception);
         }
     }

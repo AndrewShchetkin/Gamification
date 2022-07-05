@@ -9,12 +9,20 @@ export default function QuestionBox(){
     const [question, setQuestion] = useState<quizeDto.Question>();
     const [connection, setConnection] = useState<signalR.HubConnection>();
     const [asnwerId, setAnswerId] = useState<string | undefined>('');
+    const [time, setNewTime] = useState<number>(30);
+
+    useEffect(() => {
+        setNewTime(30);
+    }, [question])
 
     useEffect(() => {
         sendAnswer(uuserName, asnwerId);
     }, [asnwerId])
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            setNewTime(time => time - 1);
+        }, 1000);
         function handleConnection(connection: signalR.HubConnection ){
             setConnection(connection);
         }
@@ -22,7 +30,10 @@ export default function QuestionBox(){
             setQuestion(question);
             console.log("NewQuestion");
         }
-        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion);
+        function stopTimer(){
+            clearInterval(interval);
+        }
+        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion, stopTimer);
     }, [])
     
     const sendAnswer = async(userName?:string, asnwerId?: string) =>{
@@ -38,6 +49,7 @@ export default function QuestionBox(){
 
     return(
         <div>
+            <div>time left: {time} seconds</div>
             <div>
                 {question?.text}
             </div>
