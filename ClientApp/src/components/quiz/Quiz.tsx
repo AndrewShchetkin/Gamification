@@ -6,7 +6,6 @@ import { useAppSelector } from '../../store/hooks';
 
 export default function Quiz() {
     const userName = useAppSelector(state => state.authReduser.userName)
-    const teamId = useAppSelector(state => state.authReduser.teamId)
     return (
         <Box
             sx={{
@@ -40,7 +39,7 @@ export default function Quiz() {
                     <Link to='/game2'>game2</Link>
                 </Box>
                 <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main', textAlign: 'center', gridRow: '3/12' }}>
-                    <QuestionBox teamName={teamId}/>
+                    <QuestionBox/>
                 </Box>
                 <Box sx={{ gridArea: 'sidebar', bgcolor: 'info.main', textAlign: 'center', gridRow: '3/12' }}>
                     <ul>

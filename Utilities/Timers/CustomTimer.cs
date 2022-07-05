@@ -13,8 +13,8 @@ namespace Gamification.Utilities.Timers
 {
     public class CustomTimer : Timer
     {
+        public Team team;
         public HubCallerContext callerContext { get; set; }
-        public string team;
         public List<Question> questions;
         public List<List<Answer>> answers;
         public int currentQuiestion = 0;

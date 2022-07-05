@@ -21,10 +21,6 @@ export default class ChatService {
             handleMessage(ChatMessage)
         });
 
-        connection.on("RoundEnded", () => {
-            connection.stop();
-        })
-
         handleConnection(connection);
     }
 

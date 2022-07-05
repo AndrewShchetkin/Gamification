@@ -48,30 +48,31 @@ namespace Gamification.Hubs
             if (round == null)
             {
                 Quiz quiz = (await _quizRepository.GetAllQuizzes())[0]; //Временный вариант
-                await _roundRepository.Create(new Round { RoundId = Guid.NewGuid(), Quiz = quiz, StartTime = DateTime.Now, Team = team});
+                await _roundRepository.Create(new Round { RoundId = Guid.NewGuid(), Quiz = quiz, StartTime = DateTime.UtcNow, Team = team});
             }
             
             await Groups.AddToGroupAsync(Context.ConnectionId, teamId);
 
-            CustomTimer temp = CustomTimer.Timers.GetValueOrDefault(teamId);
-            if (temp != null && temp.Enabled)
+            CustomTimer teamTimer = CustomTimer.Timers.GetValueOrDefault(teamId, null);
+            if (teamTimer != null && teamTimer.Enabled)
             {
-                temp.hubCallerClients = Clients.Group(teamId);
+                teamTimer.hubCallerClients = Clients.Group(teamId);
             }
         }
         public async Task RoundStart(string teamId) //будет запускаться таймер
         {
-            CustomTimer temp = CustomTimer.Timers.GetValueOrDefault(teamId, null);
-            if(temp == null || !temp.Enabled)
+            Team team = await _teamRepository.GetTeamById(Guid.Parse(teamId));
+            CustomTimer teamTimer = CustomTimer.Timers.GetValueOrDefault(teamId, null);
+            if(teamTimer == null || !teamTimer.Enabled)
             {
                 timer = new CustomTimer(30000);
                 timer.callerContext = Context;
-                timer.team = teamId;
-                timer.Elapsed += aTimer_Elapsed;
+                timer.Elapsed += NewQuestion;
                 timer.Interval = 30000;
                 timer.questions = await _questionRepository.GetAllQuestionsByQuiz(_quizRepository.GetAllQuizzes().Result[0]);
                 timer.answers = new List<List<Answer>>();
                 timer.hubCallerClients = Clients.Group(teamId);
+                timer.team = team;
                 foreach (Question q in timer.questions)
                 {
                     timer.answers.Add(await _answerRepository.GetAllAnswersByQuestion(q));
@@ -80,21 +81,12 @@ namespace Gamification.Hubs
                 timer = CustomTimer.Timers.GetOrAdd(teamId, timer);
             }
         }
-        async static void aTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) //отправка новых вопросов на фронт
+        async static void NewQuestion(object sender, System.Timers.ElapsedEventArgs e) //отправка новых вопросов на фронт
         {
             var timer = (CustomTimer)sender;
             IClientProxy hubClients = timer.hubCallerClients;
-            string teamId = timer.team;
+            string teamId = timer.team.Id.ToString();
             Question question = timer.questions[timer.currentQuiestion];
-            if(timer.questions.Count > timer.currentQuiestion + 1)
-            {
-                timer.currentQuiestion++;
-            }
-            else
-            {
-                timer.Elapsed -= aTimer_Elapsed;
-                timer.Enabled = false;
-            }
             await hubClients.SendAsync("NewQuestion", new
             {
                 text = question.QuestionText,
@@ -104,23 +96,36 @@ namespace Gamification.Hubs
                     text = answer.AnswerText,
                 })
             });
+            if (timer.questions.Count > timer.currentQuiestion + 1)
+            {
+                timer.currentQuiestion++;
+            }
+            else
+            {
+                timer.Elapsed -= NewQuestion;
+                timer.Enabled = false;
+                await hubClients.SendAsync("RoundEnded");
+            }
         }
         public async Task NewUserAnswer(string userName, string answerId) //получение ответов пользователей
         {
             User user = _userRepository.GetUserByUserName(userName);
             Answer answer = await _answerRepository.GetAnswerById(Guid.Parse(answerId));
-            await _userAnswerRepository.Create(new UserAnswer { UserAnswerId = Guid.NewGuid(), Answer = answer, User = user, AnswerDate = DateTime.Now });
+            await _userAnswerRepository.Create(new UserAnswer { UserAnswerId = Guid.NewGuid(), Answer = answer, User = user, AnswerDate = DateTime.UtcNow });
         }
         public async void TeamAnswer() //выбор ответа команды
         {
 
         }
-        public async Task RoundOver(IClientProxy hubClients, string teamId)
+        public async Task RoundOver(string teamId)//запись времени конца раунда
         {
             Team team = await _teamRepository.GetTeamById(Guid.Parse(teamId));
             Round round = await _roundRepository.GetCurrentRoundByTeamName(team.TeamName);
-            await _roundRepository.UpdataEndDate(round, DateTime.Now);
-            await hubClients.SendAsync("RoundEnded");
+            
+            if (round != null)
+            {
+                await _roundRepository.UpdataEndDate(round, DateTime.UtcNow);
+            }
         }
         public override Task OnDisconnectedAsync(Exception exception)
         {

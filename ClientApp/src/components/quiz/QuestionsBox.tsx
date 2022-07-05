@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react'
 import QuizService from '../../services/QuizService';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
-interface Props{
-    teamName: string
-}
-
-export default function QuestionBox(props: Props){
-    const userName = useAppSelector(state => state.authReduser.userName);
+export default function QuestionBox(){
+    const teamId = useAppSelector(state => state.authReduser.teamId);
+    const uuserName = useAppSelector(state => state.authReduser.userName);
     const [question, setQuestion] = useState<quizeDto.Question>();
     const [connection, setConnection] = useState<signalR.HubConnection>();
+    const [asnwerId, setAnswerId] = useState<string | undefined>('');
+
+    useEffect(() => {
+        sendAnswer(uuserName, asnwerId);
+    }, [asnwerId])
 
     useEffect(() => {
         function handleConnection(connection: signalR.HubConnection ){
@@ -20,31 +22,39 @@ export default function QuestionBox(props: Props){
             setQuestion(question);
             console.log("NewQuestion");
         }
-        QuizService.openQuizConnection(props.teamName, handleConnection, handleQuestion);
-        
+        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion);
     }, [])
+    
+    const sendAnswer = async(userName?:string, asnwerId?: string) =>{
+        QuizService.sendAnswer(connection, userName, asnwerId);
+    }
+
     useEffect(() => {
-        QuizService.roundStart(connection, props.teamName) //временное решение
-        function cleanup(){
+        // при размонтировании компонента будет закрываться соединение
+        return function cleanup(){
             QuizService.closeConnection(connection);
         }
-    }, [connection])
+     }, [connection])
 
     return(
         <div>
             <div>
                 {question?.text}
             </div>
-            <button>
+            <button
+            onClick={() => setAnswerId(question?.answers[0].id.toString())}>
                 {question?.answers[0].text}
             </button>
-            <button>
+            <button
+            onClick={() => setAnswerId(question?.answers[1].id.toString())}>
                 {question?.answers[1].text}
             </button>
-            <button>
+            <button
+             onClick={() => setAnswerId(question?.answers[2].id.toString())}>
                 {question?.answers[2].text}
             </button>
-            <button>
+            <button
+            onClick={() => setAnswerId(question?.answers[3].id.toString())}>
                 {question?.answers[3].text}
             </button>
         </div>
