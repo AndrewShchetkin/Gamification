@@ -6,6 +6,9 @@ import QuizUploadForm from './QuizUploadForm';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import axios, { AxiosError } from 'axios';
 import classes from './styles/Body.module.css';
+import { DatesService } from '../../services/DatesService';
+
+
 
 function AdminPanelBody() {
 
@@ -15,7 +18,13 @@ function AdminPanelBody() {
     const getAllQuizzes = async () => {
         try {
             const response = await axios.get<IQuiz[]>('api/quiz');
-            await setQuizList(response.data);
+            await setQuizList(response.data.map((quiz) => {
+                const newDateBegin = DatesService.convertUTCDateToLocalDate(new Date(quiz.dateBegin)).toLocaleString();
+                const newDateEnd = DatesService.convertUTCDateToLocalDate(new Date(quiz.dateEnd)).toLocaleString();
+
+                return {...quiz, dateBegin: newDateBegin,
+                    dateEnd: newDateEnd}
+            }));
         }
         catch(error) {
             alert((error as AxiosError).message);

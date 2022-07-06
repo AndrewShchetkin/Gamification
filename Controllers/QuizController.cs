@@ -48,11 +48,12 @@ namespace Gamification.Controllers
             if (excel == null || quizName == null || dateBegin == default(DateTime) || dateEnd == default(DateTime))
                 return BadRequest(new { error = "Один из параметров запроса не передан!" });
 
+
             Quiz quiz = new Quiz {
 
                 QuizName = quizName,
-                QuizStartTime= dateBegin,
-                QuizFinishTime = dateEnd
+                QuizStartTime= TimeZoneInfo.ConvertTimeToUtc(dateBegin),
+                QuizFinishTime = TimeZoneInfo.ConvertTimeToUtc(dateEnd)
             };
             
             ExcelParser excelParser = new ExcelParser(excel, quiz);
