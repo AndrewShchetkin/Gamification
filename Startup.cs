@@ -17,6 +17,7 @@ using Gamification.Mapping;
 using FluentValidation.AspNetCore;
 using Gamification.Filters;
 using Gamification.Data.Interfaces;
+using Gamification.Services;
 
 namespace Gamification
 {
@@ -50,6 +51,8 @@ namespace Gamification
 
             services.AddScoped<IMapRepository, MapRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+
+            services.AddSingleton<QuizService>();
 
             services.AddMvc(options => 
             {
