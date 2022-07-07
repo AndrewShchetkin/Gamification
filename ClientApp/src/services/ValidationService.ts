@@ -28,10 +28,15 @@ export class Validator {
         else {
             const dateBeginDate:string = new Date(dateBegin).toLocaleDateString();
             const dateEndDate:string = new Date(dateEnd).toLocaleDateString();
-            if (todayDate !== dateBeginDate)
+
+            if (todayDate !== dateBeginDate) {
+                success = false;
                 errors.dateBegin = `Выберите сегодняшнюю дату (${todayDate})`;
-            if (todayDate !== dateEndDate)
+            }
+            if (todayDate !== dateEndDate) {
+                success = false;
                 errors.dateEnd = `Выберите сегодняшнюю дату (${todayDate})`;
+            }
         }
         if (isNaN(dateBegin)) {
             success = false;
