@@ -40,12 +40,18 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     const body = {
       UserName: data.get('email'),
       Password: data.get('password'),
     };
-
-    await axios.post("api/auth/register", body)
+    console.log(body)
+    await axios.post("api/auth/register", JSON.stringify(body),{
+      headers: {
+        // Overwrite Axios's automatically set Content-Type
+        'Content-Type': 'application/json'
+      }
+    })
       .then((response) => {
         if (response.status === 201) {
           setRedirectToReferrer(true);

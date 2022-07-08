@@ -10,22 +10,26 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Gamification.Models.Errors;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gamification.Controllers
 {
     [Route(template: "api/auth")]
     [ApiController]
-    [Authorize]
     public class AuthController : ControllerBase
     {
        private readonly IUserRepository _userRepository;
-       public AuthController(IUserRepository userRepository)
+        private readonly ApplicationContext _context;
+       public AuthController(IUserRepository userRepository, ApplicationContext context)
         {
             _userRepository = userRepository;
+            _context = context;
         }
 
-        [AllowAnonymous]
+
         [HttpPost(template: "register")]
+        
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserRegisterDto userDto)
         {
             var user = _userRepository.GetUserByUserName(userDto.UserName);
@@ -41,15 +45,21 @@ namespace Gamification.Controllers
                 errorResponse.Errors.Add(error);
                 return BadRequest(errorResponse);
             }
-            var newUser = new User
-            {
-                UserName = userDto.UserName,
-                Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password)
-            };
-            return Created("success", await _userRepository.Create(newUser));
+
+            user = new User { UserName = userDto.UserName,Password = BCrypt.Net.BCrypt.HashPassword( userDto.Password) };
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+            if (userRole != null)
+                user.Role = userRole;
+
+            await _userRepository.Create(user);
+
+            await AuthenticateAsync(user);
+
+            return Created("success", user);
         }
-        [AllowAnonymous]
+        
         [HttpPost(template: "login")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserRegisterDto userDto)
         {
             var user = _userRepository.GetUserByUserName(userDto.UserName);
@@ -64,7 +74,7 @@ namespace Gamification.Controllers
                 return Unauthorized(new { message = "Invalid Credentials" });
             }
 
-            await AuthenticateAsync(userDto.UserName);
+            await AuthenticateAsync(user);
 
             return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId});
         }
@@ -75,7 +85,7 @@ namespace Gamification.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        [AllowAnonymous]
+        
         [HttpGet(template: "user")]
         public IActionResult GetUser()
         {
@@ -92,13 +102,18 @@ namespace Gamification.Controllers
         }
 
         // Helpers methods
-        private async Task AuthenticateAsync(string userName)
+        private async Task AuthenticateAsync(User user)
         {
+            // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType,userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }

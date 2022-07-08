@@ -9,6 +9,9 @@ namespace Gamification.Models
         public string Password { get; set; }
 
 
+        public Guid? RoleId { get; set; }
+        public Role Role { get; set; }
+
         public Guid? TeamId { get; set; }
         public Team Team { get; set; }
         public int Points { get; set; }

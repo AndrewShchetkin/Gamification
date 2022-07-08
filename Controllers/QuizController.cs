@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gamification.Controllers
 {
@@ -87,6 +88,7 @@ namespace Gamification.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> GetAllQuizzes()
         {
             var allQuizzes = await _quizRepository.GetAllQuizzes();
