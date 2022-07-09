@@ -62,11 +62,12 @@ namespace Gamification.Hubs
         }
         public async Task RoundStart(string teamId) //будет запускаться таймер
         {
-            Team team = await _teamRepository.GetTeamById(Guid.Parse(teamId));
-            Round round = await _roundRepository.GetCurrentRoundByTeamName(team.TeamName);
-            Quiz quiz = round.Quiz;
             if (!_quizService.teamTimers.ContainsKey(teamId))
             {
+                Team team = await _teamRepository.GetTeamById(Guid.Parse(teamId));
+                Round round = await _roundRepository.GetCurrentRoundByTeamName(team.TeamName);
+                //Quiz quiz = round.Quiz;
+                Quiz quiz = (await _quizRepository.GetAllQuizzes())[0];//временное решение аааааааааааааааааааааааааааааааааааааааа
                 List<Question> questions = await _questionRepository.GetAllQuestionsByQuiz(quiz);
                 List<List<Answer>> answers = new List<List<Answer>>();
                 foreach (Question question in questions)
@@ -97,33 +98,33 @@ namespace Gamification.Hubs
             Answer answer = await _answerRepository.GetAnswerById(Guid.Parse(answerId));
             await _userAnswerRepository.Create(new UserAnswer { UserAnswerId = Guid.NewGuid(), Answer = answer, User = user, AnswerDate = DateTime.UtcNow });
         }
-        public async void TeamAnswer(Team team, Round round) //выбор ответа команды
+        public static async void RoundOver(RoundOverEventArgs roundOverEventArgs) //выбор ответов комнады и запись времени конца раунда
         {
-            //List<User> teamUsers = team.Users;
-            //List<List<UserAnswer>> asnwersOfUsersInTeam = new List<List<UserAnswer>>();
-            //foreach(User user in teamUsers)
-            //{
-            //    asnwersOfUsersInTeam.Add(await _userAnswerRepository.GetAllUserAnswersByUser(user));
-            //}
+            ApplicationContext db = roundOverEventArgs.applicationContext;
+            string teamid = roundOverEventArgs.teamId;
+            Round round = db.Rounds.FirstOrDefault(r => r.Team.Id == Guid.Parse(teamid) && r.EndTime.Year == 1);
+            Team team = round.Team;
+            Quiz quiz = round.Quiz;
+            List<Question> questions = (from q in db.Qusestions where q.Quiz == quiz select q).ToList();
+            List<List<UserAnswer>> userAnswers = new List<List<UserAnswer>>();
+            foreach(Question question in questions)
+            {
+                userAnswers.Add((from ua in db.UserAnswers where ua.User.Team == team && ua.Answer.Question == question select ua).ToList());
+            }
 
-            //List<Question> questions = await _questionRepository.GetAllQuestionsByQuiz(round.Quiz);
-            //List<List<Answer>> answers = new List<List<Answer>>();
-            //foreach(Question question in questions)
-            //{
-            //    answers.Add(await _answerRepository.GetAllAnswersByQuestion(question));
-            //}
-            
-        }
-        public async Task RoundOver(string teamId)//запись времени конца раунда
-        {
-            Team team = await _teamRepository.GetTeamById(Guid.Parse(teamId));
-            Round round = await _roundRepository.GetCurrentRoundByTeamName(team.TeamName);
-            
+            foreach (List<UserAnswer> answers in userAnswers)
+            {
+                Answer ans = answers.GroupBy(a => a.Answer).OrderByDescending(g => g.Count()).First().Select(g => g.Answer).First();
+                db.TeamAnswers.Add(new TeamAnswer { Answer = ans, AnswerDate = DateTime.UtcNow, Team = team, TeamAnswerId = Guid.NewGuid() });
+                await db.SaveChangesAsync();
+            }
+
             if (round != null)
             {
-                await _roundRepository.UpdataEndDate(round, DateTime.UtcNow);
+                round.EndTime = DateTime.UtcNow;
+                await db.SaveChangesAsync();
             }
-            TeamAnswer(team, round);
+            
         }
         public override Task OnDisconnectedAsync(Exception exception)
         {

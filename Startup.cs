@@ -36,7 +36,7 @@ namespace Gamification
             
             services.AddCors();
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();

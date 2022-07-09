@@ -19,10 +19,12 @@ export default function QuestionBox(){
         sendAnswer(uuserName, asnwerId);
     }, [asnwerId])
 
+    useEffect(()=>{
+        if(time == -1)
+            stopTimer()
+    }, [time])
+
     useEffect(() => {
-        const interval = setInterval(() => {
-            setNewTime(time => time - 1);
-        }, 1000);
         function handleConnection(connection: signalR.HubConnection ){
             setConnection(connection);
         }
@@ -30,11 +32,19 @@ export default function QuestionBox(){
             setQuestion(question);
             console.log("NewQuestion");
         }
-        function stopTimer(){
-            clearInterval(interval);
-        }
-        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion, stopTimer);
+        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion);
     }, [])
+
+    let interval: NodeJS.Timer;
+    useEffect(()=>{
+        interval = setInterval(() => {
+            setNewTime(time => time - 1);
+        }, 1000);
+    }, [])
+
+    function stopTimer(){
+        clearInterval(interval);
+    }
     
     const sendAnswer = async(userName?:string, asnwerId?: string) =>{
         QuizService.sendAnswer(connection, userName, asnwerId);

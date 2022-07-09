@@ -6,30 +6,40 @@ using Gamification.Utilities.Timers;
 using Gamification.Models;
 using Microsoft.AspNetCore.SignalR;
 using Gamification.Hubs;
+using Gamification.Data.Interfaces;
+using Gamification.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gamification.Services
 {
     public delegate void QuizDelegate(QuizEventArgs eventArgs);
-    public delegate void RoundOverDelegate(string teamId);
+    public delegate void RoundOverDelegate(RoundOverEventArgs eventArgs);
+    
     public class QuizService
     {
         public event QuizDelegate SendNewQuestionNeeded;
         public event RoundOverDelegate RoundOver;
-
+        private readonly ApplicationContext db;
         public Dictionary<string, TeamTimer> teamTimers { get; set; }
         public Dictionary<string, List<Question>> teamQuestions { get; set; }
         public Dictionary<string, List<List<Answer>>> teamAnswers { get; set; }
         public Dictionary<string, IClientProxy> teamUsers { get; set; }
         public Dictionary<string, int> currentTeamQuestion { get; set; }
 
-        public QuizService()
+        public QuizService(ApplicationContext applicationContext)
         {
+            RoundOver += QuizHub.RoundOver;
             SendNewQuestionNeeded += QuizHub.NewQuestion;
             teamTimers = new Dictionary<string, TeamTimer>();
             teamQuestions = new Dictionary<string, List<Question>>();
             teamAnswers = new Dictionary<string, List<List<Answer>>>();
             teamUsers = new Dictionary<string, IClientProxy>();
             currentTeamQuestion = new Dictionary<string, int>();
+
+            db = applicationContext;
+
+            
         }
         
 
@@ -56,7 +66,7 @@ namespace Gamification.Services
         private void RoundOverHandler(object sender, EventArgs eventArgs)
         {
             TeamTimer teamTimer = (TeamTimer)sender;
-            RoundOver(teamTimer.teamId);
+            RoundOver(new RoundOverEventArgs { teamId = teamTimer.teamId, applicationContext = db});
             ClearRoundInformation(teamTimer.teamId);
         }
 
@@ -90,5 +100,10 @@ namespace Gamification.Services
         public List<Answer> answers;
         public int qurrentQuestion;
         public IClientProxy users;
+    }
+    public class RoundOverEventArgs : EventArgs
+    {
+        public string teamId;
+        public ApplicationContext applicationContext;
     }
 }
