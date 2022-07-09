@@ -46,12 +46,7 @@ export default function SignUp() {
       Password: data.get('password'),
     };
     console.log(body)
-    await axios.post("api/auth/register", JSON.stringify(body),{
-      headers: {
-        // Overwrite Axios's automatically set Content-Type
-        'Content-Type': 'application/json'
-      }
-    })
+    await axios.post("api/auth/register", body)
       .then((response) => {
         if (response.status === 201) {
           setRedirectToReferrer(true);

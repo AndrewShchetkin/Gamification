@@ -26,6 +26,7 @@ namespace Gamification.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles="admin")]
     public class QuizController : ControllerBase
     {
 
@@ -88,7 +89,6 @@ namespace Gamification.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> GetAllQuizzes()
         {
             var allQuizzes = await _quizRepository.GetAllQuizzes();

@@ -29,7 +29,7 @@ namespace Gamification.Models
             // добавляем роли
             Role adminRole = new Role { Id= Guid.NewGuid(),  Name = adminRoleName };
             Role userRole = new Role { Id = Guid.NewGuid(), Name = userRoleName };
-            User adminUser = new User { Id = Guid.NewGuid(), UserName = "admin", Password = BCrypt.Net.BCrypt.HashPassword(adminPassword), RoleId = adminRole.Id }; // тут Role = userRole
+            User adminUser = new User { Id = Guid.NewGuid(), UserName = "admin", Password = BCrypt.Net.BCrypt.HashPassword(adminPassword), RoleId=adminRole.Id }; // mb pomenyat na RoleId
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });

@@ -29,7 +29,7 @@ namespace Gamification.Controllers
 
         [HttpPost(template: "register")]
         
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Register(UserRegisterDto userDto)
         {
             var user = _userRepository.GetUserByUserName(userDto.UserName);
@@ -59,7 +59,6 @@ namespace Gamification.Controllers
         }
         
         [HttpPost(template: "login")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserRegisterDto userDto)
         {
             var user = _userRepository.GetUserByUserName(userDto.UserName);
@@ -104,11 +103,13 @@ namespace Gamification.Controllers
         // Helpers methods
         private async Task AuthenticateAsync(User user)
         {
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(role => role.Id == user.RoleId);
+
             // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole.Name)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
