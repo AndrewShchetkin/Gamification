@@ -8,23 +8,21 @@ export default function QuestionBox(){
     const uuserName = useAppSelector(state => state.authReduser.userName);
     const [question, setQuestion] = useState<quizeDto.Question>();
     const [connection, setConnection] = useState<signalR.HubConnection>();
-    const [asnwerId, setAnswerId] = useState<string | undefined>('');
+    const [asnwerId, setAnswerId] = useState<string | undefined>();
     const [time, setNewTime] = useState<number>(30);
 
     useEffect(() => {
         setNewTime(30);
+        if(asnwerId != undefined){
+            sendAnswer();
+            setAnswerId(undefined);
+        }
     }, [question])
 
     useEffect(() => {
-        sendAnswer(uuserName, asnwerId);
-    }, [asnwerId])
-
-    useEffect(()=>{
-        if(time == -1)
-            stopTimer()
-    }, [time])
-
-    useEffect(() => {
+        function stopTimer(){
+            clearInterval(interval);
+        }
         function handleConnection(connection: signalR.HubConnection ){
             setConnection(connection);
         }
@@ -32,23 +30,16 @@ export default function QuestionBox(){
             setQuestion(question);
             console.log("NewQuestion");
         }
-        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion);
-    }, [])
-
-    let interval: NodeJS.Timer;
-    useEffect(()=>{
-        interval = setInterval(() => {
+        const interval = setInterval(() => {
             setNewTime(time => time - 1);
         }, 1000);
+        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion, stopTimer, sendAnswer);
     }, [])
 
-    function stopTimer(){
-        clearInterval(interval);
+    const sendAnswer = async() =>{
+        QuizService.sendAnswer(connection, uuserName, asnwerId);
     }
-    
-    const sendAnswer = async(userName?:string, asnwerId?: string) =>{
-        QuizService.sendAnswer(connection, userName, asnwerId);
-    }
+
 
     useEffect(() => {
         // при размонтировании компонента будет закрываться соединение
@@ -72,7 +63,7 @@ export default function QuestionBox(){
                 {question?.answers[1].text}
             </button>
             <button
-             onClick={() => setAnswerId(question?.answers[2].id.toString())}>
+            onClick={() => setAnswerId(question?.answers[2].id.toString())}>
                 {question?.answers[2].text}
             </button>
             <button

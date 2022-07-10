@@ -66,7 +66,7 @@ namespace Gamification.Services
         private void RoundOverHandler(object sender, EventArgs eventArgs)
         {
             TeamTimer teamTimer = (TeamTimer)sender;
-            RoundOver(new RoundOverEventArgs { teamId = teamTimer.teamId, applicationContext = db});
+            RoundOver(new RoundOverEventArgs { teamId = teamTimer.teamId, applicationContext = db, users = teamUsers[teamTimer.teamId]});
             ClearRoundInformation(teamTimer.teamId);
         }
 
@@ -105,5 +105,6 @@ namespace Gamification.Services
     {
         public string teamId;
         public ApplicationContext applicationContext;
+        public IClientProxy users;
     }
 }

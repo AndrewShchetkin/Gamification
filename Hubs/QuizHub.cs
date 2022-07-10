@@ -124,7 +124,7 @@ namespace Gamification.Hubs
                 round.EndTime = DateTime.UtcNow;
                 await db.SaveChangesAsync();
             }
-            
+            await roundOverEventArgs.users.SendAsync("RoundOver");
         }
         public override Task OnDisconnectedAsync(Exception exception)
         {
