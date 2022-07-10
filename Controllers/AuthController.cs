@@ -28,8 +28,6 @@ namespace Gamification.Controllers
 
 
         [HttpPost(template: "register")]
-        
-        
         public async Task<IActionResult> Register(UserRegisterDto userDto)
         {
             var user = _userRepository.GetUserByUserName(userDto.UserName);
@@ -55,7 +53,8 @@ namespace Gamification.Controllers
 
             await AuthenticateAsync(user);
 
-            return Created("success", user);
+            return Created("success", new { msg = "ok!" }); 
+            // здесь в Created был объект user, но с ним 500 ошибка NewtonJson цикл
         }
         
         [HttpPost(template: "login")]

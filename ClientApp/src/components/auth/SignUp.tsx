@@ -45,7 +45,6 @@ export default function SignUp() {
       UserName: data.get('email'),
       Password: data.get('password'),
     };
-    console.log(body)
     await axios.post("api/auth/register", body)
       .then((response) => {
         if (response.status === 201) {
