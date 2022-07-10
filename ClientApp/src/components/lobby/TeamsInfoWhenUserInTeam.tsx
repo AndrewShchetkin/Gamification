@@ -23,7 +23,8 @@ function TeamsInfoWhenUserInTeam(props: Props) {
         users: [{
             id: "1",
             userName: '',
-            teamId: ''
+            teamId: '',
+            role:''
         }]
     });
     const [isLoading, setIsLoading] = useState<boolean>(true);

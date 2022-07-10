@@ -74,7 +74,8 @@ namespace Gamification.Controllers
 
             await AuthenticateAsync(user);
 
-            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId});
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
+            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId, userRole = userRole.Name});
         }
         
         [HttpPost(template: "logout")]
@@ -85,7 +86,7 @@ namespace Gamification.Controllers
 
         
         [HttpGet(template: "user")]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
             if(string.IsNullOrEmpty(User.Identity.Name))
                 return Unauthorized(new { message = "Invalid Credentials" });
@@ -96,7 +97,8 @@ namespace Gamification.Controllers
                 return BadRequest("Пользователь не найден");
             }
 
-            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId});
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
+            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId, userRole=userRole.Name });
         }
 
         // Helpers methods

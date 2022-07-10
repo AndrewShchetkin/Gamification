@@ -9,12 +9,15 @@ import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../store/hooks";
 
 
 export default function Navigation() {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null); // для привязки меню к кнопке
-
+    
+    const role = useAppSelector(state => state.authReduser.role);
+    console.log(role, ' navik');
 
     // Привязка меню настроек к текущему элементу 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -100,10 +103,10 @@ export default function Navigation() {
                         <QuizIcon />
                         <ListItemText primary="Lobby" />
                     </ListItem>
-                    <ListItem component={Link} to="/adminpanel" onClick={() => toggleDrawer(false)} >
+                    {role === 'admin' && <ListItem component={Link} to="/adminpanel" onClick={() => toggleDrawer(false)} >
                         <QuizIcon />
                         <ListItemText primary="Admin Panel" />
-                    </ListItem>
+                    </ListItem>}
                 </List>
             </Drawer>
         </Box>

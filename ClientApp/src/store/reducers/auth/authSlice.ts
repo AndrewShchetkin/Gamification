@@ -12,7 +12,8 @@ export const initialState: AuthState = {
     error: false,
     userName: '',
     id: '',
-    teamId: ''
+    teamId: '',
+    role: ''
 }
 
 function isAxiosError(error: any): error is AxiosError {
@@ -27,6 +28,7 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.userName = action.payload.userName ?? "";
             state.teamId = action.payload.userTeamId ?? "";
+            state.role = action.payload.userRole ?? "";
         },
         startLoadData: state => {
             state.requestSended = true
@@ -43,6 +45,7 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.userName = action.payload.userName ?? "";
             state.teamId = action.payload.userTeamId ?? "";
+            state.role = action.payload.userRole ?? "";
             state.requestSended = false;
         },
         [fetchUser.pending.type]: (state: AuthState) => { // идет запрос
@@ -62,7 +65,7 @@ export const authSlice = createSlice({
     },
 });
 
-export const { signInComplete, startLoadData, endLoadData, setTeamId } = authSlice.actions;
+export const { signInComplete, startLoadData, endLoadData, setTeamId } = authSlice.actions; 
 
 export const selectIsAuthenticated = (state: RootState) => state.authReduser.isAuthenticated
 

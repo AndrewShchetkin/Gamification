@@ -42,6 +42,7 @@ export default function SignIn() {
     await axios.post<LoginResponse>("api/auth/login", body)
       .then((response) => {
         dispatch(signInComplete(response.data));
+        console.log(response.data)
         setRedirectToReferrer(true);
       })
       .catch((error : AxiosError) => {

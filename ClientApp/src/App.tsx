@@ -16,8 +16,10 @@ import Help from "./components/Help";
 import Map from "./components/Map";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 
+const history = createBrowserHistory();
+// перемещено из компонента
 const App = () => {
-    const history = createBrowserHistory();
+    const userRole = useAppSelector(state => state.authReduser.role); // добавлено для отсл. роли юзера
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(fetchUser());
@@ -34,7 +36,7 @@ const App = () => {
             <PrivateRoute path='/quiz' component={Quiz} />
             <PrivateRoute path='/game' component={Temp} />
             <PrivateRoute path='/game2' component={Temp2} />
-            <PrivateRoute path='/adminpanel' component={AdminPanel} />
+            {userRole === 'admin' && <PrivateRoute path='/adminpanel' component={AdminPanel} /> }
             <Route path='/map' component={Map} />
         </Router>
     </>
