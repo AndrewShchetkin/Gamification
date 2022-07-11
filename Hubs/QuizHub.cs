@@ -98,8 +98,9 @@ namespace Gamification.Hubs
             Answer answer = await _answerRepository.GetAnswerById(Guid.Parse(answerId));
             await _userAnswerRepository.Create(new UserAnswer { UserAnswerId = Guid.NewGuid(), Answer = answer, User = user, AnswerDate = DateTime.UtcNow });
         }
-        public static async void RoundOver(RoundOverEventArgs roundOverEventArgs) //выбор ответов комнады и запись времени конца раунда
+        public static async void RoundOver(RoundOverEventArgs roundOverEventArgs) //выбор ответов комнады, запись времени конца раунда и отправка на фронт инфы о том, что раунд закончился
         {
+            await roundOverEventArgs.users.SendAsync("RoundOver");
             ApplicationContext db = roundOverEventArgs.applicationContext;
             string teamid = roundOverEventArgs.teamId;
             Round round = db.Rounds.FirstOrDefault(r => r.Team.Id == Guid.Parse(teamid) && r.EndTime.Year == 1);
@@ -124,7 +125,6 @@ namespace Gamification.Hubs
                 round.EndTime = DateTime.UtcNow;
                 await db.SaveChangesAsync();
             }
-            await roundOverEventArgs.users.SendAsync("RoundOver");
         }
         public override Task OnDisconnectedAsync(Exception exception)
         {

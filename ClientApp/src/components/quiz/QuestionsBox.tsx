@@ -38,6 +38,7 @@ export default function QuestionBox(){
 
     const sendAnswer = async() =>{
         QuizService.sendAnswer(connection, uuserName, asnwerId);
+        console.log("answer was send");
     }
 
 
@@ -46,7 +47,7 @@ export default function QuestionBox(){
         return function cleanup(){
             QuizService.closeConnection(connection);
         }
-     }, [connection])
+    }, [connection])
 
     return(
         <div>
@@ -54,22 +55,16 @@ export default function QuestionBox(){
             <div>
                 {question?.text}
             </div>
-            <button
-            onClick={() => setAnswerId(question?.answers[0].id.toString())}>
-                {question?.answers[0].text}
-            </button>
-            <button
-            onClick={() => setAnswerId(question?.answers[1].id.toString())}>
-                {question?.answers[1].text}
-            </button>
-            <button
-            onClick={() => setAnswerId(question?.answers[2].id.toString())}>
-                {question?.answers[2].text}
-            </button>
-            <button
-            onClick={() => setAnswerId(question?.answers[3].id.toString())}>
-                {question?.answers[3].text}
-            </button>
+            <div>
+            {question?.answers.map((element, index) =>
+                <button
+                    disabled = {element.id.toString() == asnwerId}
+                    key = {index}
+                    onClick={() => setAnswerId(element.id.toString())}>
+                        {element.text}
+                </button>       
+            )}
+            </div>
         </div>
     )
 }
