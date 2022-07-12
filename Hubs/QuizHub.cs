@@ -66,8 +66,7 @@ namespace Gamification.Hubs
             {
                 Team team = await _teamRepository.GetTeamById(Guid.Parse(teamId));
                 Round round = await _roundRepository.GetCurrentRoundByTeamName(team.TeamName);
-                //Quiz quiz = round.Quiz;
-                Quiz quiz = (await _quizRepository.GetAllQuizzes())[0];//временное решение аааааааааааааааааааааааааааааааааааааааа
+                Quiz quiz = round.Quiz;
                 List<Question> questions = await _questionRepository.GetAllQuestionsByQuiz(quiz);
                 List<List<Answer>> answers = new List<List<Answer>>();
                 foreach (Question question in questions)
@@ -115,9 +114,17 @@ namespace Gamification.Hubs
 
             foreach (List<UserAnswer> answers in userAnswers)
             {
-                Answer ans = answers.GroupBy(a => a.Answer).OrderByDescending(g => g.Count()).First().Select(g => g.Answer).First();
-                db.TeamAnswers.Add(new TeamAnswer { Answer = ans, AnswerDate = DateTime.UtcNow, Team = team, TeamAnswerId = Guid.NewGuid() });
-                await db.SaveChangesAsync();
+                Answer ans;
+                try
+                {
+                    ans = answers.GroupBy(a => a.Answer).OrderByDescending(g => g.Count()).First().Select(g => g.Answer).First();
+                    db.TeamAnswers.Add(new TeamAnswer { Answer = ans, AnswerDate = DateTime.UtcNow, Team = team, TeamAnswerId = Guid.NewGuid() });
+                    await db.SaveChangesAsync();
+                }
+                catch
+                {
+                    //это плохо
+                }
             }
 
             if (round != null)

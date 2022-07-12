@@ -5,8 +5,7 @@ export default class QuizService {
     static async openQuizConnection(teamId: string,
         handleConnection: (connection: signalR.HubConnection) => void,
         handleQuestion :(question: quizeDto.Question)=> void,
-        stopTimer: () => void,
-        sendAnswer: () => void)
+        stopTimer: () => void)
     {
         const connection = new signalR.HubConnectionBuilder()
         .withUrl("/quizHub")
@@ -17,7 +16,6 @@ export default class QuizService {
 
         connection.on("RoundOver", ()=>{
             stopTimer();
-            sendAnswer();
         })
 
         connection.on("NewQuestion", (question)=>{

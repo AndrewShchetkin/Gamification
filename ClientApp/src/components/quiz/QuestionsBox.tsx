@@ -13,11 +13,14 @@ export default function QuestionBox(){
 
     useEffect(() => {
         setNewTime(30);
-        if(asnwerId != undefined){
-            sendAnswer();
-            setAnswerId(undefined);
-        }
+        setAnswerId(undefined);
     }, [question])
+
+    useEffect(()=>{
+        if(time == 1 && asnwerId != undefined){
+            sendAnswer();
+        }
+    },[time])
 
     useEffect(() => {
         function stopTimer(){
@@ -33,7 +36,7 @@ export default function QuestionBox(){
         const interval = setInterval(() => {
             setNewTime(time => time - 1);
         }, 1000);
-        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion, stopTimer, sendAnswer);
+        QuizService.openQuizConnection(teamId, handleConnection, handleQuestion, stopTimer);
     }, [])
 
     const sendAnswer = async() =>{
