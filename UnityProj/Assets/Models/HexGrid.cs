@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour
 {
-	int cellCountX, cellCountZ;
+	public int cellCountX, cellCountZ;
 	/// <summary>
 	/// Количество сегментов на карте
 	/// </summary>
@@ -113,6 +113,7 @@ public class HexGrid : MonoBehaviour
 			for (int x = 0; x < chunkCountX; x++) 
 			{
 				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
+				chunk.SetCoordinatesChunck(x, z);
 				chunk.transform.SetParent(transform);
 			}
 		}
@@ -243,7 +244,7 @@ public class HexGrid : MonoBehaviour
 	/// <summary>
 	/// Сохранение грида
 	/// </summary>
-	/// <param name="writer"></param>
+	/// <param name="map"></param>
 	public void Save(SaveMapData map)
 	{
 		for (int i = 0; i < cells.Length; i++)
@@ -271,4 +272,15 @@ public class HexGrid : MonoBehaviour
 		}
 	}
 
+    public List<HexGridChunk> GetExtremeChunks()
+    {
+		var extremeChuncks = new List<HexGridChunk>();
+        extremeChuncks.Add(chunks.Where(c => c.x == 0 && c.z == 0).Single());
+		extremeChuncks.Add(chunks.Where(c => c.x == 0 && c.z == chunkCountZ-1).Single());
+		extremeChuncks.Add(chunks.Where(c => c.x == chunkCountX-1 && c.z == chunkCountZ-1).Single());
+		extremeChuncks.Add(chunks.Where(c => c.x == chunkCountX-1 && c.z == 0).Single());
+        extremeChuncks.Add(chunks[chunkCountX * chunkCountZ/2]);
+
+		return extremeChuncks;
+	}
 }

@@ -156,6 +156,20 @@ public class HexMapEditor : MonoBehaviour
 		}
 	}
 
+	public void TeamCellDestribution()
+    {
+		var teams = gameController.Teams;
+		var extremeChunks = hexGrid.GetExtremeChunks();
+        for (int i = 0; i < teams.Count; i++)
+        {
+			var cell = extremeChunks[i].GetRandomCell();
+			cell.ownerColorHighligh = teams[i].colorIndex;
+			cell.OwnerId = teams[i].id;
+			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, teams[i].id);
+			UpdateTargetCell(updatedCell);
+		}
+    }
+
 	//public void CaptureCell(HexCell cell)
 	//{
 	//	if (cell && gameController.GetPlayerTeam() != null)
@@ -285,6 +299,10 @@ public class HexMapEditor : MonoBehaviour
 #endif
 		SaveMapData map = JsonUtility.FromJson<SaveMapData>(mapJson);
 		hexGrid.Load(map);
+        if (map.cells.Any(c => c.ownerId != null))
+        {
+			TeamCellDestribution();
+		}
 	}
 	/// <summary>
 	/// Метод захвата ячейки (React(SignalR) -> Unity)

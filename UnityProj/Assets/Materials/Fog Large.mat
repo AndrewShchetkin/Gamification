@@ -11,8 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: e2827a6f24924db42b3a9db29b90337d, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _FADING_ON
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -82,7 +82,7 @@ Material:
     - _CameraFadingEnabled: 1
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
-    - _CombinedNoiseRemap: 0.108
+    - _CombinedNoiseRemap: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -105,11 +105,11 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: -1
     - _QueueOffset: 0
-    - _SimpleNoiseAmount: 0.089
-    - _SimpleNoiseRemap: 0.205
+    - _SimpleNoiseAmount: 0
+    - _SimpleNoiseRemap: 0.145
     - _SimpleNoiseScale: 40
-    - _SimplexNoiseAmount: 0.41
-    - _SimplexNoiseRemap: 0.145
+    - _SimplexNoiseAmount: 0.124
+    - _SimplexNoiseRemap: 0.101
     - _SimplexNoiseScale: 5
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 1
@@ -117,10 +117,10 @@ Material:
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
-    - _SurfaceDepthFade: 6.3
+    - _SurfaceDepthFade: 10.27
     - _UVSec: 0
-    - _VoronoiNoiseAmount: 0.098
-    - _VoronoiNoiseRemap: 0.063
+    - _VoronoiNoiseAmount: 0
+    - _VoronoiNoiseRemap: 0
     - _VoronoiScale: 0
     - _ZWrite: 0
     - __dirty: 0
