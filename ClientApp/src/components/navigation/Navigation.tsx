@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import classes from './Navigation.module.scss'
 import Logo from '../../img/Logo.svg';
+import Name from '../../img/Name.svg';
 
 export default function Navigation() {
 
@@ -17,17 +18,22 @@ export default function Navigation() {
                     <Logo />
                 </Link>
 
-                <h2>The Game</h2>
+                <Name />
             </div>
             <div className={classes.menu}>
-                <ul>
+                {/* <ul>
                     <li><Link to={"/quiz"} >Quize</Link></li>
                     <li><Link to={"/Lobby"}>Lobby</Link></li>
                     <li><Link to={"/Help"}>Help</Link></li>
-                </ul>
+                </ul> */}
 
                 {isAuthenticated ?
-                    <div>{userName}</div> :
+                    <div style={{display: 'flex' , alignItems: "center"}}>
+                        <div className={classes.personIcon}></div>
+                        <div>{userName}</div>
+                        <button className={classes.signOutBtn}>Выход</button>
+                    </div>
+                    :
                     <div>
                         <Link to={"/signin"}
                             className={classes.active}>

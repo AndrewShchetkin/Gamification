@@ -15,22 +15,49 @@
 .teamsBlock{
     display: flex;
     flex: 1 1 auto;
-    flex-direction: column;
-    background-color: $backColor;
+    
     margin-left: 10px;
 }
 .teamsContent{
-    display: flex;
-    flex-grow: 10;
-    flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 .teamsList{
-    flex-grow: 10;
-    background-color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    width: 95%;
+    margin: auto;
 }
 .teamsFooter{
     display: flex;
     flex-grow: 1;
     align-items: center;
     justify-content: flex-end;
+}
+
+.createTeamBlock{
+    width: 350px;
+    height: 137px;
+    margin: auto;
+    color: black;
+    border: 3px solid #FFFFFF;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.addImage{
+    background-image: url("/src/assets/add.svg");
+    background-size: 100%;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    margin-top: 17px;
+}
+
+.teamItemWrapper {
+    width: 50%;
+    height: 200px;
+    display: flex;
 }

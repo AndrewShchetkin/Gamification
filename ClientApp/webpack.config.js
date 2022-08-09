@@ -10,7 +10,7 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         hot: true,
-        
+        open: true
      },
     output: {
         path: path.join(__dirname, "/dist/"),

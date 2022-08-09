@@ -14,7 +14,7 @@ interface ITeamProps {
 
 const TeamItem: FC<ITeamProps> = ({ team, users, selectedIndex, onClickListItem }) => {
     const [open, setOpen] = useState(false)
-    const maxNumbesOfUsers = 5; 
+    const maxNumbesOfUsers = 5;
 
     const onArrowClick = (event: React.MouseEvent) => {
         event.stopPropagation();
@@ -22,14 +22,25 @@ const TeamItem: FC<ITeamProps> = ({ team, users, selectedIndex, onClickListItem 
     }
 
     return (
-        <>
-        <div className={team.id === selectedIndex ? classes.teamItemSelected : classes.teamItem }
+            <div className={classes.teamItem} onClick={() => onClickListItem(team.id)}>
+                <div className={classes.teamItemInfo}>
+                    <div className={classes.userCount}>{team.users.length}/{maxNumbesOfUsers}</div>
+                    <div>{team.teamName}</div>
+                </div>
+            </div>
+    )
+}
+
+export default TeamItem;
+
+
+/*
+<div className={team.id === selectedIndex ? classes.teamItemSelected : classes.teamItem }
             onClick={() => onClickListItem(team.id)}>
             {team.teamName}
             <div className={classes.teamItemInfo}>
                 <p>{team.users.length}/{maxNumbesOfUsers}</p>
                     <div onClick={onArrowClick} className={open? classes.arrowUp : classes.arrowDown}></div>
-                    {/* {open ? <button>Свернуть</button> : <button>Развернуть</button>} */}
             </div>
         </div>
         {open &&
@@ -39,8 +50,4 @@ const TeamItem: FC<ITeamProps> = ({ team, users, selectedIndex, onClickListItem 
             />
         </div>
         }
-        </>
-    )
-}
-
-export default TeamItem;
+*/

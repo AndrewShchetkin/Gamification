@@ -1,8 +1,7 @@
 @import "../../style/variables.scss";
 
-.wrapper{
-    background-color: $backColor; 
-}
+// .wrapper{
+// }
 
 .container{
     display: flex;
@@ -14,18 +13,17 @@
     display: block;
     margin-bottom: 10px;
     flex: 0 0 10%;
-    background-color: $backColor;
     color: $textColor;
 }
 
 .content{
+    margin-top: 20px;
     display: flex;
     flex: 1 1 auto;
 }
 
 .footer {
     height: 10%;
-    background-color: $backColor;
     margin-top: 10px;
 }
 

@@ -12,7 +12,7 @@ function Lobby() {
     return (
     <div className={classes.wrapper}>
         <div className={classes.container}>
-            <div className={classes.header}>header content</div>
+            {/* <div className={classes.header}>header content</div> */}
             <div className={classes.content}>
                  {teamId ? <LobbyWhenUserInTeam teamId={teamId} /> : <LobbyWhenUserNotInTeam />}
             </div>

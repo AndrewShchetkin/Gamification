@@ -34,22 +34,32 @@ function JoinToTeamForm(props: Props) {
                 console.log(error);
             });
 
-        }
-        return (
-            <form
+    }
+    return (
+        <div className={classes.wrapper}>
+            <div
+                className={classes.closeForm}
+                onClick={closeForm}>
+            </div>
+            <div className={classes.teamInfo}>
+                <p style={{margin: "0px"}}>{team.teamName}</p>
+                <ol>
+                    {team.users.map( user =>
+                        <li className={classes.userItem}>{user.userName}</li>)}
+                </ol>
+            </div>
+            <form className={classes.formContent}
                 onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleJoinFormSubmit(event, team.id)}>
-                <div className={classes.formContent}>
-                    <p>Присоедениться к команде</p>
-                    <CustomInput
+                <p>Введите пароль для присоединения к команде</p>
+                <CustomInput
+                style={{width: '80%'}}
                     type="password"
-                    name="teamPassword"/>
-                </div>
-                <div className={classes.formBtnGroup}>
-                    <CustomButton type="submit">Подтвердить</CustomButton>
-                    <CustomButton onClick={closeForm} >Отмена</CustomButton>
-                </div>
+                    name="teamPassword" />
+                <button className={classes.confirmBtn} type="submit"></button>
             </form>
-        )
+        </div>
+
+    )
 }
 
 export default JoinToTeamForm

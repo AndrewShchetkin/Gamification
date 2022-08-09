@@ -34,23 +34,38 @@ function CreateTeamForm(props: Props) {
     }
 
     return (
-        <form
-            onSubmit={handleCreateFormSubmit}>
-            <div className={classes.formContent}>
-                <p>Создать команду</p>
-                <CustomInput 
-                    name="teamName"
-                />
-                <CustomInput
-                    type="password"
-                    name="teamPassword"
-                />
+        <div className={classes.wrapper}>
+            <div
+                className={classes.closeForm}
+                onClick={closeForm}>
             </div>
-            <div className={classes.formBtnGroup}>
+            <p className={classes.header}>Заполните поля для создания команды</p>
+            <form
+                onSubmit={handleCreateFormSubmit}>
+                <div className={classes.formContent}>
+                    <div className={classes.textBlock}>
+                        <div> Наименование команды</div>
+                        <div style={{ marginTop: '15px' }}> Пароль</div>
+                    </div>
+                    <div className={classes.inputBlock}>
+                        <CustomInput
+                            name="teamName"
+                        />
+                        <CustomInput
+                            style={{ marginTop: '15px' }}
+                            type="password"
+                            name="teamPassword"
+                        />
+                    </div>
+                </div>
+                <button className={classes.confirmBtn} type="submit"></button>
+                {/* <div className={classes.formBtnGroup}>
                 <CustomButton type="submit">Подтвердить</CustomButton>
                 <CustomButton onClick={closeForm} >Отмена</CustomButton>
-            </div>
-        </form>
+            </div> */}
+            </form>
+        </div>
+
         // <Box component="form" onSubmit={handleCreateFormSubmit}>
         //     <DialogTitle>Создать команду</DialogTitle>
         //     <DialogContent>

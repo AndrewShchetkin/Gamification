@@ -1,103 +1,38 @@
 @import "../../../style/variables.scss";
 
-.teamItem {
-    background-color: $backColor;
-    color: $textColor;
-    cursor: pointer !important;
-    padding: 18px;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-    display: flex;
-    justify-content: space-between;
-    margin: 1px;
-    
 
-    &:hover {
-        background-color: $mycolor;
-    }
-    // &::after{
-    //     content: '\002B';
-    //     color: #777;
-    //     font-weight: bold;
-    //     float: right;
-    //     margin-left: 5px;
-    // }
+.userCount{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 24px;
+}
+.teamItem{
+    background-color: #D9D9D9;
+    width: 350px;
+    height: 140px;
+    margin: auto;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
     p {
         padding: 0;
         margin: 0;
         margin: 0 20px 0 0;
     }
-}
-.teamItemSelected{ 
-    background-color: $mycolor;
-    color: $textColor;
-    cursor: pointer;
-    padding: 18px;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    margin: 1px;
-
-    p {
-        padding: 0;
-        margin: 0 20px 0 0;
+    
+    &:hover{
+        background-color: #b8b5b5;
     }
+    
 }
 
 .teamItemInfo{
     display: flex;
-    justify-content: space-between;
+    position: relative;
+    justify-content: center;
     align-items: center;
-    font-size: 18px;
+    height: 140px;
+    font-size: 32px;
 }
 
-.arrowUp{
-    background-image: url("/src/assets/arrow_up_icon.svg");
-    background-size: 60%;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    border: none;
-    border-radius: 50%;
-    outline: none;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    display: inline;
-    display: inline-block;
-    margin: 0px 10px 0px 10px;
-
-    &:hover{
-        background-color: $backColor;
-    }
-}
-
-.arrowDown{
-    background-image: url("/src/assets/arrow_down_icon.svg");
-    background-size: 50%;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    border: none;
-    border-radius: 50%;
-    outline: none;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    display: inline;
-    display: inline-block;
-    margin: 0px 10px 0px 10px;
-
-    &:hover{
-        background-color: $backColor;
-    }
-}

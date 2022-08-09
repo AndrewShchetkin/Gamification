@@ -14,12 +14,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
 }
 
 .customModalContent{
     padding: 25px;
-    //background: white;
-    background-color: $backColor;
-    min-width: 300px;
+    background-color: #EEEEEE;
+    min-width: 400px;
     min-height: 150px;
+    border-radius: 10px;
 }

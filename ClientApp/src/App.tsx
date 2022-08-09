@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -22,6 +22,7 @@ const App = () => {
     useEffect(() => {
         dispatch(fetchUser());
     }, [])
+    
     return (<>
 
         <BrowserRouter>

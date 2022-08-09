@@ -2,10 +2,11 @@
 
 .customBtn{
     color: $textColor;
-    background-color: $mycolor;
+    background-color: #64839f;
     border: none;
     padding: 7px 15px;
-    //border-radius: 5px;
+    color: #D9D9D9;
+    border-radius: 25px;
     margin: 5px;
     cursor: pointer;
     /* padding: 5px 15px;
@@ -18,9 +19,9 @@
     margin: 5px;
     height: 60%; */
 
-    &:hover{
-        background-color: transparent;
-        border: 2px solid $mycolor;
-        padding: 5px 13px;
-    }
+    // &:hover{
+    //     background-color: transparent;
+    //     border: 2px solid $mycolor;
+    //     padding: 5px 13px;
+    // }
 }
