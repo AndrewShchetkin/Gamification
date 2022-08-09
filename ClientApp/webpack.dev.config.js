@@ -1,4 +1,4 @@
-const path = require("path");
+﻿const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -10,8 +10,16 @@ module.exports = {
     devServer: {
         historyApiFallback: true,
         hot: true,
-        open: true
-     },
+        port: 8080,
+        open: true,
+        hot: true,
+        proxy: {
+            '/api': {
+                target: 'https://localhost:44312',
+                secure: false
+            },
+        },
+    },
     output: {
         path: path.join(__dirname, "/dist/"),
         filename: "[name].bundle.js"

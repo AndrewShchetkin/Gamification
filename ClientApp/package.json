@@ -2,7 +2,7 @@
     "name": "my-app",
     "version": "0.0.1",
     "scripts": {
-        "start": " webpack-dev-server",
+        "start": "webpack-dev-server --config webpack.dev.config.js",
         "build": "webpack"
     },
     "dependencies": {
