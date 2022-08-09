@@ -4,9 +4,9 @@ import { signInComplete } from '../../store/reducers/auth/authSlice';
 import { Redirect, Link } from 'react-router-dom';
 import { LoginResponse } from '../../@types/loginResponse';
 import axios, { AxiosError } from 'axios';
-import "./signin.scss"
-
-
+import classes from "./signin.module.scss"
+import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput';
+import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 
 
 export default function SignIn() {
@@ -38,42 +38,34 @@ export default function SignIn() {
   };
 
   return (
-    <div className='form'>
-      <h1>
-        Войдите в свой аккаунт
-      </h1>
-      <form onSubmit={handleSubmit} >
+    <div className={classes.wrapper}>
+      <div className={classes.logoBlockWrapper}>
+        <div className={classes.signInIMG}></div>
+        <div className={classes.signInHeader}>Введите данные аккаунта</div>
+      </div>
+      <form
+        className={classes.formContent}
+        onSubmit={handleSubmit}>
+        <p>Имя пользователя</p>
+        <CustomInput
+          style={{ marginBottom: '20px', height: '55px', fontSize: '28px' }}
+          name="email" />
+        <p>Пароль</p>
+        <CustomInput
+          style={{ marginBottom: '20px', height: '55px', fontSize: '28px'  }}
+          type="password"
+          name="password" />
+        <div className={classes.btnBlock}>
+          <CustomButton
+            style={{
+              width: '70%',
+              height: '60px',
+              fontSize: '28px'
+            }}
+            type="submit"
+          >Войти</CustomButton>
+        </div>
 
-        <label>
-          Имя пользователя
-          <input
-            required
-            id="email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            placeholder='username'
-          />
-
-        </label>
-        <label>
-          Пароль
-          <input
-            required
-            name="password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-        </label>
-
-        <button type="submit" >
-          Войти
-        </button>
-
-        <Link to='/signup' >
-          Регистрация
-        </Link>
       </form>
     </div>
   );
