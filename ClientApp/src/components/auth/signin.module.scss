@@ -3,9 +3,11 @@
     flex-direction: column;
     margin: auto;
     height: 500px;
-    width: 700px;
+    width: 500px;
     align-items: center;
     justify-content: center;
+    color: white;
+    height: 85vh;
 }
 
 .logoBlockWrapper{
@@ -22,22 +24,22 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
-    width: 80px;
-    height: 80px;
+    width: 65px;
+    height: 65px;
 }
 
 .signInHeader{
-    font-size: 40px;
-    margin-top: 20px;
+    font-size: 25px;
+    margin-top: 10px;
 }
 
 .formContent{
-    margin-top: 40px;
+    margin-top: 30px;
     display: block;
     width: 70%;
     p{
         margin: 0px;
-        font-size: 24px;
+        font-size: 20px;
     }
 }
 

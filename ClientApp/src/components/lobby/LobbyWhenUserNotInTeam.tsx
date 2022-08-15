@@ -22,12 +22,6 @@ function LobbyWhenUserNotInTeam() {
 
     async function fetchTeams() {
         try {
-            // const teams: ITeam[] = [
-            //     { id: 1, teamName: "Команда 1", users: [{ id: "1", userName: "Игрок1 - Команда 1", teamId: "1" }] },
-            //     { id: 2, teamName: "Команда 2", users: [{ id: "1", userName: "Игрок1 - Команда 2", teamId: "1" }, 
-            //     { id: "2", userName: "Игрок2 - Команда 1", teamId: "1" }, { id: "3", userName: "Игрок3 - Команда 2", teamId: "1" }] },
-            //     { id: 3, teamName: "Команда 3", users: [{ id: "1", userName: "Игрок1 - Команда 1", teamId: "1" }] },
-            // ]
             const response = await axios.get<ITeam[]>('api/team/getallteams')
             setTeams(response.data);
         }
@@ -65,7 +59,6 @@ function LobbyWhenUserNotInTeam() {
 
     // Обработчик нажатия по команде из списка
     const handleListIndexClick = (selectedTeamIndex: number) => {
-        debugger;
         setOpenJoinTeamForm(true);
         const team = teams.find(t => t.id == selectedTeamIndex);
         if (team) {
@@ -81,7 +74,6 @@ function LobbyWhenUserNotInTeam() {
     };
 
     return (
-
         <>
             {isLoading ?
                 <div className={classes.loading}>
@@ -93,7 +85,7 @@ function LobbyWhenUserNotInTeam() {
                         <Chat chatRoom='generalRoom' />
                     </div>
                     <div className={classes.teamsBlock}>
-                        <div className={classes.teamsContent}>
+                         <div className={classes.teamsContent}>
                             <div className={classes.teamsList}>
                                 <div className={classes.createTeamBlock}>
                                     <div className={classes.addImage} onClick={handleClickOpenCreateTeamForm}></div>
@@ -102,7 +94,7 @@ function LobbyWhenUserNotInTeam() {
                                     </CustomModal>
                                 </div>
                                 {teams.map(team =>
-                                    <div className={classes.teamItemWrapper}>
+                                    <div className={classes.teamItemWrapper} key={team.id}>
                                         <TeamItem
                                             selectedIndex={selectedTeam.id}
                                             onClickListItem={handleListIndexClick}
@@ -116,19 +108,7 @@ function LobbyWhenUserNotInTeam() {
                                     <JoinToTeamForm team={selectedTeam} closeForm={handleClickCloseJoinTeamForm} />
                                 </CustomModal>
                             </div>
-                            {/* <div className={classes.teamsFooter}>
-                                <CustomButton 
-                                    onClick={handleClickOpenJoinTeamForm}
-                                >Присоедениться к команде</CustomButton>
-                                
-                                <CustomButton
-                                    onClick={handleClickOpenCreateTeamForm}
-                                >Создать команду</CustomButton>
-                                <CustomModal visible={openCreateTeamForm} setVisible={toggleVisibleCreateForm}>
-                                    <CreateTeamForm closeForm={handleClickCloseCreateTeamForm} />
-                                </CustomModal>
-                            </div> */}
-                        </div>
+                        </div> 
                     </div>
                 </>
             }

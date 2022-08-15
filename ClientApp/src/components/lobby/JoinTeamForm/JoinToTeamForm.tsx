@@ -3,7 +3,6 @@ import React from 'react'
 import { ITeam } from '../../../@types/ITeam'
 import { useAppDispatch } from '../../../store/hooks'
 import { setTeamId } from '../../../store/reducers/auth/authSlice'
-import { CustomButton } from '../../shared/components/UI/CustomButton/CustomButton'
 import { CustomInput } from '../../shared/components/UI/CustomInput/CustomInput'
 import classes from "./JoinTeamForm.module.scss"
 
@@ -18,7 +17,6 @@ function JoinToTeamForm(props: Props) {
 
     // Обработчик присоединения к команде команды
     const handleJoinFormSubmit = async (event: React.FormEvent<HTMLFormElement>, teamId: number) => {
-        debugger;
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const body = {
@@ -33,7 +31,6 @@ function JoinToTeamForm(props: Props) {
             .catch(function (error) {
                 console.log(error);
             });
-
     }
     return (
         <div className={classes.wrapper}>
@@ -42,9 +39,9 @@ function JoinToTeamForm(props: Props) {
                 onClick={closeForm}>
             </div>
             <div className={classes.teamInfo}>
-                <p style={{margin: "0px"}}>{team.teamName}</p>
+                <p style={{ margin: "0px" }}>{team.teamName}</p>
                 <ol>
-                    {team.users.map( user =>
+                    {team.users.map(user =>
                         <li className={classes.userItem}>{user.userName}</li>)}
                 </ol>
             </div>
@@ -52,13 +49,12 @@ function JoinToTeamForm(props: Props) {
                 onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleJoinFormSubmit(event, team.id)}>
                 <p>Введите пароль для присоединения к команде</p>
                 <CustomInput
-                style={{width: '80%'}}
+                    style={{ width: '80%', height: '35px' }}
                     type="password"
                     name="teamPassword" />
-                <button className={classes.confirmBtn} type="submit"></button>
+                <button className={classes.confirmBtn} type="submit" />
             </form>
         </div>
-
     )
 }
 

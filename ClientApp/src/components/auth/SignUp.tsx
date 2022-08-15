@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
+import Header from '../header/Header';
+import SignInSignUpHeader from '../header/SignInSignUpHeader';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput';
 import classes from './signup.module.scss';
@@ -33,36 +35,41 @@ function SignUp() {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.logoBlockWrapper}>
-        <div className={classes.signUpIMG}></div>
-        <div className={classes.signUpHeader}>Регистрация</div>
-      </div>
-      <form
-        className={classes.formContent}
-        onSubmit={handleSubmit}>
-        <p>Имя пользователя</p>
-        <CustomInput
-          style={{ marginBottom: '20px', height: '55px', fontSize: '28px' }}
-          name="email" />
-        <p>Пароль</p>
-        <CustomInput
-          style={{ marginBottom: '20px', height: '55px', fontSize: '28px'  }}
-          type="password"
-          name="password" />
-        <div className={classes.btnBlock}>
-          <CustomButton
-            style={{
-              width: '70%',
-              height: '60px',
-              fontSize: '28px'
-            }}
-            type="submit"
-          >Зарегистрироваться</CustomButton>
+    <>
+      <SignInSignUpHeader isSignIn={false}/>
+      <div className={classes.wrapper}>
+        <div className={classes.logoBlockWrapper}>
+          <div className={classes.signUpIMG}></div>
+          <div className={classes.signUpHeader}>Регистрация</div>
         </div>
+        <form
+          className={classes.formContent}
+          onSubmit={handleSubmit}>
+          <p>Имя пользователя</p>
+          <CustomInput
+            style={{ marginBottom: '20px', height: '35px', fontSize: '18px' }}
+            name="email" />
+          <p>Пароль</p>
+          <CustomInput
+            style={{ marginBottom: '20px', height: '35px', fontSize: '18px' }}
+            type="password"
+            name="password" />
+          <div className={classes.btnBlock}>
+            <CustomButton
+              style={{
+                width: '70%',
+                height: '40px',
+                fontSize: '20px',
+                color: "#463F3F"
+              }}
+              type="submit"
+            >Зарегистрироваться</CustomButton>
+          </div>
 
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
+
   )
 }
 

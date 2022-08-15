@@ -27,7 +27,7 @@ const App = () => {
     return (<>
 
         <BrowserRouter>
-            <Navigation />
+            {/* <Navigation /> */}
             <Switch>
                 <Route exact path="/" >
                     <Home />

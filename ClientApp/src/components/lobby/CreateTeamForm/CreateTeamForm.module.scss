@@ -6,13 +6,20 @@
     position: relative;
 }
 
-.header {
-    margin: 0px;
+// .header {
+//     //margin: 0px;
+//     // стили на шрифт
+// }
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .formContent {
     display: flex;
-    color: #0F0F0F;
     margin-top: 20px;
 }
 

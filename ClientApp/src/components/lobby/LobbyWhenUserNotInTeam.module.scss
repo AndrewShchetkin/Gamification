@@ -15,12 +15,12 @@
 .teamsBlock{
     display: flex;
     flex: 1 1 auto;
-    
     margin-left: 10px;
 }
 .teamsContent{
     height: 100%;
-    width: 100%;
+    width: 800px;
+    margin: auto;
 }
 .teamsList{
     display: flex;
@@ -28,18 +28,18 @@
     width: 95%;
     margin: auto;
 }
-.teamsFooter{
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    justify-content: flex-end;
-}
+// .teamsFooter{
+//     display: flex;
+//     flex-grow: 1;
+//     align-items: center;
+//     justify-content: flex-end;
+//     background-color: antiquewhite;
+// }
 
 .createTeamBlock{
-    width: 350px;
+    margin-left: 30px;
+    width: 343px;
     height: 137px;
-    margin: auto;
-    color: black;
     border: 3px solid #FFFFFF;
     border-radius: 5px;
     justify-content: center;
@@ -57,7 +57,6 @@
 }
 
 .teamItemWrapper {
-    width: 50%;
     height: 200px;
     display: flex;
 }

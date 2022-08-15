@@ -1,0 +1,31 @@
+.btnsBlock{
+    display: flex;
+    justify-content: end;
+}
+
+.mainBlock{
+    display: flex;
+    height: 85vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    background-image: url("/src/assets/Logo.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    width: 325px;
+    height: 325px;
+}
+
+.name{
+    background-image: url("/src/assets/Name.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    width: 900px;
+    height: 200px;
+}

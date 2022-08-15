@@ -39,63 +39,28 @@ function CreateTeamForm(props: Props) {
                 className={classes.closeForm}
                 onClick={closeForm}>
             </div>
-            <p className={classes.header}>Заполните поля для создания команды</p>
-            <form
-                onSubmit={handleCreateFormSubmit}>
+            <label className={classes.header}>Заполните поля для создания команды</label>
+            <form className={classes.formWrapper} onSubmit={handleCreateFormSubmit}>
                 <div className={classes.formContent}>
                     <div className={classes.textBlock}>
-                        <div> Наименование команды</div>
-                        <div style={{ marginTop: '15px' }}> Пароль</div>
+                        <div>Наименование команды</div>
+                        <div style={{ marginTop: '25px' }}>Пароль</div>
                     </div>
                     <div className={classes.inputBlock}>
                         <CustomInput
+                            style={{ height: '35px' }}
                             name="teamName"
                         />
                         <CustomInput
-                            style={{ marginTop: '15px' }}
+                            style={{ marginTop: '15px', height: '35px' }}
                             type="password"
                             name="teamPassword"
                         />
                     </div>
                 </div>
-                <button className={classes.confirmBtn} type="submit"></button>
-                {/* <div className={classes.formBtnGroup}>
-                <CustomButton type="submit">Подтвердить</CustomButton>
-                <CustomButton onClick={closeForm} >Отмена</CustomButton>
-            </div> */}
+                <button className={classes.confirmBtn} type="submit"/>
             </form>
         </div>
-
-        // <Box component="form" onSubmit={handleCreateFormSubmit}>
-        //     <DialogTitle>Создать команду</DialogTitle>
-        //     <DialogContent>
-        //         <TextField
-        //             autoFocus
-        //             autoComplete='off'
-        //             name="teamName"
-        //             margin="normal"
-        //             id="teamName"
-        //             label="Введите название команды"
-        //             type="text"
-        //             fullWidth
-        //             variant="outlined"
-        //         />
-        //         <TextField
-        //             autoComplete='off'
-        //             name="teamPassword"
-        //             margin="normal"
-        //             id="teamName"
-        //             label="Введите пароль"
-        //             type="password"
-        //             fullWidth
-        //             variant="outlined"
-        //         />
-        //     </DialogContent>
-        //     <DialogActions>
-        //         <Button onClick={closeForm}>Отмена</Button>
-        //         <Button type="submit">Подтвердить</Button>
-        //     </DialogActions>
-        // </Box>
     )
 }
 

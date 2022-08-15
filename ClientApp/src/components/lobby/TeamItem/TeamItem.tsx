@@ -32,22 +32,3 @@ const TeamItem: FC<ITeamProps> = ({ team, users, selectedIndex, onClickListItem 
 }
 
 export default TeamItem;
-
-
-/*
-<div className={team.id === selectedIndex ? classes.teamItemSelected : classes.teamItem }
-            onClick={() => onClickListItem(team.id)}>
-            {team.teamName}
-            <div className={classes.teamItemInfo}>
-                <p>{team.users.length}/{maxNumbesOfUsers}</p>
-                    <div onClick={onArrowClick} className={open? classes.arrowUp : classes.arrowDown}></div>
-            </div>
-        </div>
-        {open &&
-        <div>
-            <ReusedList items={users} renderItem={(user: IUser) =>
-                <UserItem user={user} key={user.id} />}
-            />
-        </div>
-        }
-*/

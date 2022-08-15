@@ -27,7 +27,6 @@ export const Temp = () => {
     };
 
     const openConnection = async () => {
-        debugger;
         const conn = new signalR.HubConnectionBuilder()
             .withUrl("/hub")
             .configureLogging(signalR.LogLevel.Information)

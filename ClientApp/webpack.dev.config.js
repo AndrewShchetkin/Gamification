@@ -16,7 +16,14 @@ module.exports = {
         proxy: {
             '/api': {
                 target: 'https://localhost:44312',
-                secure: false
+                secure: false,
+                ws: true
+            },
+            '/hubs': {
+                target: "https://localhost:44312",
+                changeOrigin: true,
+                secure: false,
+                ws: true,
             },
         },
     },

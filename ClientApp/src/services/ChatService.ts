@@ -4,7 +4,7 @@ import { ChatMessage } from "../components/chat/Chat";
 export default class ChatService {
     static async openConnection(room: string, handleConnection: (connection: signalR.HubConnection) => void, handleMessage :(message: ChatMessage)=> void) {
         const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/chat")
+        .withUrl("/hubs/chat")
         .configureLogging(LogLevel.Information)
         .build();
 
@@ -12,7 +12,6 @@ export default class ChatService {
         await connection.invoke("JoinRoom", room);
 
         connection.on("ReceiveMessage", (author, text, dispatchTime ) => {
-            debugger;
             const ChatMessage : ChatMessage = { 
                 author: author,
                 text: text, 

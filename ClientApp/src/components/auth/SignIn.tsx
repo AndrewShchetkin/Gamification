@@ -7,6 +7,7 @@ import axios, { AxiosError } from 'axios';
 import classes from "./signin.module.scss"
 import { CustomInput } from '../shared/components/UI/CustomInput/CustomInput';
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
+import SignInSignUpHeader from '../header/SignInSignUpHeader';
 
 
 export default function SignIn() {
@@ -38,6 +39,8 @@ export default function SignIn() {
   };
 
   return (
+    <>
+    <SignInSignUpHeader isSignIn={true}/>
     <div className={classes.wrapper}>
       <div className={classes.logoBlockWrapper}>
         <div className={classes.signInIMG}></div>
@@ -48,19 +51,19 @@ export default function SignIn() {
         onSubmit={handleSubmit}>
         <p>Имя пользователя</p>
         <CustomInput
-          style={{ marginBottom: '20px', height: '55px', fontSize: '28px' }}
+          style={{ marginBottom: '20px', height: '35px', fontSize: '18px' }}
           name="email" />
         <p>Пароль</p>
         <CustomInput
-          style={{ marginBottom: '20px', height: '55px', fontSize: '28px'  }}
+          style={{ marginBottom: '20px', height: '35px', fontSize: '18px'  }}
           type="password"
           name="password" />
         <div className={classes.btnBlock}>
           <CustomButton
             style={{
-              width: '70%',
-              height: '60px',
-              fontSize: '28px'
+              width: '40%',
+              height: '40px',
+              fontSize: '20px'
             }}
             type="submit"
           >Войти</CustomButton>
@@ -68,5 +71,6 @@ export default function SignIn() {
 
       </form>
     </div>
+    </>
   );
 }
