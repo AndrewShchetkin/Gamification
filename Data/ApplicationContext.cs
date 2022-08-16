@@ -12,8 +12,6 @@ namespace Gamification.Models
         {
             //Database.EnsureDeleted();
             Database.EnsureCreated();
-
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,9 +25,23 @@ namespace Gamification.Models
             string adminPassword = "123456";
 
             // добавляем роли
-            Role adminRole = new Role { Id= Guid.NewGuid(),  Name = adminRoleName };
-            Role userRole = new Role { Id = Guid.NewGuid(), Name = userRoleName };
-            User adminUser = new User { Id = Guid.NewGuid(), UserName = "admin", Password = BCrypt.Net.BCrypt.HashPassword(adminPassword), RoleId=adminRole.Id }; // mb pomenyat na RoleId
+            Role adminRole = new Role
+            { 
+                Id= Guid.NewGuid(),  
+                Name = adminRoleName 
+            };
+            Role userRole = new Role 
+            { 
+                Id = Guid.NewGuid(), 
+                Name = userRoleName 
+            };
+            User adminUser = new User 
+            { 
+                Id = Guid.NewGuid(), 
+                UserName = "admin",
+                Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
+                RoleId=adminRole.Id 
+            };
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });

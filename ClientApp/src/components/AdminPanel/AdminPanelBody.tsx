@@ -12,7 +12,7 @@ import { DatesService } from '../../services/DatesService';
 
 function AdminPanelBody() {
 
-    const [modal, setModal] = useState<boolean>(false);
+    const [visibleQuizUploadFromModal, setVisibleQuizUploadFromModal] = useState<boolean>(false);
     const [quizList, setQuizList] = useState<IQuiz[]>([])
 
     const getAllQuizzes = async () => {
@@ -21,19 +21,21 @@ function AdminPanelBody() {
             await setQuizList(response.data.map((quiz) => {
                 const newDateBegin = DatesService.convertUTCDateToLocalDate(new Date(quiz.dateBegin)).toLocaleString();
                 const newDateEnd = DatesService.convertUTCDateToLocalDate(new Date(quiz.dateEnd)).toLocaleString();
-
-                return {...quiz, dateBegin: newDateBegin,
-                    dateEnd: newDateEnd}
+                return {
+                    ...quiz,
+                    dateBegin: newDateBegin,
+                    dateEnd: newDateEnd
+                }
             }));
         }
-        catch(error) {
+        catch (error) {
             alert((error as AxiosError).message);
         }
     }
 
     const addQuiz = async () => {
         await getAllQuizzes();
-        setModal(false);
+        setVisibleQuizUploadFromModal(false);
     }
 
     const deleteQuiz = async () => {
@@ -43,25 +45,25 @@ function AdminPanelBody() {
     useEffect(() => {
         console.log('quizAdded');
         getAllQuizzes();
-
     }, [])
+
+    const toggleVisibleQuizUploadFromModal = (flag: boolean) => {
+        setVisibleQuizUploadFromModal(flag);
+    }
 
     return (
         <div className={classes.content}>
-            <CustomButton style={{alignSelf:'flex-end'}} 
-                onClick={() => setModal(true)}>
-                Загрузить викторину
+            <CustomButton
+                style={{ alignSelf: 'flex-end' }}
+                onClick={() => setVisibleQuizUploadFromModal(true)}> Загрузить викторину
             </CustomButton>
+            <CustomModal visible={visibleQuizUploadFromModal} setVisible={toggleVisibleQuizUploadFromModal}>
+                <QuizUploadForm addQuiz={addQuiz} modal={visibleQuizUploadFromModal} />
+            </CustomModal>
 
-            {/* <CustomModal modal={modal} setModal={setModal}>
-                <QuizUploadForm addQuiz={addQuiz} modal={modal}/>
-            </CustomModal> */}
-
-            {quizList.length ? <QuizTable quizList={quizList} deleteQuiz={deleteQuiz} />
-                : <div>Викторины не найдены!</div>}
-            
-
-
+            {quizList.length 
+            ? <QuizTable quizList={quizList} deleteQuiz={deleteQuiz} />
+            : <div>Викторины не найдены!</div>}
         </div>
     );
 }
