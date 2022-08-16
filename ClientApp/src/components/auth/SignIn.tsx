@@ -34,7 +34,7 @@ export default function SignIn() {
         setRedirectToReferrer(true);
       })
       .catch((error: AxiosError) => {
-        alert(error.message);
+        alert(error.response?.data.message);
       });
   };
 

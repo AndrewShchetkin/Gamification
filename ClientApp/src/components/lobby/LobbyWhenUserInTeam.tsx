@@ -92,7 +92,7 @@ function LobbyWhenUserInTeam(props: Props) {
                                     />
                                 </div>
                             </div>
-                            <button className={classes.chatBtn} onClick={changeIsChatVisible}>Чатик</button>
+                            <div className={classes.chatBtn} onClick={changeIsChatVisible}></div>
                             {isChatVisible &&
                                 <div className={classes.chatModal}>
                                     <div className={classes.chatTabBlock}>

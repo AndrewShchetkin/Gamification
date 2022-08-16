@@ -41,8 +41,6 @@
     }
 }
 
-// .userItems{
-// }
 .userItem {
     display: flex;
 
@@ -101,15 +99,16 @@
     right: 30px;
     bottom: 10px;
     transform: translateY(-50%);
-    padding: 5px 15px;
-    color: $textColor;
-    border: 1px solid $textColor;
-    background-color: $mycolor;
+    background-image: url("/src/assets/icon_chat.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    width: 70px;
+    height: 70px;
     cursor: pointer;
-
-    &:hover{
-        background-color: #083a2d;
-    }
+    margin-top: 20px;
+    border: none;
 }
 
 .chatModal{

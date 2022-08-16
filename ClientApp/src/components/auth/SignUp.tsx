@@ -30,7 +30,7 @@ function SignUp() {
         }
       })
       .catch((error: AxiosError) => {
-        console.log(error.message);
+        console.log(error.response?.data.message);
       });
   };
 
