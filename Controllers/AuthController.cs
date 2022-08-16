@@ -10,21 +10,23 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Gamification.Models.Errors;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gamification.Controllers
 {
     [Route(template: "api/auth")]
     [ApiController]
-    [Authorize]
     public class AuthController : ControllerBase
     {
        private readonly IUserRepository _userRepository;
-       public AuthController(IUserRepository userRepository)
+        private readonly ApplicationContext _context;
+       public AuthController(IUserRepository userRepository, ApplicationContext context)
         {
             _userRepository = userRepository;
+            _context = context;
         }
 
-        [AllowAnonymous]
+
         [HttpPost(template: "register")]
         public async Task<IActionResult> Register(UserRegisterDto userDto)
         {
@@ -41,14 +43,20 @@ namespace Gamification.Controllers
                 errorResponse.Errors.Add(error);
                 return BadRequest(errorResponse);
             }
-            var newUser = new User
-            {
-                UserName = userDto.UserName,
-                Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password)
-            };
-            return Created("success", await _userRepository.Create(newUser));
+
+            user = new User { UserName = userDto.UserName,Password = BCrypt.Net.BCrypt.HashPassword( userDto.Password) };
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+            if (userRole != null)
+                user.Role = userRole;
+
+            await _userRepository.Create(user);
+
+            await AuthenticateAsync(user);
+
+            return Created("success", new { msg = "ok!" }); 
+            // здесь в Created был объект user, но с ним 500 ошибка NewtonJson цикл
         }
-        [AllowAnonymous]
+        
         [HttpPost(template: "login")]
         public async Task<IActionResult> Login(UserRegisterDto userDto)
         {
@@ -64,9 +72,10 @@ namespace Gamification.Controllers
                 return Unauthorized(new { message = "Invalid Credentials" });
             }
 
-            await AuthenticateAsync(userDto.UserName);
+            await AuthenticateAsync(user);
 
-            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId , userId = user.Id});
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
+            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId, userRole = userRole.Name});
         }
         
         [HttpPost(template: "logout")]
@@ -75,9 +84,9 @@ namespace Gamification.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
-        [AllowAnonymous]
+        
         [HttpGet(template: "user")]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
             if(string.IsNullOrEmpty(User.Identity.Name))
                 return Unauthorized(new { message = "Invalid Credentials" });
@@ -88,17 +97,25 @@ namespace Gamification.Controllers
                 return BadRequest("Пользователь не найден");
             }
 
-            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId , userId = user.Id});
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
+            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId, userRole=userRole.Name });
         }
 
         // Helpers methods
-        private async Task AuthenticateAsync(string userName)
+        private async Task AuthenticateAsync(User user)
         {
+            Role userRole = await _context.Roles.FirstOrDefaultAsync(role => role.Id == user.RoleId);
+
+            // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType,userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, userRole.Name)
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }

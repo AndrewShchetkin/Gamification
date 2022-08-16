@@ -9,11 +9,16 @@ const PrivateRoute: React.ComponentType<any> = ({
 }) => {
   const isAuthenticated = useAppSelector(state => state.authReduser.isAuthenticated) // получаем текущее состояние 
   const requestProcess = useAppSelector(state => state.authReduser.requestSended)
+  //
+  const name = useAppSelector(state => state.authReduser);
+  console.log(name);
+  //
+
 
   return (
     <Route
       {...rest} //какое то наследование  
-      render={props => 
+      render={props =>
         isAuthenticated ? (
           <Component {...props} />
         ) : 

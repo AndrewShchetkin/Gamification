@@ -12,11 +12,14 @@ import Lobby from "./components/lobby/Lobby";
 import Home from "./components/Home";
 import Help from "./components/Help";
 import Map from "./components/Map";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 import './app.module.scss';
 
 
+//const history = createBrowserHistory();
+// перемещено из компонента
 const App = () => {
-    // const history = createBrowserHistory();
+    const userRole = useAppSelector(state => state.authReduser.role); // добавлено для отсл. роли юзера
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(fetchUser());
@@ -40,6 +43,7 @@ const App = () => {
                 <Route path='/quiz' component={Quiz} />
                 <PrivateRoute path='/game' component={Temp} />
                 <PrivateRoute path='/game2' component={Temp2} />
+                {userRole === 'admin' && <PrivateRoute path='/adminpanel' component={AdminPanel} /> }
                 <Route exact path="/map">
                     <Map />
                 </Route>
