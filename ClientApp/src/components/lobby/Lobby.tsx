@@ -19,7 +19,7 @@ function Lobby() {
                     <div className={classes.content}>
                         {teamId ? <LobbyWhenUserInTeam teamId={teamId} /> : <LobbyWhenUserNotInTeam />}
                     </div>
-                    <div className={classes.footer}>footer content</div>
+                    {/* <div className={classes.footer}>footer content</div> */}
                 </div>
             </div>
         </>

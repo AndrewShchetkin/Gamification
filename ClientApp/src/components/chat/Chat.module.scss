@@ -4,12 +4,16 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: #D9D9D9;
-    border: none;
+    background-color: rgb(217, 217, 217, 0.9);
     border-radius: 5px;
+    border: 3px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
 .messageContent {
     flex: 1 1 auto;
+    overflow-y: auto;
+    margin-bottom: 20px;
 }
 
 .inputContent{
@@ -32,56 +36,15 @@
         color: #3D5265;
     }
 }
+
 .chatTextArea:focus {
     //border: 3px solid #0258d9;
     border: none;
     outline: none;
 }
+
 .sendMessageBtn {
     flex: 0 0 10%;
-}
-.messageLeftWrapper {
-    display: flex;
-}
-.messageLeftContent {
-    margin-top: 5px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.messageLeftAuthor{
-    color: #0258d9;
-}
-
-.messageLeftText{
-    max-width: 60%;
-}
-
-.messageLeftText p {
-    margin: 0 0 0 5px;
-}
-
-.messageRightWrapper {
-    display: flex;
-}
-.messageRightContent {
-    margin-top: 5px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.messageRightAuthor{
-    color: #3D5265;
-}
-
-.messageRightText{
-    max-width: 60%;
-}
-
-.messageRightText p {
-    margin: 0 0 0 5px;
 }
 
 .sendBtn{
@@ -98,3 +61,64 @@
     margin-right: 10px;
 }
 
+.messageRightRow{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.messageRigth{
+    display: flex;
+    justify-content: flex-end;
+    max-width: 80%;
+}
+
+
+.messageRightAuthor{
+    text-align: end;
+    margin: 20px 15px 5px 0px;
+}
+
+.messageLeftRow{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.messageLeft{
+    display: flex;
+    justify-content: flex-start;
+    max-width: 80%;
+}
+
+
+.messageLeftAuthor{
+    margin: 20px 0px 5px 15px;
+}
+
+.messageText{
+    text-align: left;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0px 15px;
+    word-break: break-word;
+}
+
+
+// Syles for scrollbar , don't work for firefox
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
