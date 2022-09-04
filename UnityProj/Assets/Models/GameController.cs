@@ -22,6 +22,21 @@ public class GameController : MonoBehaviour
     /// </summary>
     public int targetFrameRate = 30;
 
+    // для трейлера
+    int demoPoints = 30;
+    public int DemoPoints
+    {
+        get
+        {
+            return demoPoints;
+        }
+        set
+        {
+            demoPoints = value;
+            GameObject.Find("Points").GetComponent<Text>().text = value.ToString();
+        }
+    }
+
     string userName;
     /// <summary>
     /// Имя текущего игрока
@@ -56,7 +71,8 @@ public class GameController : MonoBehaviour
             //}            
             currentPlayer = value;
             GameObject.Find("PlayerName").GetComponent<Text>().text = CurrentPlayer.userName;
-            GameObject.Find("Points").GetComponent<Text>().text = CurrentPlayer.points.ToString();
+            //GameObject.Find("Points").GetComponent<Text>().text = CurrentPlayer.points.ToString(); для трейлера
+            GameObject.Find("Points").GetComponent<Text>().text = DemoPoints.ToString();
         } 
     }
     

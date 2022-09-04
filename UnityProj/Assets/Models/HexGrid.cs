@@ -53,6 +53,10 @@ public class HexGrid : MonoBehaviour
 	HexCell[] cells;
 
 	/// <summary>
+	/// Массив неактивных клеток
+	/// </summary>
+	HexCell[] noGameCells;
+	/// <summary>
 	/// Текстура шума
 	/// </summary>
 	public Texture2D noiseSource;
@@ -61,6 +65,11 @@ public class HexGrid : MonoBehaviour
 	/// Массив сегментов
 	/// </summary>
 	HexGridChunk[] chunks;
+
+	/// <summary>
+	/// Массив неигровых сегментов
+	/// </summary>
+	HexGridChunk[] nonGameChunks;
 
 	/// <summary>
 	/// Для сохранения
@@ -88,8 +97,11 @@ public class HexGrid : MonoBehaviour
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
-		CreateChunks();
+		CreateChunks();		
 		CreateCells();
+
+		CreateNonGameChuncks();
+		CreateNonGameCells();
 	}
 
 	void CreateCells()
@@ -104,13 +116,26 @@ public class HexGrid : MonoBehaviour
 			}
 		}
 	}
+	void CreateNonGameCells()
+	{
+		noGameCells = new HexCell[((chunkCountX + chunkCountZ) * 2 + 4) * HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
+
+		for (int z = 0, i = 0; z < cellCountZ; z++)
+		{
+			for (int x = 0; x < cellCountX; x++)
+			{
+				CreateCell(x, z, i++);
+			}
+		}
+	}
+
 	void CreateChunks () 
 	{
 		chunks = new HexGridChunk[chunkCountX * chunkCountZ];
 
-		for (int z = 0, i = 0; z < chunkCountZ; z++) 
+		for (int z = 1, i = 0; z < chunkCountZ +1; z++) 
 		{
-			for (int x = 0; x < chunkCountX; x++) 
+			for (int x = 1; x < chunkCountX + 1; x++) 
 			{
 				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
 				chunk.SetCoordinatesChunck(x, z);
@@ -118,6 +143,40 @@ public class HexGrid : MonoBehaviour
 			}
 		}
 	}
+
+	void CreateNonGameChuncks()
+    {
+		nonGameChunks = new HexGridChunk[(chunkCountX + chunkCountZ) * 2 + 4];
+		int count = 0;
+		for (int x = 0; x < chunkCountX + 1; x++)
+		{
+			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
+			chunk.SetCoordinatesChunck(x, 0);
+			chunk.transform.SetParent(transform);
+		}
+
+		for (int z = 0; z < chunkCountZ + 1; z++)
+		{
+			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
+			chunk.SetCoordinatesChunck(chunkCountX + 1, z);
+			chunk.transform.SetParent(transform);
+		}
+
+		for (int x = chunkCountX + 1; x >= 0; x--)
+		{
+			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
+			chunk.SetCoordinatesChunck(x, chunkCountZ + 1);
+			chunk.transform.SetParent(transform);
+		}
+
+		for (int z = chunkCountZ; z >= 1; z--)
+		{
+			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
+			chunk.SetCoordinatesChunck(0, z);
+			chunk.transform.SetParent(transform);
+		}
+	}
+
 	void OnEnable()
 	{
 		HexMetrics.noiseSource = noiseSource;
@@ -201,6 +260,11 @@ public class HexGrid : MonoBehaviour
 		int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
 		chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
 	}
+
+	void AddNonGameCellsToChunk()
+    {
+
+    }
 
 	public HexCell GetCell(Vector3 position)
 	{

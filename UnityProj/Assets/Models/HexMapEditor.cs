@@ -151,8 +151,9 @@ public class HexMapEditor : MonoBehaviour
 			var playerTeam = gameController.GetPlayerTeam();
 			cell.ownerColorHighligh = playerTeam.colorIndex;
 			cell.OwnerId = playerTeam.id;
-			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, playerTeam.id);			
+			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, playerTeam.id);
 			UpdateTargetCell(updatedCell);
+			gameController.DemoPoints -= 1;
 		}
 	}
 
