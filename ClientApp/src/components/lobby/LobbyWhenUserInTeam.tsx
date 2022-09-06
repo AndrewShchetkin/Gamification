@@ -94,10 +94,10 @@ function LobbyWhenUserInTeam(props: Props) {
                                         <Tabs tabs={chatTabs} onClick={onChatTabClick} selectedTab={selectedChatTab} />
                                     </div>
                                     {selectedChatTab === chatTabs[0].id && (
-                                        <Chat chatRoom={currentUser.teamId} />
+                                        <Chat group={currentUser.teamId} />
                                     )}
                                     {selectedChatTab === chatTabs[1].id && (
-                                        <Chat chatRoom='generalRoom' />
+                                        <Chat group='generalGroup' />
                                     )}
                                     
                                 </div>}
@@ -107,51 +107,6 @@ function LobbyWhenUserInTeam(props: Props) {
                 )}
             </div>
         </div>
-        /* <Box className="chatBlock"
-            sx={{
-                flex: '0 0 30%',
-                maxWidth: "30%",
-                display: "flex",
-                flexDirection: 'column'
-            }}>
-            <Tabs tabs={chatTabs} onClick={onTabClick} selectedTab={selectedTab} />
-            {selectedTab === chatTabs[0].id && (
-                <Chat chatRoom={props.teamId}/>
-            )}
-            {selectedTab === chatTabs[1].id && (
-                <Chat chatRoom='generalRoom'/>
-            )}
-        </Box>
-
-
-        <Box className="teamsBlock"
-            sx={{
-                bgcolor: '#fff',
-                display: 'flex',
-                flex: '1 1 auto',
-                flexDirection: 'column'
-            }}>
-            <Box sx={{
-                flex: '0 0 10%',
-                bgcolor: '#c1c7b7'
-            }}>Информация о командах</Box>
-            <Box sx={{ flexGrow: 10, bgcolor: '#fff' }}>
-                {isLoading
-                    ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                        <CircularProgress />
-                    </Box>
-
-                    : <Box sx={{ height: "100%", display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Typography sx={{ mt: 10, display: 'flex', justifyContent: 'center' }} >{usersTeam.teamName}</Typography>
-                        <Box sx={{ border: 2, borderColor: 'primary.main', borderRadius: 2, mt: 2, display: 'flex', justifyContent: 'center', width: '33%' }}>
-                            <ReusedList items={usersTeam.users} renderItem={(user: IUser) =>
-                                <UserItem user={user} key={user.id} />}
-                            />
-                        </Box>
-                    </Box>
-                }
-            </Box>
-        </Box> */
     )
 }
 

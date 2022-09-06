@@ -22,18 +22,19 @@
     align-items: center;
     border-top: 1px solid #3D5265;
     margin: 0px;
+    background-color: #2A547A;
 }
 
 .chatTextArea { 
     flex: 1 1 auto;
     resize: none;
     margin: 5px;
-    background-color: #D9D9D9;
+    background-color: #2A547A;
     border: none;
     height: 50%;
-    color: #3D5265;
+    color: #ffffff;
     &::placeholder{
-        color: #3D5265;
+        color: #ffffff;
     }
 }
 
@@ -48,10 +49,10 @@
 }
 
 .sendBtn{
-    background-image: url("/src/assets/icon_chat.svg");
+    background-image: url("/src/assets/paper-plane-svgrepo-com.svg");
     background-size: 100%;
     width: 50px;
-    height: 40px;
+    height: 50px;
     outline: none;
     background-repeat: no-repeat;
     background-position: center;
@@ -98,7 +99,8 @@
 
 .messageText{
     text-align: left;
-    background-color: #D9D9D9;
+    background-color: #2A547A;
+    color: #FFFFFF;
     border-radius: 5px;
     padding: 10px;
     margin: 0px 15px;

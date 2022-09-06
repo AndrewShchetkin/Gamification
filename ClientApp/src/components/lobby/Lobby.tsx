@@ -1,25 +1,36 @@
-import React, { } from "react";
-import { useAppSelector } from '../../store/hooks';
-import Chat from '../chat/Chat';
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import LobbyWhenUserInTeam from './LobbyWhenUserInTeam';
 import LobbyWhenUserNotInTeam from './LobbyWhenUserNotInTeam';
 import classes from './Lobby.module.scss'
 import Header from "../header/Header";
+import { ActionType } from "../../@types/ReduxTypes/ActionTypes";
+import { fetchMessageHistory } from "../../store/reducers/chat/actionCreators";
 
 
 function Lobby() {
     const teamId = useAppSelector(state => state.authReduser.teamId);
+    const dispatch = useAppDispatch();
+
+    // При первоначальном рендере запрашиваем все сообшения из БД, устанавливаем соединение signalr
+    useEffect(() => {
+        dispatch({ 
+            type: ActionType.StartConnection, payload: null 
+        });
+        dispatch(fetchMessageHistory())
+    }, [])
+
+
+
 
     return (
         <>
-            <Header/>
+            <Header />
             <div className={classes.wrapper}>
                 <div className={classes.container}>
-                    {/* <div className={classes.header}>header content</div> */}
                     <div className={classes.content}>
                         {teamId ? <LobbyWhenUserInTeam teamId={teamId} /> : <LobbyWhenUserNotInTeam />}
                     </div>
-                    {/* <div className={classes.footer}>footer content</div> */}
                 </div>
             </div>
         </>

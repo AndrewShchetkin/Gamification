@@ -23,5 +23,10 @@ namespace Gamification.Models
         /// Время отправки сообщения
         /// </summary>
         public DateTime DispatchTime { get; set; }
+
+        /// <summary>
+        /// Название команды или общая группа
+        /// </summary>
+        public string Group { get; set; }
     }
 }

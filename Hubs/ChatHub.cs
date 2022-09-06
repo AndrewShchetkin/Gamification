@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Gamification.Data.Interfaces;
+using Gamification.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -7,6 +9,11 @@ namespace Gamification.Hubs
 {
     public class ChatHub : Hub
     {
+        private readonly IMessageRepository _messageRepository;
+        public ChatHub(IMessageRepository messageRepository)
+        {
+            _messageRepository = messageRepository;
+        }
         public async Task NewMessage(string username, string message)
         {
             await Clients.All.SendAsync("messageReceived", username, message);
@@ -25,6 +32,14 @@ namespace Gamification.Hubs
 
         public async Task SendMessage(string message, string roomName)
         {
+
+            CommonMessage newMessage = new CommonMessage
+            {
+                Author = Context.User.Identity.Name,
+                Text = message
+            };
+            await _messageRepository.Add(newMessage);
+
             //if (_connections.TryGetValue(Context.ConnectionId, out UserConnection userConnection))
             //{
                 await Clients.Group(roomName).SendAsync("ReceiveMessage", Context.User.Identity.Name, message, new DateTime());
@@ -42,6 +57,10 @@ namespace Gamification.Hubs
             //}
 
             return base.OnDisconnectedAsync(exception);
+        }
+        public override Task OnConnectedAsync()
+        {
+            return base.OnConnectedAsync();
         }
 
 

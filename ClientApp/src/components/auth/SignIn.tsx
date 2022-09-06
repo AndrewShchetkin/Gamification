@@ -52,7 +52,8 @@ export default function SignIn() {
         <p>Имя пользователя</p>
         <CustomInput
           style={{ marginBottom: '20px', height: '35px', fontSize: '18px' }}
-          name="email" />
+          name="email"
+          autoComplete='off' />
         <p>Пароль</p>
         <CustomInput
           style={{ marginBottom: '20px', height: '35px', fontSize: '18px'  }}

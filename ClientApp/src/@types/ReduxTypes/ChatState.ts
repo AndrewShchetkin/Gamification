@@ -1,8 +1,12 @@
 export interface ChatState {
-    messages: Message[]
+    messages: Message[],
+    requestSended: boolean,
+    error: boolean
 }
 
 export interface Message{
-    autor: string,
-    text: string
+    author: string,
+    text: string,
+    dispatchTime: Date,
+    group: string
 }

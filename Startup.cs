@@ -121,6 +121,7 @@ namespace Gamification
 
                 endpoints.MapHub<MapHub>("/hubs/map");
                 endpoints.MapHub<ChatHub>("/hubs/chat");
+                endpoints.MapHub<GlobalHub>("/hubs/global");
 
                 endpoints.MapControllerRoute( 
                     name: "default",

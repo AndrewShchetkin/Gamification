@@ -82,7 +82,7 @@ function LobbyWhenUserNotInTeam() {
                 :
                 <>
                     <div className={classes.chatBlock}>
-                        <Chat chatRoom='generalRoom' />
+                        <Chat group='generalGroup' />
                     </div>
                     <div className={classes.teamsBlock}>
                          <div className={classes.teamsContent}>
