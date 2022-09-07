@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Gamification.Data;
 using Gamification.Data.Interfaces;
 using Gamification.Models;
 using Gamification.Models.DTO;
 using Gamification.Models.DTO.Team;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -11,15 +13,18 @@ using System.Threading.Tasks;
 
 namespace Gamification.Hubs
 {
+    [Authorize]
     public class GlobalHub : Hub
     {
         private readonly IMessageRepository _messageRepository;
+        private readonly ITeamRepository _teamRepository;
         private readonly IMapper _mapper;
 
-        public GlobalHub(IMessageRepository messageRepository, IMapper mapper)
+        public GlobalHub(IMessageRepository messageRepository, IMapper mapper, ITeamRepository teamRepository)
         {
             _messageRepository = messageRepository;
             _mapper = mapper;
+            _teamRepository = teamRepository;
         }
 
         public override Task OnConnectedAsync()
@@ -94,5 +99,23 @@ namespace Gamification.Hubs
         }
 
         #endregion
+
+        public async Task UpdateTeams(Guid teamId)
+        {
+            var team =  await _teamRepository.GetTeamById(teamId, true);
+            var teamDto = _mapper.Map<Team, TeamDto>(team);
+            await Clients.Group("generalGroup").SendAsync("UpdateTeams", teamDto);
+
+            var newMessage = await _messageRepository.Add(new CommonMessage
+            {
+                Author = "System",
+                Text = $"Была создана команда {team.TeamName}",
+                DispatchTime = DateTime.Now.ToUniversalTime(),
+                Group = "generalGroup"
+            });
+            var messageDto = _mapper.Map<CommonMessage, CommonMessageDto>(newMessage);
+            await Clients.Group("generalGroup").SendAsync("ReceiveMessage", messageDto);
+        }
+
     }
 }

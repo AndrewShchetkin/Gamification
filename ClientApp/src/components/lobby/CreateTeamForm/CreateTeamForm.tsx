@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react'
+import { ActionType } from '../../../@types/ReduxTypes/ActionTypes';
 import { useAppDispatch } from '../../../store/hooks';
 import { setTeamId } from '../../../store/reducers/auth/authSlice';
 import { CustomButton } from '../../shared/components/UI/CustomButton/CustomButton';
@@ -25,6 +26,7 @@ function CreateTeamForm(props: Props) {
         await axios.post<string>('api/team/teamregister', body)
             .then(function (response) {
                 dispatch(setTeamId(response.data));
+                dispatch({ type: ActionType.UpdateTeams, payload: response.data });
                 closeForm();
             })
             .catch(function (error) {

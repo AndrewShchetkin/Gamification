@@ -3,6 +3,8 @@ import * as signalR from '@microsoft/signalr';
 import { Message } from '../../@types/ReduxTypes/ChatState';
 import { messageReceived } from '../reducers/chat/chatSlice'
 import { ActionType } from "../../@types/ReduxTypes/ActionTypes";
+import { ITeam } from "../../@types/ITeam";
+import { updateTeam } from "../reducers/teams/teamSlise";
 
 
 export const createSocketMiddleware = (storeAPI: any) => {
@@ -18,36 +20,35 @@ export const createSocketMiddleware = (storeAPI: any) => {
         console.log(ChatMessage);
     });
 
+    connection.on("UpdateTeams", team => {
+        debugger;
+        const NewTeam: ITeam = team;
+        storeAPI.dispatch(updateTeam(NewTeam))
+    });
+
     return (next: any) => (action: any) => {
-        switch(action.type){
+        switch (action.type) {
             case ActionType.StartConnection:
-                    connection.start().then(()=>{
-                        connection.invoke("ConnectToGeneralGroup");
-                        debugger;
-                        const state = storeAPI.getState();
-                        console.log(storeAPI);
-                        if(state.authReduser.teamId != ""){
-                            connection.invoke("JoinTeamGroup", state.authReduser.teamId )
-                        }
-                    });
+                connection.start().then(() => {
+                    connection.invoke("ConnectToGeneralGroup");
+                    debugger;
+                    const state = storeAPI.getState();
+                    console.log(storeAPI);
+                    if (state.authReduser.teamId != "") {
+                        connection.invoke("JoinTeamGroup", state.authReduser.teamId)
+                    }
+                });
                 break;
             case ActionType.SendMessage:
-                // connection.send("SendMessage", action.payload, "generalGroup");
                 debugger;
                 connection.send("SendMessage", action.payload.message, action.payload.group);
+                break;
+            case ActionType.UpdateTeams:
+                debugger;
+                connection.send("UpdateTeams", action.payload);
                 break;
         }
 
         return next(action);
     }
-
-    // async sendMessage(connection?: signalR.HubConnection, message?:string, room?: string){
-    //     if(room == "" && room == undefined){
-    //         room = "generalRoom"
-    //     }
-    //     if(message != ""){
-    //         await connection?.send("SendMessage", message, room);
-    //     }
-
-    // }
 }

@@ -10,31 +10,22 @@ import TeamItem from './TeamItem/TeamItem';
 import classes from './LobbyWhenUserNotInTeam.module.scss'
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import CustomModal from '../shared/components/UI/CustomModal/CustomModal';
+import { fetchTeams } from '../../store/reducers/teams/actionCreators';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 function LobbyWhenUserNotInTeam() {
     const [selectedTeam, setSelectedTeam] = useState<ITeam>({ id: 1, teamName: '', users: [] })
     const [openCreateTeamForm, setOpenCreateTeamForm] = useState<boolean>(false);
     const [openJoinTeamForm, setOpenJoinTeamForm] = useState<boolean>(false);
     const [disableJoinButton, setDisableJoinButton] = useState<boolean>(true);
-    const [teams, setTeams] = useState<ITeam[]>([]);
+    //const [teams, setTeams] = useState<ITeam[]>([]);
     const [errors, setErrors] = useState<IError[]>([]); //вспомнить зачем вот это 
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    async function fetchTeams() {
-        try {
-            const response = await axios.get<ITeam[]>('api/team/getallteams')
-            setTeams(response.data);
-        }
-        catch (e) {
-            console.log(e);
-        }
-        finally {
-            setIsLoading(false);
-        }
-    }
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
+    const teams = useAppSelector(state => state.teamReduser.teams);
 
     useEffect(() => {
-        fetchTeams();
+        dispatch(fetchTeams())
     }, [])
 
     const handleClickOpenCreateTeamForm = () => {
