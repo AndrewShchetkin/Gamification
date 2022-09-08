@@ -1,0 +1,21 @@
+.animateLogo {
+    content: url(../../../../../img/Logo.svg);
+	animation: rotateAnimation 2s linear infinite;
+}
+
+.flexAnimLine{
+    display: flex;
+    justify-content: center;
+    height: 100px;
+}
+
+.flexAnimColumn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes rotateAnimation {
+	from {transform: rotateY(0deg);}
+	to {transform: rotateY(360deg);}
+}

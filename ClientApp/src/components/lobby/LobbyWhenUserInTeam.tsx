@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+﻿import axios from 'axios';
+import { useEffect, useState } from 'react'
 import { ITeam } from '../../@types/ITeam';
 import { IUser } from '../../@types/IUser';
 import Chat from '../chat/Chat';

@@ -1,12 +1,17 @@
 ﻿const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = {
+const config = {
     entry: {
         index: ["./src/index.tsx"],
     },
-    mode: "development", //production
+    output: {
+        path: path.join(__dirname, "/dist/"),
+        filename: "[name].bundle.js"
+    },
     devServer: {
         historyApiFallback: true,
         hot: true,
@@ -28,10 +33,6 @@ module.exports = {
         },
     },
     devtool: "inline-source-map",
-    output: {
-        path: path.join(__dirname, "/dist/"),
-        filename: "[name].bundle.js"
-    },
     module: {
         rules: [
             {
@@ -40,29 +41,20 @@ module.exports = {
                 use: ["babel-loader"]
             },
             {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader", "postcss-loader"]
-            },
-            {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    // Creates `style` nodes from JS strings
-                    "style-loader",
-                    // Translates CSS into CommonJS
-                    "css-loader",
-                    // Compiles Sass to CSS
-                    "sass-loader",
-                ],
-                // test: /\.s[ac]ss$/i,
-                // use: ['style-loader', {
-                //     loader: 'css-loader',
-                //     options: {
-                //         modules:{
-                //             localIdentName: "[name]"
-                //         }
-                //     }
-                // }, "sass-loader",]
-            },
+                test: /.s?css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+              },
+            // {
+            //     test: /\.s[ac]ss$/i,
+            //     use: [
+            //         // Creates `style` nodes from JS strings
+            //         "style-loader",
+            //         // Translates CSS into CommonJS
+            //         "css-loader",
+            //         // Compiles Sass to CSS
+            //         "sass-loader",
+            //     ],
+            // },
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
@@ -92,6 +84,30 @@ module.exports = {
             filename: "index.html",
             chunks: ['index'],
         }),
-
-    ]
+        new MiniCssExtractPlugin(),
+    ],
+    optimization: {
+        minimizer: [
+            // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+            `...`,
+        ],
+    }
 };
+
+
+module.exports = (env, argv) => {
+    config.mode = argv.mode;
+    if (argv.mode === 'development'){
+
+    }
+
+    if (argv.mode === 'production') {
+        
+        config.optimization.minimize = true;
+        config.optimization.minimizer.push(new TerserPlugin({
+            test: /\.tsx?$/
+        }));
+    }
+
+    return config;
+}
