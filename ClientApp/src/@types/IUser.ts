@@ -1,5 +1,5 @@
 export interface IUser{
     id: string;
     userName: string;
-    teamId: string;
+    teamId: number | string;
 }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { ITeam } from '../../../@types/ITeam'
+import { ActionType } from '../../../@types/ReduxTypes/ActionTypes'
 import { useAppDispatch } from '../../../store/hooks'
 import { setTeamId } from '../../../store/reducers/auth/authSlice'
 import { CustomInput } from '../../shared/components/UI/CustomInput/CustomInput'
@@ -26,6 +27,7 @@ function JoinToTeamForm(props: Props) {
         await axios.post<string>('api/team/jointheteam', body)
             .then(function (response) {
                 dispatch(setTeamId(response.data));
+                dispatch({ type: ActionType.UpdateTeams, payload: response.data });
                 closeForm();
             })
             .catch(function (error) {

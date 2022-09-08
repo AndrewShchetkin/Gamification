@@ -6,21 +6,22 @@ import Chat from '../chat/Chat';
 import ReusedList from '../shared/components/ReusedList'
 import Tabs, { ITab } from '../shared/components/UI/CustomTab/Tabs';
 import classes from './LobbyWhenUserInTeam.module.scss'
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 interface Props {
-    teamId: string
+    teamId: number | string
 }
 
 
 function LobbyWhenUserInTeam(props: Props) {
 
-    const [usersTeam, setUsersTeam] = useState<ITeam>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [selectedTab, setSelectedTab] = useState<string | number>(2);
     const [selectedChatTab, setSelectedChatTab] = useState<string | number>(1);
     const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
-
+    const dispatch = useAppDispatch();
+    const usersTeam = useAppSelector(state => state.teamReduser.teams.find(team => team.id == props.teamId));
+    
     const currentUser = useAppSelector(state => state.authReduser);
     const chatTabs: ITab[] =
         [
@@ -34,7 +35,6 @@ function LobbyWhenUserInTeam(props: Props) {
         { id: 2, header: "Игра" }
     ]
 
-
     const onTabClick = (selectedTab: string | number) => {
         setSelectedTab(selectedTab);
     }
@@ -43,24 +43,11 @@ function LobbyWhenUserInTeam(props: Props) {
         setSelectedChatTab(selectedTab);
     }
 
-    const fetchUserTeam = async () => {
-        try {
-            const response = await axios.get('api/team/getTeamByID', { params: { teamID: props.teamId } });
-            setUsersTeam(response.data);
-            setIsLoading(false);
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
     const changeIsChatVisible = () => {
         setIsChatVisible(isChatVisible => !isChatVisible);
     }
 
-    useEffect(() => {
-        fetchUserTeam();
-    }, [])
+    
 
     return (
         <div className={classes.wrapper}>
@@ -94,7 +81,7 @@ function LobbyWhenUserInTeam(props: Props) {
                                         <Tabs tabs={chatTabs} onClick={onChatTabClick} selectedTab={selectedChatTab} />
                                     </div>
                                     {selectedChatTab === chatTabs[0].id && (
-                                        <Chat group={currentUser.teamId} />
+                                        <Chat group={currentUser.teamId.toString()} />
                                     )}
                                     {selectedChatTab === chatTabs[1].id && (
                                         <Chat group='generalGroup' />

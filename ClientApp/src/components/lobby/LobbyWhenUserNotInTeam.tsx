@@ -24,9 +24,7 @@ function LobbyWhenUserNotInTeam() {
     const dispatch = useAppDispatch();
     const teams = useAppSelector(state => state.teamReduser.teams);
 
-    useEffect(() => {
-        dispatch(fetchTeams())
-    }, [])
+    
 
     const handleClickOpenCreateTeamForm = () => {
         setOpenCreateTeamForm(true);

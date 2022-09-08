@@ -15,6 +15,9 @@ export const teamSlice = createSlice({
     initialState,
      reducers:{
         updateTeam:(state:TeamsState, action: PayloadAction<ITeam>) => {
+            state.teams[state.teams.findIndex(team => team.id == action.payload.id)] = action.payload;
+        },
+        addTeam:(state:TeamsState, action: PayloadAction<ITeam>) => {
             state.teams.push(action.payload); 
         },
     },
@@ -43,4 +46,4 @@ export const teamSlice = createSlice({
 
 export default teamSlice.reducer;
 
-export const { updateTeam } = teamSlice.actions;
+export const { updateTeam, addTeam } = teamSlice.actions;

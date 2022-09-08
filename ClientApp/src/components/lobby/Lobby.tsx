@@ -6,6 +6,7 @@ import classes from './Lobby.module.scss'
 import Header from "../header/Header";
 import { ActionType } from "../../@types/ReduxTypes/ActionTypes";
 import { fetchMessageHistory } from "../../store/reducers/chat/actionCreators";
+import { fetchTeams } from "../../store/reducers/teams/actionCreators";
 
 
 function Lobby() {
@@ -17,11 +18,9 @@ function Lobby() {
         dispatch({ 
             type: ActionType.StartConnection, payload: null 
         });
-        dispatch(fetchMessageHistory())
+        dispatch(fetchTeams());
+        dispatch(fetchMessageHistory());
     }, [])
-
-
-
 
     return (
         <>

@@ -4,7 +4,7 @@ import { Message } from '../../@types/ReduxTypes/ChatState';
 import { messageReceived } from '../reducers/chat/chatSlice'
 import { ActionType } from "../../@types/ReduxTypes/ActionTypes";
 import { ITeam } from "../../@types/ITeam";
-import { updateTeam } from "../reducers/teams/teamSlise";
+import { addTeam, updateTeam } from "../reducers/teams/teamSlise";
 
 
 export const createSocketMiddleware = (storeAPI: any) => {
@@ -20,8 +20,12 @@ export const createSocketMiddleware = (storeAPI: any) => {
         console.log(ChatMessage);
     });
 
-    connection.on("UpdateTeams", team => {
-        debugger;
+    connection.on("AddTeam", team => {
+        const NewTeam: ITeam = team;
+        storeAPI.dispatch(addTeam(NewTeam))
+    });
+
+    connection.on("UpdateTeam", team => {
         const NewTeam: ITeam = team;
         storeAPI.dispatch(updateTeam(NewTeam))
     });
@@ -31,7 +35,6 @@ export const createSocketMiddleware = (storeAPI: any) => {
             case ActionType.StartConnection:
                 connection.start().then(() => {
                     connection.invoke("ConnectToGeneralGroup");
-                    debugger;
                     const state = storeAPI.getState();
                     console.log(storeAPI);
                     if (state.authReduser.teamId != "") {
@@ -40,12 +43,13 @@ export const createSocketMiddleware = (storeAPI: any) => {
                 });
                 break;
             case ActionType.SendMessage:
-                debugger;
                 connection.send("SendMessage", action.payload.message, action.payload.group);
                 break;
+            case ActionType.AddTeam:
+                connection.send("AddTeam", action.payload);
+                break;
             case ActionType.UpdateTeams:
-                debugger;
-                connection.send("UpdateTeams", action.payload);
+                connection.send("UpdateTeam", action.payload);
                 break;
         }
 

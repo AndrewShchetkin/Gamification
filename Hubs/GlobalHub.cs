@@ -100,21 +100,18 @@ namespace Gamification.Hubs
 
         #endregion
 
-        public async Task UpdateTeams(Guid teamId)
+        public async Task AddTeam(Guid teamId)
         {
             var team =  await _teamRepository.GetTeamById(teamId, true);
             var teamDto = _mapper.Map<Team, TeamDto>(team);
-            await Clients.Group("generalGroup").SendAsync("UpdateTeams", teamDto);
+            await Clients.All.SendAsync("AddTeam", teamDto);
+        }
 
-            var newMessage = await _messageRepository.Add(new CommonMessage
-            {
-                Author = "System",
-                Text = $"Была создана команда {team.TeamName}",
-                DispatchTime = DateTime.Now.ToUniversalTime(),
-                Group = "generalGroup"
-            });
-            var messageDto = _mapper.Map<CommonMessage, CommonMessageDto>(newMessage);
-            await Clients.Group("generalGroup").SendAsync("ReceiveMessage", messageDto);
+        public async Task UpdateTeam(Guid teamId)
+        {
+            var team = await _teamRepository.GetTeamById(teamId, true);
+            var teamDto = _mapper.Map<Team, TeamDto>(team);
+            await Clients.All.SendAsync("UpdateTeam", teamDto);
         }
 
     }

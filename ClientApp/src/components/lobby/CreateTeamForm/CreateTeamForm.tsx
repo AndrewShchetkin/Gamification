@@ -26,7 +26,7 @@ function CreateTeamForm(props: Props) {
         await axios.post<string>('api/team/teamregister', body)
             .then(function (response) {
                 dispatch(setTeamId(response.data));
-                dispatch({ type: ActionType.UpdateTeams, payload: response.data });
+                dispatch({ type: ActionType.AddTeam, payload: response.data });
                 closeForm();
             })
             .catch(function (error) {
