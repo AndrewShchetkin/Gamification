@@ -2,6 +2,7 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
     entry: {
@@ -40,20 +41,20 @@ const config = {
                 use: ["babel-loader"]
             },
             {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader", "postcss-loader"]
-            },
-            {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    // Creates `style` nodes from JS strings
-                    "style-loader",
-                    // Translates CSS into CommonJS
-                    "css-loader",
-                    // Compiles Sass to CSS
-                    "sass-loader",
-                ],
-            },
+                test: /.s?css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+              },
+            // {
+            //     test: /\.s[ac]ss$/i,
+            //     use: [
+            //         // Creates `style` nodes from JS strings
+            //         "style-loader",
+            //         // Translates CSS into CommonJS
+            //         "css-loader",
+            //         // Compiles Sass to CSS
+            //         "sass-loader",
+            //     ],
+            // },
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
@@ -83,7 +84,7 @@ const config = {
             filename: "index.html",
             chunks: ['index'],
         }),
-
+        new MiniCssExtractPlugin(),
     ],
     optimization: {
         minimizer: [

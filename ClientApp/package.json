@@ -3,14 +3,10 @@
     "version": "0.0.1",
     "scripts": {
         "start": "webpack-dev-server --config webpack.config.js --mode development",
-        "build": "webpack --config webpack.config.js --mode production"
+        "build": "webpack --config webpack.config.js --mode development"
     },
     "dependencies": {
-        "@emotion/react": "^11.4.1",
-        "@emotion/styled": "^11.3.0",
         "@microsoft/signalr": "^5.0.11",
-        "@mui/icons-material": "^5.0.3",
-        "@mui/material": "^5.0.3",
         "@reduxjs/toolkit": "^1.6.2",
         "axios": "^0.24.0",
         "history": "^4.10.1",
@@ -33,11 +29,14 @@
         "@types/react-redux": "^7.1.19",
         "@types/react-router-dom": "^5.3.1",
         "@types/react-router-redux": "^5.0.20",
+        "@types/react-transition-group": "^4.4.5",
         "@types/redux-actions": "^2.6.2",
         "babel-loader": "^8.2.5",
         "clean-webpack-plugin": "^4.0.0",
         "css-loader": "^6.7.1",
+        "css-minimizer-webpack-plugin": "^4.0.0",
         "html-webpack-plugin": "^5.5.0",
+        "mini-css-extract-plugin": "^2.6.1",
         "postcss-loader": "^7.0.0",
         "sass": "^1.53.0",
         "sass-loader": "^13.0.2",
