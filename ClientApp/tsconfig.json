@@ -18,7 +18,8 @@
     "jsx": "react-jsx",
     "target": "es5",
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext"
+    "module": "esnext",
+    "sourceMap": true
   },
   "include": [
     "src"
