@@ -1,17 +1,12 @@
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Tab, TextField, Typography } from '@mui/material'
-import { blue } from '@mui/material/colors';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ITeam } from '../../@types/ITeam';
 import { IUser } from '../../@types/IUser';
 import Chat from '../chat/Chat';
 import ReusedList from '../shared/components/ReusedList'
 import Tabs, { ITab } from '../shared/components/UI/CustomTab/Tabs';
-import TeamItem from './TeamItem/TeamItem'
-import UserItem from './UserItem/UserItem';
 import classes from './LobbyWhenUserInTeam.module.scss'
 import { useAppSelector } from '../../store/hooks';
-import CustomModal from '../shared/components/UI/CustomModal/CustomModal';
 
 interface Props {
     teamId: string
