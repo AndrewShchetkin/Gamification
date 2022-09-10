@@ -10,10 +10,16 @@ using UnityEngine.UI;
 public class HexGrid : MonoBehaviour
 {
 	public int cellCountX, cellCountZ;
+	public int NoGameChunckCount = 2;
 	/// <summary>
-	/// Количество сегментов на карте
+	/// Количество игровых сегментов на карте
 	/// </summary>
-	public int chunkCountX = 4, chunkCountZ = 3;
+	public int ChunkCountX = 5, ChunkCountZ = 5;
+	/// <summary>
+	/// Количество всех сегментов на карте
+	/// </summary>
+	internal int allChunkCountX => ChunkCountX + NoGameChunckCount;
+	internal int allChunkCountZ => ChunkCountZ + NoGameChunckCount;
 	/// <summary>
 	/// Цвет по умолчани(убрано для сохранения карты)
 	/// </summary>
@@ -94,14 +100,14 @@ public class HexGrid : MonoBehaviour
 		HexMetrics.noiseSource = noiseSource;
 		HexMetrics.colors = colors;
 
-		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+		cellCountX = allChunkCountX * HexMetrics.chunkSizeX;
+		cellCountZ = allChunkCountZ * HexMetrics.chunkSizeZ;
 
-		CreateChunks();		
+		CreateChunks();
 		CreateCells();
 
-		CreateNonGameChuncks();
-		CreateNonGameCells();
+		//CreateNonGameChuncks();
+		//CreateNonGameCells();
 	}
 
 	void CreateCells()
@@ -118,7 +124,7 @@ public class HexGrid : MonoBehaviour
 	}
 	void CreateNonGameCells()
 	{
-		noGameCells = new HexCell[((chunkCountX + chunkCountZ) * 2 + 4) * HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
+		noGameCells = new HexCell[((allChunkCountX + allChunkCountZ) * 2 + 4) * HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
 
 		for (int z = 0, i = 0; z < cellCountZ; z++)
 		{
@@ -131,11 +137,11 @@ public class HexGrid : MonoBehaviour
 
 	void CreateChunks () 
 	{
-		chunks = new HexGridChunk[chunkCountX * chunkCountZ];
+		chunks = new HexGridChunk[allChunkCountX * allChunkCountZ];
 
-		for (int z = 1, i = 0; z < chunkCountZ +1; z++) 
+		for (int z = 0, i = 0; z < allChunkCountZ; z++) 
 		{
-			for (int x = 1; x < chunkCountX + 1; x++) 
+			for (int x = 0; x < allChunkCountX; x++) 
 			{
 				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
 				chunk.SetCoordinatesChunck(x, z);
@@ -146,30 +152,30 @@ public class HexGrid : MonoBehaviour
 
 	void CreateNonGameChuncks()
     {
-		nonGameChunks = new HexGridChunk[(chunkCountX + chunkCountZ) * 2 + 4];
+		nonGameChunks = new HexGridChunk[(allChunkCountX + allChunkCountZ) * 2 + 4];
 		int count = 0;
-		for (int x = 0; x < chunkCountX + 1; x++)
+		for (int x = 0; x < allChunkCountX + 1; x++)
 		{
 			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
 			chunk.SetCoordinatesChunck(x, 0);
 			chunk.transform.SetParent(transform);
 		}
 
-		for (int z = 0; z < chunkCountZ + 1; z++)
+		for (int z = 0; z < allChunkCountZ + 1; z++)
 		{
 			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
-			chunk.SetCoordinatesChunck(chunkCountX + 1, z);
+			chunk.SetCoordinatesChunck(allChunkCountX + 1, z);
 			chunk.transform.SetParent(transform);
 		}
 
-		for (int x = chunkCountX + 1; x >= 0; x--)
+		for (int x = allChunkCountX + 1; x >= 0; x--)
 		{
 			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
-			chunk.SetCoordinatesChunck(x, chunkCountZ + 1);
+			chunk.SetCoordinatesChunck(x, allChunkCountZ + 1);
 			chunk.transform.SetParent(transform);
 		}
 
-		for (int z = chunkCountZ; z >= 1; z--)
+		for (int z = allChunkCountZ; z >= 1; z--)
 		{
 			HexGridChunk chunk = nonGameChunks[count++] = Instantiate(chunkPrefab);
 			chunk.SetCoordinatesChunck(0, z);
@@ -254,7 +260,7 @@ public class HexGrid : MonoBehaviour
 	{
 		int chunkX = x / HexMetrics.chunkSizeX;
 		int chunkZ = z / HexMetrics.chunkSizeZ;
-		HexGridChunk chunk = chunks[chunkX + chunkZ * chunkCountX];
+		HexGridChunk chunk = chunks[chunkX + chunkZ * allChunkCountX];
 
 		int localX = x - chunkX * HexMetrics.chunkSizeX;
 		int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
@@ -340,10 +346,10 @@ public class HexGrid : MonoBehaviour
     {
 		var extremeChuncks = new List<HexGridChunk>();
         extremeChuncks.Add(chunks.Where(c => c.x == 0 && c.z == 0).Single());
-		extremeChuncks.Add(chunks.Where(c => c.x == 0 && c.z == chunkCountZ-1).Single());
-		extremeChuncks.Add(chunks.Where(c => c.x == chunkCountX-1 && c.z == chunkCountZ-1).Single());
-		extremeChuncks.Add(chunks.Where(c => c.x == chunkCountX-1 && c.z == 0).Single());
-        extremeChuncks.Add(chunks[chunkCountX * chunkCountZ/2]);
+		extremeChuncks.Add(chunks.Where(c => c.x == 0 && c.z == allChunkCountZ-1).Single());
+		extremeChuncks.Add(chunks.Where(c => c.x == allChunkCountX-1 && c.z == allChunkCountZ-1).Single());
+		extremeChuncks.Add(chunks.Where(c => c.x == allChunkCountX-1 && c.z == 0).Single());
+        extremeChuncks.Add(chunks[allChunkCountX * allChunkCountZ/2]);
 
 		return extremeChuncks;
 	}

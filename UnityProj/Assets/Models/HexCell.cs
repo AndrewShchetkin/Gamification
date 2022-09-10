@@ -66,6 +66,26 @@ public class HexCell : MonoBehaviour
             DisableFog(coordinates);
         }
     }
+    /// <summary>
+    /// Переключатель стен
+    /// </summary>
+    public bool Walled
+    {
+        get
+        {
+            return walled;
+        }
+        set
+        {
+            if (walled != value)
+            {
+                walled = value;
+                Refresh();
+            }
+        }
+    }
+
+    bool walled;
 
     private void DisableFog(HexCoordinates? coordinates)
     {
