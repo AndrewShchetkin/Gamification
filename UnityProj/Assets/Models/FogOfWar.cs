@@ -14,7 +14,7 @@ public class FogOfWar : MonoBehaviour
     {
         var fogOfWar = Instantiate<ParticleSystem>(fogOfWarParticlePrefab);
         fogOfWar.gameObject.transform.SetParent(transform);
-        fogOfWar.gameObject.transform.position = new Vector3(position.x, 10, position.z);
+        fogOfWar.gameObject.transform.position = new Vector3(position.x, 20, position.z);
 
         hexCoordinates = coordinates;
     }
