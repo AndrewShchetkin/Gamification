@@ -40,6 +40,10 @@ namespace Gamification
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
 
+            services.AddScoped<IQuizRepository, QuizRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
+
             services.AddScoped<IMapRepository, MapRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
@@ -64,6 +68,7 @@ namespace Gamification
                     };
 
                 });
+
 
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson();
