@@ -16,10 +16,11 @@ namespace Gamification.Data
             db = context;
         }
 
-        public async Task Add(CommonMessage newMessage)
+        public async Task<CommonMessage> Add(CommonMessage newMessage)
         {
             db.CommonMessages.Add(newMessage);
             await db.SaveChangesAsync();
+            return newMessage;
         }
 
         public async Task<List<CommonMessage>> GetAll()

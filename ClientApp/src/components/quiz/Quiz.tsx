@@ -1,62 +1,76 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { ITeam } from '../../@types/ITeam';
 import QuestionBox from './QuestionsBox'
-import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
+import classes from './Quiz.module.scss'
 
 export default function Quiz() {
-    const userName = useAppSelector(state => state.authReduser.userName)
-    return (
-        <Box
-            sx={{
-                width: '100%',
-                height: '100%',
-                color: '#fff',
-                '& > .MuiBox-root > .MuiBox-root': {
-                    p: 1,
-                    borderRadius: 2,
-                },
-                alignItems: 'center'
-            }}
-        >
-            <Box
-                sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gridAutoRows: '40px',
-                    gap: 5,
-                    gridTemplateRows: 'auto',
-                    gridTemplateAreas: `
-                    "header header header header"
-                    "sidebar main main main"
-                    "footer footer footer footer"`,
 
-                }}
-            >
-                <Box sx={{ gridArea: 'header', bgcolor: 'primary.main', gridRow: 'span 2' }}>
-                    Header + инфа с таймерами
-                    <Link to='/game'>game</Link>
-                    <Link to='/game2'>game2</Link>
-                </Box>
-                <Box sx={{ gridArea: 'main', bgcolor: 'secondary.main', textAlign: 'center', gridRow: '3/12' }}>
+    const userName = useAppSelector(state => state.authReduser.userName)
+    const teamId = useAppSelector(state => state.authReduser.teamId);
+
+    const [usersTeam, setUsersTeam] = useState<ITeam>();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        if (teamId) {
+            fetchUserTeam();
+        }
+    }, [teamId])
+
+    const fetchUserTeam = async () => {
+        try {
+            const response = await axios.get('api/team/getTeamByID', { params: { teamID: teamId } });
+            setUsersTeam(response.data);
+            setIsLoading(false);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    return (
+        <div>
+            <div className={classes.header}>
+                <div className={classes.logo}></div>
+                <div className={classes.gameName}></div>
+            </div>
+
+            <div className={classes.wrapper}>
+                <div className={classes.quizName}>Название викторины</div>
+                <div className={classes.container}>
+                    <div className={classes.teamInfo}>
+                        <div className={classes.teamName}>
+                            {usersTeam?.teamName}
+                        </div>
+                        <div className={classes.usersList}>
+                            {usersTeam?.users.map(user =>
+                                <div className={classes.userItem}>
                     <QuestionBox/>
-                </Box>
-                <Box sx={{ gridArea: 'sidebar', bgcolor: 'info.main', textAlign: 'center', gridRow: '3/12' }}>
-                    <ul>
-                        <li>тут разметить пользователя 😎</li>
-                        <li>тут разметить пользователя 😴</li>
-                        <li>тут разметить пользователя 🐵</li>
-                        <li>тут разметить пользователя 💩 {userName}</li>
-                        <li>тут разметить пользователя 🐱‍👤</li>
-                    </ul>
-                </Box>
-                <Box sx={{
-                    gridArea: 'footer',
-                    bgcolor: 'warning.main',
-                    bottom: 0,
-                    gridRow: '12/14'
-                }}>Тут ссылка на пожертвования 🤑</Box>
-            </Box>
-        </Box>
+                                    {user.userName}
+                                </div>)}
+                        </div>
+                        <div className={classes.timer}></div>
+                    </div>
+                    <div className={classes.quizContent}>
+                        <div className={classes.questionsNumbers}></div>
+                        <div className={classes.currentQuestion}>
+                            <div className={classes.questionWording}></div>
+                            <div className={classes.answersOptions}>
+                                <div className={classes.firstAnswersPair}>
+                                    <div className={classes.answer}></div>
+                                    <div className={classes.answer}></div>
+                                </div>
+                                <div className={classes.secondAnswersPair}>
+                                    <div className={classes.answer}></div>
+                                    <div className={classes.answer}></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

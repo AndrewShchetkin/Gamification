@@ -1,62 +1,39 @@
-import React, {} from "react";
-import { Box, Container, CssBaseline } from '@mui/material'
-import { useAppSelector } from '../../store/hooks';
-import Chat from '../chat/Chat';
-import TeamsInfoWhenUserInTeam from './TeamsInfoWhenUserInTeam';
-import TeamsInfoWhenUserNotInTeam from './TeamsInfoWhenUserNotInTeam';
-import { Temp } from "../temp";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import LobbyWhenUserInTeam from './LobbyWhenUserInTeam';
+import LobbyWhenUserNotInTeam from './LobbyWhenUserNotInTeam';
+import classes from './Lobby.module.scss'
+import Header from "../header/Header";
+import { ActionType } from "../../@types/ReduxTypes/ActionTypes";
+import { fetchMessageHistory } from "../../store/reducers/chat/actionCreators";
+import { fetchTeams } from "../../store/reducers/teams/actionCreators";
+
 
 function Lobby() {
     const teamId = useAppSelector(state => state.authReduser.teamId);
+    const dispatch = useAppDispatch();
+
+    // При первоначальном рендере запрашиваем все сообшения из БД, устанавливаем соединение signalr
+    useEffect(() => {
+        dispatch({ 
+            type: ActionType.StartConnection, payload: null 
+        });
+        dispatch(fetchTeams());
+        dispatch(fetchMessageHistory());
+    }, [])
 
     return (
-        <Container maxWidth="xl">
-            <CssBaseline />
-            <Box sx={{
-                display: 'flex',
-                height: '100vh',
-                flexDirection: 'column'
-            }}>
-                <Box sx={{
-                    display: "block",
-                    bgcolor: 'primary.main',
-                    mb: '10px',
-                    flex: '0 0 10%'
-                }}
-                >Header</Box>
-                <Box className="contentMiddle"
-                    sx={{
-                        display: 'flex',
-                        flex: '1 1 auto'
-                    }}>
-                    {/* <Box className="chatBlock"
-                        sx={{
-                            flex: '0 0 30%',
-                            maxWidth: "30%"
-                        }}>
-                        <Chat />
-                    </Box>
-                    <Box className="teamsBlock"
-                        sx={{
-                            bgcolor: '#fff',
-                            display: 'flex',
-                            flex: '1 1 auto',
-                            flexDirection: 'column'
-                        }}>
-                        <Box sx={{
-                            flex: '0 0 10%',
-                            bgcolor: '#c1c7b7'
-                        }}>Информация о командах</Box>
-                        {teamId ? <TeamsInfoWhenUserInTeam teamId={teamId} /> : <TeamsInfoWhenUserNotInTeam />}
-                    </Box> */}
-                    {teamId ? <TeamsInfoWhenUserInTeam teamId={teamId} /> : <TeamsInfoWhenUserNotInTeam />}
-                </Box>
-                <Box className="contentFooter" sx={{ 
-                    height: '10%', 
-                    bgcolor: '#57535c' 
-                }}>Footer Content</Box>
-            </Box>
-        </Container>
+        <>
+            <Header />
+            <div className={classes.wrapper}>
+                <div className={classes.container}>
+                    <div className={classes.content}>
+                        {teamId ? <LobbyWhenUserInTeam teamId={teamId} /> : <LobbyWhenUserNotInTeam />}
+                    </div>
+                </div>
+            </div>
+        </>
+
     )
 }
 

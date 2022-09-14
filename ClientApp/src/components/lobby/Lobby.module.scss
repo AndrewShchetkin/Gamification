@@ -1,0 +1,31 @@
+@import "../../style/variables.scss";
+
+// .wrapper{
+// }
+
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.header{
+    display: block;
+    margin-bottom: 10px;
+    flex: 0 0 10%;
+    color: $textColor;
+}
+
+.content{
+    margin-top: 20px;
+    display: flex;
+    flex: 1 1 auto;
+    max-height: 75vh;
+}
+
+.footer {
+    height: 10%;
+    margin-top: 10px;
+}
+
+

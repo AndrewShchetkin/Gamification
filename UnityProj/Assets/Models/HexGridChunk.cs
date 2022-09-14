@@ -4,11 +4,12 @@ using UnityEngine.UI;
 public class HexGridChunk : MonoBehaviour
 {
 	HexCell[] cells;
-
+	public int x;
+	public int z;
 	HexMesh hexMesh;
 	Canvas gridCanvas;
 
-	void Awake()
+    void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
@@ -54,4 +55,15 @@ public class HexGridChunk : MonoBehaviour
 	{
 		gridCanvas.gameObject.SetActive(visible);
 	}
+
+	public void SetCoordinatesChunck(int x, int z)
+    {
+		this.x = x;
+		this.z = z;
+    }
+
+	public HexCell GetRandomCell()
+    {
+		return cells[Random.Range(0, cells.Length)];
+    }
 }

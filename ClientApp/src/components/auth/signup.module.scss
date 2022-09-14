@@ -1,0 +1,49 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    height: 500px;
+    width: 500px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 85vh;
+}
+
+.logoBlockWrapper{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.signUpIMG{
+    background-image: url("/src/assets/sign_in_img.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    width: 65px;
+    height: 65px;
+}
+
+.signUpHeader{
+    font-size: 25px;
+    margin-top: 10px;
+}
+
+.formContent{
+    margin-top: 30px;
+    display: block;
+    width: 70%;
+    p{
+        margin: 0px;
+        font-size: 20px;
+    }
+}
+
+.btnBlock{
+    display: flex;
+    justify-content: center;
+}

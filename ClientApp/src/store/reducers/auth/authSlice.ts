@@ -27,6 +27,7 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.userName = action.payload.userName ?? "";
             state.teamId = action.payload.userTeamId ?? "";
+            state.id = action.payload.userId ?? ""
         },
         startLoadData: state => {
             state.requestSended = true
@@ -43,6 +44,7 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.userName = action.payload.userName ?? "";
             state.teamId = action.payload.userTeamId ?? "";
+            state.id = action.payload.userId ?? "";
             state.requestSended = false;
         },
         [fetchUser.pending.type]: (state: AuthState) => { // идет запрос

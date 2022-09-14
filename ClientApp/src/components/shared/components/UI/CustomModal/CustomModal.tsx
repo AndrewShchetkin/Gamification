@@ -1,29 +1,29 @@
-import React, {FC, MouseEvent} from 'react';
-import classes from './CustomModal.module.css';
+import React from 'react';
+import classes from './CustomModal.module.scss'
 
-export interface ICustomModal {
-
-    children:JSX.Element,
-    modal:boolean,
-    setModal: React.Dispatch<React.SetStateAction<boolean>>;
+interface Props {
+   children: React.ReactNode, 
+   visible: boolean,
+   setVisible: (visible:boolean) => void
 }
 
-const CustomModal:FC<ICustomModal> = ({children,modal, setModal}) => {
+function CustomModal(props: Props) {
+    const {children, visible, setVisible} = props
+    const rootClasses= [classes.customModal];
+    if(visible){
+        rootClasses.push(classes.active)
+    }
 
-    const modalState: string[] = [classes.modal];
-    if (modal)
-        modalState.push(classes.active);
-    
     return (
-        <div className={modalState.join(' ')} onClick={() => 
-            setModal(false)
-        }>
-            <div className={classes.modalContent} onClick={(e:MouseEvent<HTMLDivElement>) => {
-                e.stopPropagation()
-            }}>
+        <div className={rootClasses.join(' ')} onClick={()=> setVisible(false)}>
+            <div className={classes.customModalContent} onClick={(e)=> e.stopPropagation()}>
                 {children}
             </div>
         </div>
+    )
+}
+
+export default CustomModal
     );
 }
 

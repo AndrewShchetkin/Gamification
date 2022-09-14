@@ -1,0 +1,126 @@
+@import "../../style/variables.scss";
+
+.chatContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: rgb(217, 217, 217, 0.9);
+    border-radius: 5px;
+    border: 3px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.messageContent {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.inputContent{
+    flex: 0 0 15%;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #3D5265;
+    margin: 0px;
+    background-color: #2A547A;
+}
+
+.chatTextArea { 
+    flex: 1 1 auto;
+    resize: none;
+    margin: 5px;
+    background-color: #2A547A;
+    border: none;
+    height: 50%;
+    color: #ffffff;
+    &::placeholder{
+        color: #ffffff;
+    }
+}
+
+.chatTextArea:focus {
+    //border: 3px solid #0258d9;
+    border: none;
+    outline: none;
+}
+
+.sendMessageBtn {
+    flex: 0 0 10%;
+}
+
+.sendBtn{
+    background-image: url("/src/assets/paper-plane-svgrepo-com.svg");
+    background-size: 100%;
+    width: 50px;
+    height: 50px;
+    outline: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    display: inline;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.messageRightRow{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.messageRigth{
+    display: flex;
+    justify-content: flex-end;
+    max-width: 80%;
+}
+
+
+.messageRightAuthor{
+    text-align: end;
+    margin: 20px 15px 5px 0px;
+}
+
+.messageLeftRow{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.messageLeft{
+    display: flex;
+    justify-content: flex-start;
+    max-width: 80%;
+}
+
+
+.messageLeftAuthor{
+    margin: 20px 0px 5px 15px;
+}
+
+.messageText{
+    text-align: left;
+    background-color: #2A547A;
+    color: #FFFFFF;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0px 15px;
+    word-break: break-word;
+}
+
+
+// Syles for scrollbar , don't work for firefox
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

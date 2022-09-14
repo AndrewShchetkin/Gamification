@@ -1,0 +1,41 @@
+@import "../../../../../style/variables.scss";
+
+.tabs{
+    // display: flex;
+    // flex-direction: row;
+    // align-items: flex-start;
+    // width: 100%;
+    // min-height: 100%;
+    display: flex;
+    width: 100%;
+}
+
+.tab{
+    cursor: pointer;
+    transition: all , 0.15s;
+    border: 1px solid $textColor;
+    
+}
+
+.header{
+    color: $textColor;
+    background-color: $backColor;
+    height: 100%;
+
+    p {
+        padding: 0px 0px 5px 10px;
+        margin: 0px;
+    }
+}
+
+.active_header{
+    color: $textColor;
+    background-color: $mycolor;
+    height: 100%;
+
+    p {
+        padding: 0px;
+        margin: 0px;
+        padding: 0px 0px 5px 10px;
+    }
+}

@@ -8,9 +8,17 @@ namespace Gamification.Data.Interfaces
 {
     public interface IMessageRepository
     {
-        // Добавить сообщение в БД 
-        Task Add(CommonMessage newMessage);
-        // Получить все сообщения из бд 
+        /// <summary>
+        /// Добавить сообщение
+        /// </summary>
+        /// <param name="newMessage"></param>
+        /// <returns></returns>
+        Task<CommonMessage> Add(CommonMessage newMessage);
+        
+        /// <summary>
+        /// Получить все сообщения из БД
+        /// </summary>
+        /// <returns></returns>
         Task<List<CommonMessage>> GetAll();
     }
 }

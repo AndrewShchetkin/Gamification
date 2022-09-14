@@ -66,7 +66,7 @@ namespace Gamification.Controllers
 
             await AuthenticateAsync(userDto.UserName);
 
-            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId});
+            return Ok(new { message = "success", userName = user.UserName , userTeamId = user.TeamId , userId = user.Id});
         }
         
         [HttpPost(template: "logout")]
@@ -88,7 +88,7 @@ namespace Gamification.Controllers
                 return BadRequest("Пользователь не найден");
             }
 
-            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId});
+            return Ok(new {userName = User.Identity.Name, userTeamId = user.TeamId , userId = user.Id});
         }
 
         // Helpers methods

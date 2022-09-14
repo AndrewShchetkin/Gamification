@@ -1,0 +1,11 @@
+@import "../../../../../style/variables.scss";
+
+.customBtn{
+    color: $textColor;
+    background-color: #54DCE5;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 35px;
+    margin: 5px;
+    cursor: pointer;
+}

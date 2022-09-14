@@ -119,7 +119,7 @@ namespace Gamification
             app.UseRouting();
 
             app.UseCors(options => options
-                .WithOrigins(new[] { "http://localhost:3000" })
+                .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8080" })
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials());
@@ -131,10 +131,10 @@ namespace Gamification
             {
 
                 endpoints.MapHub<MapHub>("/hubs/map");
-                endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHub<GlobalHub>("/hubs/global");
                 endpoints.MapHub<QuizHub>("/quizHub");
 
-                endpoints.MapControllerRoute( // еще надо уточнить какая будет маршрутизация 
+                endpoints.MapControllerRoute( 
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
@@ -145,7 +145,8 @@ namespace Gamification
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                    //spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
         }

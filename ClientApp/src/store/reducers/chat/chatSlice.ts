@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ChatState, Message } from "../../../@types/ReduxTypes/ChatState";
-
+import { fetchMessageHistory } from "./actionCreators"
 
 
 export const initialState: ChatState = {
-    messages: []
+    messages: [],
+    requestSended: false,
+    error: false
+    
 }
 
 export const chatSlice = createSlice({
@@ -14,12 +17,34 @@ export const chatSlice = createSlice({
         messageReceived:(state:ChatState, action: PayloadAction<Message>) => {
             // при получении сообщения добавляем его в state 
             state.messages.push(action.payload); 
+        },
+    },
+    extraReducers: {
+        [fetchMessageHistory.fulfilled.type]: (state: ChatState, action: PayloadAction<Message[]>) => { // Данные получены
+            state.messages = action.payload;
+            state.requestSended = false;
+        },
+        [fetchMessageHistory.pending.type]: (state: ChatState) => { // идет запрос
+            state.requestSended = true
+        },
+        [fetchMessageHistory.rejected.type]: (state: ChatState, action: PayloadAction) => { // ошибка
+            // if (isAxiosError(action.payload)) {
+            //     if (action.payload.response?.status != 401) {
+            //         console.error(action.payload.message);
+            //     }
+            // }
+            // else {
+            //     console.error(action.payload)
+            // }
+            state.requestSended = false;
         }
-    }
+    },
 })
 
 
 export default chatSlice.reducer;
+
+export const { messageReceived } = chatSlice.actions;
 
 
 // import { RootState } from '../../store';

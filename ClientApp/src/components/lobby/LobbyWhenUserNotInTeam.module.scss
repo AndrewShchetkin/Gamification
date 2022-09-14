@@ -1,0 +1,63 @@
+@import "../../style/variables.scss";
+
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.chatBlock{
+    flex: 0 0 30%;
+    max-width: 30%;
+    margin-left: 40px;
+}
+
+.teamsBlock{
+    display: flex;
+    flex: 1 1 auto;
+    margin-left: 10px;
+}
+.teamsContent{
+    height: 100%;
+    width: 800px;
+    margin: auto;
+}
+.teamsList{
+    display: flex;
+    flex-wrap: wrap;
+    width: 95%;
+    margin: auto;
+}
+// .teamsFooter{
+//     display: flex;
+//     flex-grow: 1;
+//     align-items: center;
+//     justify-content: flex-end;
+//     background-color: antiquewhite;
+// }
+
+.createTeamBlock{
+    margin-left: 30px;
+    width: 343px;
+    height: 137px;
+    border: 3px solid #FFFFFF;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.addImage{
+    background-image: url("/src/assets/add.svg");
+    background-size: 100%;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    margin-top: 17px;
+}
+
+.teamItemWrapper {
+    height: 200px;
+    display: flex;
+}
