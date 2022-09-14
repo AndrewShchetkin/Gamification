@@ -7,7 +7,6 @@ export class Validator {
          setErrorMsgs:React.Dispatch<React.SetStateAction<IQuizErrorMsg>>,
           errorMsgs:IQuizErrorMsg): boolean {
         
-        const todayDate:string = new Date(Date.now()).toLocaleDateString();
         const dateBegin: number = Date.parse(quiz.dateBegin);
         const dateEnd: number = Date.parse(quiz.dateEnd);
         const fileExtension: string = filePath.split('.')[1];
@@ -24,19 +23,6 @@ export class Validator {
             success = false;
             errors.dateBegin = 'Дата начала < Дата окончания';
             errors.dateEnd = 'Дата окончания > Дата начала';
-        }
-        else {
-            const dateBeginDate:string = new Date(dateBegin).toLocaleDateString();
-            const dateEndDate:string = new Date(dateEnd).toLocaleDateString();
-
-            if (todayDate !== dateBeginDate) {
-                success = false;
-                errors.dateBegin = `Выберите сегодняшнюю дату (${todayDate})`;
-            }
-            if (todayDate !== dateEndDate) {
-                success = false;
-                errors.dateEnd = `Выберите сегодняшнюю дату (${todayDate})`;
-            }
         }
         if (isNaN(dateBegin)) {
             success = false;

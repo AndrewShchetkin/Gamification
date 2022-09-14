@@ -2,20 +2,20 @@ import React, { ChangeEvent, FC, FormEvent, MutableRefObject, useEffect, useRef,
 import { CustomButton } from '../shared/components/UI/CustomButton/CustomButton';
 import IQuiz from '../../@types/AdminPanel/IQuiz';
 import CustomTextInput from '../shared/components/UI/CustomTextInput/CustomTextInput';
-import {Validator} from '../../services/ValidationService';
+import { Validator } from '../../services/ValidationService';
 import IQuizErrorMsg from '../../@types/AdminPanel/IQuizErrorMsg';
 import axios, { AxiosError } from 'axios';
 import classes from './styles/UploadForm.module.css';
 
 export interface IUploadForm {
-    addQuiz:() => void,
+    addQuiz: () => void,
     modal: boolean
 }
 
-const INITIAL_QUIZ ={name:'', dateBegin:'', dateEnd:''};
-const INITIAL_QUIZ_ERROR_MSG ={name:'', dateBegin:'', dateEnd:'', filePath:'', serverError:''};
+const INITIAL_QUIZ = { name: '', dateBegin: '', dateEnd: '' };
+const INITIAL_QUIZ_ERROR_MSG = { name: '', dateBegin: '', dateEnd: '', filePath: '', serverError: '' };
 
-const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
+const QuizUploadForm: FC<IUploadForm> = ({ addQuiz, modal }) => {
 
     const [quiz, setQuiz] = useState<IQuiz>(INITIAL_QUIZ);
     const [quizErrorMsgs, setQuizErrorMsgs] = useState<IQuizErrorMsg>(INITIAL_QUIZ_ERROR_MSG);
@@ -29,10 +29,10 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
         }
     }, [modal])
 
-    const submitAdd = async (e:FormEvent<HTMLFormElement>) => {
+    const submitAdd = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
-        if (!Validator.uploadFormValidate(quiz,filePath,setQuizErrorMsgs, quizErrorMsgs))
+        debugger;
+        if (!Validator.uploadFormValidate(quiz, filePath, setQuizErrorMsgs, quizErrorMsgs))
             return;
 
         try {
@@ -44,47 +44,44 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             setFilePath('');
             setQuizErrorMsgs(INITIAL_QUIZ_ERROR_MSG);
         }
-        
-        catch(err) {
+
+        catch (err) {
 
             const error: AxiosError = (err as AxiosError);
             if (error.message === 'Network Error') // изменили файл
             {
                 setFilePath('');
-                setQuizErrorMsgs({...INITIAL_QUIZ_ERROR_MSG, filePath:'Файл был изменен. Загрузите файл еще раз'});
+                setQuizErrorMsgs({ ...INITIAL_QUIZ_ERROR_MSG, filePath: 'Файл был изменен. Загрузите файл еще раз' });
             }
             else if (error.response?.status === 400)
-                setQuizErrorMsgs({...INITIAL_QUIZ_ERROR_MSG, serverError: error.response?.data.error})
-            else 
-                setQuizErrorMsgs({...INITIAL_QUIZ_ERROR_MSG, serverError: 'Непредвиденная ошибка на сервере'})
+                setQuizErrorMsgs({ ...INITIAL_QUIZ_ERROR_MSG, serverError: error.response?.data.error })
+            else
+                setQuizErrorMsgs({ ...INITIAL_QUIZ_ERROR_MSG, serverError: 'Непредвиденная ошибка на сервере' })
         }
-        
-       
-        
-
-       
     }
 
     return (
         <form encType="multipart/form-data" action="" className={classes.uploadForm} onSubmit={submitAdd} >
 
             <CustomTextInput
-            name='name'
-            type="text"
-            placeholder='Название'
-            value={quiz.name}
-            onChange={(e:ChangeEvent<HTMLInputElement>) => setQuiz({...quiz, name: e.currentTarget.value})}
-            /> 
+                name='name'
+                type="text"
+                placeholder='Название'
+                value={quiz.name}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setQuiz({ ...quiz, name: e.currentTarget.value })}
+            />
             <div className={classes.errorInput}>{quizErrorMsgs.name}</div>
 
             <div className={classes.dateContainer}>
                 <div className={classes.dateText}>Дата начала: </div>
                 <input
-                name='db'
-                type="datetime-local"
-                value={quiz.dateBegin}
-                onChange={(e:ChangeEvent<HTMLInputElement>) => setQuiz({...quiz,
-                    dateBegin: e.currentTarget.value})}
+                    name='db'
+                    type="datetime-local"
+                    value={quiz.dateBegin}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setQuiz({
+                        ...quiz,
+                        dateBegin: e.currentTarget.value
+                    })}
                 />
             </div>
             <div className={classes.errorInput}>{quizErrorMsgs.dateBegin}</div>
@@ -92,27 +89,29 @@ const QuizUploadForm:FC<IUploadForm> = ({addQuiz, modal}) => {
             <div className={classes.dateContainer}>
                 <div className={classes.dateText}>Дата окончания: </div>
                 <input
-                name='de'
-                type="datetime-local"
-                value={quiz.dateEnd}
-                onChange={(e:ChangeEvent<HTMLInputElement>) => setQuiz({...quiz,
-                    dateEnd: e.currentTarget.value})}
+                    name='de'
+                    type="datetime-local"
+                    value={quiz.dateEnd}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setQuiz({
+                        ...quiz,
+                        dateEnd: e.currentTarget.value
+                    })}
                 />
             </div>
             <div className={classes.errorInput}>{quizErrorMsgs.dateEnd}</div>
-            
+
             <input
-            value={filePath}
-            onChange={(e:ChangeEvent<HTMLInputElement>) => setFilePath(e.currentTarget.value)}
-            type='file'
-            name='file'
-            style={{marginTop:'15px'}}
+                value={filePath}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setFilePath(e.currentTarget.value)}
+                type='file'
+                name='file'
+                style={{ marginTop: '15px' }}
             />
             <div className={classes.errorInput}>{quizErrorMsgs.filePath}</div>
-                
-            <CustomButton type='submit' style={{marginTop:'15px'}}>Добавить</CustomButton>
+
+            <CustomButton type='submit' style={{ marginTop: '15px' }}>Добавить</CustomButton>
             <div className={classes.errorServer}>{quizErrorMsgs.serverError}</div>
-         </form>
+        </form>
     );
 }
 

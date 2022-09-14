@@ -2,10 +2,9 @@
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
-import { useAppDispatch } from "./store/hooks";
+import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { fetchUser } from "./store/reducers/auth/actionCreators";
 
-import AdminPanel from "./components/AdminPanel/AdminPanel";
 import './app.module.scss';
 import React from "react";
 import { LoadAnimation } from "./components/shared/components/UI/LoadAnimation";
@@ -17,23 +16,23 @@ const Home = React.lazy(() => import("./components/Home"));
 const Help = React.lazy(() => import("./components/Help"));
 const SignIn = React.lazy(() => import("./components/auth/SignIn"));
 const SignUp = React.lazy(() => import("./components/auth/SignUp"));
+const AdminPanel = React.lazy(() => import("./components/AdminPanel/AdminPanel"));
 
 
 //const history = createBrowserHistory();
 // перемещено из компонента
 const App = () => {
     const userRole = useAppSelector(state => state.authReduser.role); // добавлено для отсл. роли юзера
+
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(fetchUser());
     }, [])
 
     return (<>
-
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" >
-
                     <Suspense fallback={<LoadAnimation />}>
                         <section>
                             <Home />
@@ -43,12 +42,11 @@ const App = () => {
                 <Route path="/help" >
                     <Suspense fallback={<LoadAnimation />}>
                         <section>
-
                             <Help />
                         </section>
                     </Suspense>
                 </Route>
-                <Route path='/signin' >
+                <Route path='/signin'>
 
                     <Suspense fallback={<LoadAnimation />}>
                         <section>
@@ -86,9 +84,15 @@ const App = () => {
                         </section>
                     </Suspense>
                 </Route>
+                <Route exact path="/adminpanel">
+                    <Suspense fallback={<LoadAnimation />}>
+                        <section>
+                            <AdminPanel />
+                        </section>
+                    </Suspense>
+                </Route>
             </Switch>
         </BrowserRouter>
-
     </>
     );
 }
