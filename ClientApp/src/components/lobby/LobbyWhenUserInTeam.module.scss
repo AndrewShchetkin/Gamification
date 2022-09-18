@@ -2,43 +2,57 @@
 
 .wrapper {
     display: flex;
-    flex-direction: column;
     width: 100%;
-}
-.tabBlock{
-    display: flex;
-    flex: 0 0 30px;
+   // background-color: #97ea97;
 }
 
-.contentBlock {
-    display: flex;
+.mapBlock{
     flex: 1 1 auto;
+    background-color: #D9D9D9;
+    margin-left: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.quizAndTeamInfoBlock{
+    flex: 0 0 40%;
+}
+
+.title{
+    margin: 10px 0px 0px 15px;
+}
+
+.lineUp {
+    margin-top: 30px;
 }
 
 .quizBlock{
-    display: flex;
-    flex: 0 0 40%;
-    background-color: chocolate;
-}
-
-.teamBlock{
-    display: flex;
-    flex: 1 1 auto;
-    justify-content: center;
+    background-color: #D9D9D9;
+    height: 35vh;
+    margin-bottom: 3vh;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
 }
 
 .teamInfoBlock{
-    border: 5px solid $textColor;
+    height: 36.5vh;
+    background-color: #D9D9D9;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    p {
+       margin: 10px 0px;
+    }
+}
+
+.teamInfoBlockLeftPart{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 550px;
-    max-width: 650px;
-    margin: 30px 0px 20px 0px;
-
-    p{
-        margin: 10px 0px;
-    }
+    justify-content: space-between;
+    width: 35%;
 }
 
 .userItem {
@@ -46,69 +60,22 @@
 
 }
 
-.userOnline{
-    color: green
-}
-
-.userOffline{
-    color: red;
-}
-
 .userName{
-    border: 1px solid white;
-    padding: 5px 15px;
-    margin-bottom: 10px;
-    width: 300px;
-    max-width: 300px;
-}
-
-.userItemReadyButton{
-    border: 1px solid white;
-    padding: 5px 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background-color: #97ea97;
-    color: $textColor;
-    width: 85px;
-    max-width: 85px;
-
-    &:disabled{
-        cursor: default;
-        &:hover{
-            background-color: #97ea97;
-        }
-    }
-    
-    &:hover{
-        background-color: #73bb73
-    }
-}
-.userItemNotReadyButton{
-    border: 1px solid white;
-    padding: 5px 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    background-color: $backColor;
-    color: $textColor;
-    width: 85px;
-    max-width: 85px;
+    padding: 5px 0px;
+    margin-bottom: 5px;
 }
 
 .chatBtn{
-    position: fixed;
-    right: 30px;
-    bottom: 10px;
-    transform: translateY(-50%);
-    background-image: url("/src/assets/icon_chat.svg");
+    background-image: url("/src/assets/icon_chat_grey.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
-    margin-top: 20px;
     border: none;
+    margin: 0px 0px 10px 10px;
 }
 
 .chatModal{
@@ -116,7 +83,7 @@
     width: 450px;
     height: 520px;
     background-color: $backColor;
-    right: 150px;
+    left: 150px;
     bottom: 25px;
     display: flex;
     flex-direction: column;
@@ -127,7 +94,25 @@
     flex: 0 0 30px;
 }
 
-// .chatModalContent{
-//     display: flex;
-//     flex: 1 1 auto;
-// }
+.chatModalContent{
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.currentUserIcon{
+    background-image: url("/src/assets/icon_person_black.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border: none;
+    padding: 5px 0px;
+    margin-right: 10px;
+}
+
+.noUserIcon{
+    width: 35px;
+}
