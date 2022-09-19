@@ -13,13 +13,13 @@ public class HexMapEditor : MonoBehaviour
 	public static int colorIndex;
 
 	private static HexCell SelectedCell;
+	public HexGrid hexGrid;
+	public PopupCapture popupCapture;
+
+	public bool applyElevation;
 
 	// включен ли цветовой редактор
-	bool applyColor;
-
-	public HexGrid hexGrid;
-
-	public PopupCapture popupCapture;
+	bool applyColor;	
 
 	/// <summary>
 	/// Активный цвет (выбранный на интерфейсе)
@@ -30,10 +30,13 @@ public class HexMapEditor : MonoBehaviour
 	/// Активный тип местности (для сохранения)
 	/// </summary>
 	//int activeTerrainTypeIndex;
-
 	int activeElevation;
-
-	public bool applyElevation;
+	enum OptionalToggle
+	{
+		Ignore, Yes, No
+	}
+	//Переключатель стен
+	OptionalToggle walledMode;
 
 	delegate void EditCellFunc(HexCell cell);
 	// Размер кисти
@@ -141,7 +144,11 @@ public class HexMapEditor : MonoBehaviour
             {
                 cell.Elevation = activeElevation;
             }
-        }
+			if (walledMode != OptionalToggle.Ignore)
+			{
+				cell.Walled = walledMode == OptionalToggle.Yes;
+			}
+		}
     }
 
     public void CaptureCell(HexCell cell)
@@ -151,10 +158,25 @@ public class HexMapEditor : MonoBehaviour
 			var playerTeam = gameController.GetPlayerTeam();
 			cell.ownerColorHighligh = playerTeam.colorIndex;
 			cell.OwnerId = playerTeam.id;
-			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, playerTeam.id);			
+			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, playerTeam.id);
 			UpdateTargetCell(updatedCell);
+			gameController.DemoPoints -= 1;
 		}
 	}
+
+	public void TeamCellDestribution()
+    {
+		var teams = gameController.Teams;
+		var extremeChunks = hexGrid.GetExtremeChunks();
+        for (int i = 0; i < teams.Count; i++)
+        {
+			var cell = extremeChunks[i].GetRandomCell();
+			cell.ownerColorHighligh = teams[i].colorIndex;
+			cell.OwnerId = teams[i].id;
+			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, teams[i].id);
+			UpdateTargetCell(updatedCell);
+		}
+    }
 
 	//public void CaptureCell(HexCell cell)
 	//{
@@ -218,6 +240,15 @@ public class HexMapEditor : MonoBehaviour
 	public void SetEdit(bool toggle)
 	{
 		isEdit = toggle;
+	}
+
+	/// <summary>
+	/// Режим простановки стен
+	/// </summary>
+	/// <param name="mode"></param>
+	public void SetWalledMode(int mode)
+	{
+		walledMode = (OptionalToggle)mode;
 	}
 
 	/// <summary>
@@ -285,6 +316,10 @@ public class HexMapEditor : MonoBehaviour
 #endif
 		SaveMapData map = JsonUtility.FromJson<SaveMapData>(mapJson);
 		hexGrid.Load(map);
+        if (map.cells.Any(c => c.ownerId != null))
+        {
+			TeamCellDestribution();
+		}
 	}
 	/// <summary>
 	/// Метод захвата ячейки (React(SignalR) -> Unity)

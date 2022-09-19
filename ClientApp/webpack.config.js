@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const config = {
     entry: {
@@ -17,7 +18,6 @@ const config = {
         hot: true,
         port: 8080,
         open: true,
-        hot: true,
         proxy: {
             '/api': {
                 target: 'https://localhost:44312',
@@ -32,7 +32,7 @@ const config = {
             },
         },
     },
-    devtool: "inline-source-map",
+    devtool: "source-map",
     module: {
         rules: [
             {
@@ -44,17 +44,6 @@ const config = {
                 test: /.s?css$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
               },
-            // {
-            //     test: /\.s[ac]ss$/i,
-            //     use: [
-            //         // Creates `style` nodes from JS strings
-            //         "style-loader",
-            //         // Translates CSS into CommonJS
-            //         "css-loader",
-            //         // Compiles Sass to CSS
-            //         "sass-loader",
-            //     ],
-            // },
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
@@ -75,6 +64,7 @@ const config = {
         extensions: ['.tsx', '.ts', '.js']
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new webpack.ProvidePlugin({
             React: 'react',
             ReactDOM: 'react-dom'
@@ -87,10 +77,7 @@ const config = {
         new MiniCssExtractPlugin(),
     ],
     optimization: {
-        minimizer: [
-            // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
-            `...`,
-        ],
+        minimizer: [],
     }
 };
 

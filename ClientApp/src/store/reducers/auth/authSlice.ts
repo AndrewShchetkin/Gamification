@@ -1,4 +1,4 @@
-import { LoginResponse } from '../../../@types/loginResponse';
+﻿import { LoginResponse } from '../../../@types/loginResponse';
 import { RootState } from '../../store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState } from '../../../@types/ReduxTypes/AuthState';
@@ -12,7 +12,8 @@ export const initialState: AuthState = {
     error: false,
     userName: '',
     id: '',
-    teamId: ''
+    teamId: '',
+    role: ''
 }
 
 function isAxiosError(error: any): error is AxiosError {
@@ -27,6 +28,7 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.userName = action.payload.userName ?? "";
             state.teamId = action.payload.userTeamId ?? "";
+            state.role = action.payload.userRole ?? "";
             state.id = action.payload.userId ?? ""
         },
         startLoadData: state => {
@@ -44,6 +46,7 @@ export const authSlice = createSlice({
             state.isAuthenticated = true;
             state.userName = action.payload.userName ?? "";
             state.teamId = action.payload.userTeamId ?? "";
+            state.role = action.payload.userRole ?? "";
             state.id = action.payload.userId ?? "";
             state.requestSended = false;
         },
@@ -64,7 +67,7 @@ export const authSlice = createSlice({
     },
 });
 
-export const { signInComplete, startLoadData, endLoadData, setTeamId } = authSlice.actions;
+export const { signInComplete, startLoadData, endLoadData, setTeamId } = authSlice.actions; 
 
 export const selectIsAuthenticated = (state: RootState) => state.authReduser.isAuthenticated
 

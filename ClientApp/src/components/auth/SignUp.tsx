@@ -19,6 +19,7 @@ function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     const body = {
       UserName: data.get('email'),
       Password: data.get('password'),

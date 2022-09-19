@@ -1,5 +1,8 @@
-﻿namespace Gamification.Models.DTO.User
+﻿using System;
+
+namespace Gamification.Models.DTO.User
 {
+    [Serializable]
     public class UserLoginDto
     {
         public string UserName { get; set; }
