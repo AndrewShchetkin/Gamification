@@ -43,6 +43,14 @@
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
     </ItemGroup>
+	
+	<Target Name="NpmInstall">
+		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm ci"      Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
+		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
+	</Target>
+	<Target Name="NpmRunBuild" DependsOnTargets="NpmInstall" BeforeTargets="BeforeBuild">
+		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm run build" />
+	</Target>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
@@ -57,14 +65,7 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-	<Target Name="NpmInstall">
-		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm ci"      Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
-		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
-	</Target>
-	<Target Name="NpmRunBuild" DependsOnTargets="NpmInstall" BeforeTargets="BeforeBuild">
-		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm run build" />
-	</Target>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />	
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
