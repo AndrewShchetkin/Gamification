@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const config = {
     entry: {
@@ -84,6 +85,14 @@ const config = {
             filename: "index.html",
             chunks: ['index'],
         }),
+        new webpack.DefinePlugin({            
+            "process.env.PUBLIC_URL": JSON.stringify("public/")
+          }),
+        new CopyPlugin({
+            patterns: [
+                { from: 'public/Build', to: 'public/Build' }
+              ]
+            }),
         new MiniCssExtractPlugin(),
     ],
     optimization: {

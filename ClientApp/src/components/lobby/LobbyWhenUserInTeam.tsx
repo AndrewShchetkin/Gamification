@@ -1,5 +1,5 @@
 ﻿import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy } from 'react'
 import { ITeam } from '../../@types/ITeam';
 import { IUser } from '../../@types/IUser';
 import Chat from '../chat/Chat';
@@ -21,7 +21,8 @@ function LobbyWhenUserInTeam(props: Props) {
     const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const usersTeam = useAppSelector(state => state.teamReduser.teams.find(team => team.id == props.teamId));
-    
+    const Map = lazy(() => import("../Map"));
+
     const currentUser = useAppSelector(state => state.authReduser);
     const chatTabs: ITab[] =
         [
@@ -56,7 +57,7 @@ function LobbyWhenUserInTeam(props: Props) {
             </div>
             <div className={classes.contentBlock}>
                 {selectedTab === tabs[0].id && (
-                    <p>Компонент карты будет тутава</p>
+                    <Map></Map>
                 )}
                 {selectedTab === tabs[1].id && (
                     <>

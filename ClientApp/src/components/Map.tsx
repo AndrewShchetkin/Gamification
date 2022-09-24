@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { HttpTransportType, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import Unity, { UnityContext } from "react-unity-webgl";
 
 const unityContext = new UnityContext({
-  loaderUrl: "Build/public.loader.js",
-  dataUrl: "Build/public.data.unityweb",
-  frameworkUrl: "Build/public.framework.js.unityweb",
-  codeUrl: "Build/public.wasm.unityweb",
+  loaderUrl: process.env.PUBLIC_URL + "Build/public.loader.js",
+  dataUrl: process.env.PUBLIC_URL + "Build/public.data.gz",
+  frameworkUrl: process.env.PUBLIC_URL + "Build/public.framework.js.gz",
+  codeUrl: process.env.PUBLIC_URL + "Build/public.wasm.gz",
 });
-
-
 
 function Map() {
   function spawnEnemies() {
@@ -17,6 +15,7 @@ function Map() {
   }
 
   const connection = new HubConnectionBuilder()
+    .configureLogging(LogLevel.Debug)
     .withUrl("/hubs/map")
     .configureLogging(LogLevel.Information)
     .build();
@@ -43,7 +42,7 @@ function Map() {
           headers: { 'Content-Type': 'application/json' },
           body: map
       };
-      fetch('https://localhost:44312/api/map/save-map', requestOptions)
+      fetch('/api/map/save-map', requestOptions)
       }
     );
   }, []);
@@ -55,7 +54,7 @@ function Map() {
         headers: { 'Content-Type': 'application/json' },
         body: cell
     };    
-    fetch('https://localhost:44312/api/map/update-cell', requestOptions)
+    fetch('/api/map/update-cell', requestOptions)
     .then(() => updateCell(cell))
     
     }
@@ -68,7 +67,7 @@ function Map() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }        
     };
-    fetch('https://localhost:44312/api/map/load-map', requestOptions)
+    fetch('/api/map/load-map', requestOptions)
     .then(response => response.json())
     .then(data => unityContext.send("Hex Map Editor", "SetMapData", JSON.stringify(data)))
     }
@@ -81,7 +80,7 @@ function Map() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }        
     };
-    fetch('https://localhost:44312/api/auth/user', requestOptions)
+    fetch('/api/auth/user', requestOptions)
     .then(response => response.json())
     .then(data => {
       console.log(data)
@@ -97,7 +96,7 @@ function Map() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }        
     };
-    fetch('https://localhost:44312/api/team/getallteams', requestOptions)
+    fetch('/api/team/getallteams', requestOptions)
     .then(response => response.json())
     .then(data => {
         console.log(data)
