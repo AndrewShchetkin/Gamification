@@ -38,18 +38,18 @@
   </ItemGroup>
 	
 	<ItemGroup>
-	  <Content Include ="ClientApp\dist\**" >
-		<Link>ClientApp\build\%(RecursiveDir)%(Filename)%(Extension)</Link>
+	  <Content Include ="$(SpaRoot)\dist\**" >
+		<Link>$(SpaRoot)\build\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
     </ItemGroup>
 	
 	<Target Name="NpmInstall">
-		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm ci"      Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
-		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm ci"      Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
 	</Target>
 	<Target Name="NpmRunBuild" DependsOnTargets="NpmInstall" BeforeTargets="BeforeBuild">
-		<Exec WorkingDirectory="$(ProjectDir)\ClientApp" Command="npm run build" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 	</Target>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
