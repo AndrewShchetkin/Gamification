@@ -44,11 +44,11 @@
 	  </Content>
     </ItemGroup>
 	
-	<Target Name="NpmInstall">
+	<Target Name="NpmInstall" Condition="'$(Configuration)'=='RELEASE'">
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm ci"      Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
 	</Target>
-	<Target Name="NpmRunBuild" DependsOnTargets="NpmInstall" BeforeTargets="BeforeBuild">
+	<Target Name="NpmRunBuild" DependsOnTargets="NpmInstall" BeforeTargets="BeforeBuild" Condition="'$(Configuration)'=='RELEASE'">
 		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 	</Target>
 
