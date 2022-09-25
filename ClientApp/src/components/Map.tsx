@@ -4,9 +4,9 @@ import Unity, { UnityContext } from "react-unity-webgl";
 
 const unityContext = new UnityContext({
   loaderUrl: process.env.PUBLIC_URL + "Build/public.loader.js",
-  dataUrl: process.env.PUBLIC_URL + "Build/public.data.gz",
-  frameworkUrl: process.env.PUBLIC_URL + "Build/public.framework.js.gz",
-  codeUrl: process.env.PUBLIC_URL + "Build/public.wasm.gz",
+  dataUrl: process.env.PUBLIC_URL + "Build/public.data.unityweb",
+  frameworkUrl: process.env.PUBLIC_URL + "Build/public.framework.js.unityweb",
+  codeUrl: process.env.PUBLIC_URL + "Build/public.wasm.unityweb",
 });
 
 function Map() {
@@ -16,7 +16,7 @@ function Map() {
 
   const connection = new HubConnectionBuilder()
     .configureLogging(LogLevel.Debug)
-    .withUrl("/hubs/map")
+    .withUrl("hubs/map")
     .configureLogging(LogLevel.Information)
     .build();
 
@@ -42,7 +42,7 @@ function Map() {
           headers: { 'Content-Type': 'application/json' },
           body: map
       };
-      fetch('/api/map/save-map', requestOptions)
+      fetch('api/map/save-map', requestOptions)
       }
     );
   }, []);
@@ -54,7 +54,7 @@ function Map() {
         headers: { 'Content-Type': 'application/json' },
         body: cell
     };    
-    fetch('/api/map/update-cell', requestOptions)
+    fetch('api/map/update-cell', requestOptions)
     .then(() => updateCell(cell))
     
     }
@@ -67,7 +67,7 @@ function Map() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }        
     };
-    fetch('/api/map/load-map', requestOptions)
+    fetch('api/map/load-map', requestOptions)
     .then(response => response.json())
     .then(data => unityContext.send("Hex Map Editor", "SetMapData", JSON.stringify(data)))
     }
@@ -80,11 +80,11 @@ function Map() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }        
     };
-    fetch('/api/auth/user', requestOptions)
+    fetch('api/auth/user', requestOptions)
     .then(response => response.json())
     .then(data => {
       console.log(data)
-        unityContext.send("GameController", "SetPlayer", data.username)
+        unityContext.send("GameController", "SetPlayer", data.userName)
       })
     }
   );
@@ -96,7 +96,7 @@ function Map() {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }        
     };
-    fetch('/api/team/getallteams', requestOptions)
+    fetch('api/team/getallteams', requestOptions)
     .then(response => response.json())
     .then(data => {
         console.log(data)
@@ -108,7 +108,6 @@ function Map() {
 
   return (
     <div>
-      <button onClick={spawnEnemies}>Spawn a bunch!</button>      
       <Unity style={{ width: '1366px', height: '720px'}} unityContext={unityContext} />
     </div>
   );

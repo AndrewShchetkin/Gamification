@@ -82,20 +82,15 @@ public class HexGrid : MonoBehaviour
 	/// </summary>
 	public Color[] colors;
 
-	/// <summary>
-	/// Обьект игрового контроллера
-	/// </summary>
-	public GameController gameController;
+    private void Start()
+    {
+        //hexMesh.Triangulate(cells);
+    }
 
-	//private void Start()
-	//   {
-	//    hexMesh.Triangulate(cells);
-	//   }
-
-	/// <summary>
-	/// Инициализация сетки
-	/// </summary>
-	void Awake () 
+    /// <summary>
+    /// Инициализация сетки
+    /// </summary>
+    void Awake () 
 	{
 		HexMetrics.noiseSource = noiseSource;
 		HexMetrics.colors = colors;
@@ -105,6 +100,9 @@ public class HexGrid : MonoBehaviour
 
 		CreateChunks();
 		CreateCells();
+
+		// Для подгрузки карты с React
+		HexMapEditor.HexGridReady = true;
 
 		//CreateNonGameChuncks();
 		//CreateNonGameCells();
@@ -332,7 +330,7 @@ public class HexGrid : MonoBehaviour
 			targetCell.Elevation = cell.elevation;			
             if (!string.IsNullOrEmpty(cell.ownerId))
             {
-				targetCell.ownerColorHighligh = gameController.GetTeamColor(cell.ownerId);
+				targetCell.ownerColorHighligh = GameController.GetTeamColor(cell.ownerId);
 				targetCell.OwnerId = cell.ownerId;
 			}
         }

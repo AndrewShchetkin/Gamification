@@ -64,6 +64,8 @@ public class HexCell : MonoBehaviour
             EnableOwnerHighlight(ownerColorHighligh);
             Array.ForEach(neighbors, n => DisableFog(n?.coordinates));
             DisableFog(coordinates);
+
+            Debug.Log($"Ячейка с координатами {this.coordinates.X}, {this.coordinates.Y} захвачена группой с id: {value}");
         }
     }
     /// <summary>
@@ -90,7 +92,7 @@ public class HexCell : MonoBehaviour
     private void DisableFog(HexCoordinates? coordinates)
     {
         var hexGridParent = GetComponentInParent<HexGrid>();
-        if (coordinates == null || hexGridParent.gameController.GetPlayerTeam().id != OwnerId)
+        if (coordinates == null || GameController.PlayerTeam.id != OwnerId)
         {
             return;
         }
