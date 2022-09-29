@@ -84,8 +84,9 @@ public class HexGrid : MonoBehaviour
 
     private void Start()
     {
-        //hexMesh.Triangulate(cells);
-    }
+		GameController.SetReadyObject(this.GetType());
+		//hexMesh.Triangulate(cells);
+	}
 
     /// <summary>
     /// Инициализация сетки
@@ -100,9 +101,6 @@ public class HexGrid : MonoBehaviour
 
 		CreateChunks();
 		CreateCells();
-
-		// Для подгрузки карты с React
-		HexMapEditor.HexGridReady = true;
 
 		//CreateNonGameChuncks();
 		//CreateNonGameCells();

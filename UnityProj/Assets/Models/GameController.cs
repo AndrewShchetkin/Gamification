@@ -8,6 +8,13 @@ using System;
 
 public class GameController : MonoBehaviour
 {
+    static Dictionary<string, bool> readyGameObjects = new Dictionary<string, bool>()
+    {
+        { nameof(HexGrid), false },
+        { nameof(HexMapEditor), false },
+        { nameof(GameController), false }
+    };
+
     public static readonly Color[] TeamsColors =
     {
         Color.green,
@@ -106,6 +113,16 @@ public class GameController : MonoBehaviour
             SetTeamsColors();
         }
     }
+
+    public static void SetReadyObject(Type typeOfObject)
+    {
+        readyGameObjects[typeOfObject.Name] = true;
+        if (readyGameObjects.All(g => g.Value == true))
+        {
+            HexMapEditor.Load();
+        }
+    }
+
     public void UpdatePlayerState(User newPlayerState)
     {
         CurrentPlayer = newPlayerState;
@@ -155,6 +172,7 @@ public class GameController : MonoBehaviour
 		GetCurrentUser();
         GetAllTeams();
 #endif
+        SetReadyObject(this.GetType());
     }
 
     #region [Unity -- React methods]
