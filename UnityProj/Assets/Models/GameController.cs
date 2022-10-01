@@ -15,6 +15,12 @@ public class GameController : MonoBehaviour
         { nameof(GameController), false }
     };
 
+    static Dictionary<string, bool> readyPlayerInfo = new Dictionary<string, bool>()
+    {
+        { nameof(UserName), false },
+        { nameof(Teams), false }
+    };
+
     public static readonly Color[] TeamsColors =
     {
         Color.green,
@@ -43,32 +49,35 @@ public class GameController : MonoBehaviour
             GameObject.Find("Points").GetComponent<Text>().text = value.ToString();
         }
     }
+    static string userName;
     /// <summary>
     /// Имя текущего игрока
     /// </summary>
-    static string UserName { get; set; }
+    static string UserName { 
+        get 
+        {
+            return userName;
+        } 
+        set
+        {
+            userName = value;
+            SetReadyPlayerInfo(nameof(UserName));
+        }
+    }
 
     static User currentPlayer;
     static public User CurrentPlayer
     {
-        get 
+        get
         {
-            if (currentPlayer != null)
-            {
-                return currentPlayer;
-            }
-            else
-            {
-                CurrentPlayer = GetCurrentPlayer();
-                return currentPlayer;
-            }
-        } 
+            return currentPlayer;
+        }
         set 
         {
             //if (value.role == "Admin")
             //{
             //editUI.gameObject.SetActive(true);
-            //}            
+            //}
             currentPlayer = value;
             GameObject.Find("PlayerName").GetComponent<Text>().text = CurrentPlayer.userName;
             //GameObject.Find("Points").GetComponent<Text>().text = CurrentPlayer.points.ToString(); для трейлера
@@ -81,15 +90,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if (playerTeam != null)
-            {
-                return playerTeam;
-            }
-            else
-            {
-                PlayerTeam = GetPlayerTeam();
-                return playerTeam;
-            }
+            return playerTeam;
         }
         set
         {
@@ -110,23 +111,48 @@ public class GameController : MonoBehaviour
         set
         {            
             teams = value;
+            SetReadyPlayerInfo(nameof(Teams));
             SetTeamsColors();
         }
     }
 
+    /// <summary>
+    /// Метод контроллера, служит для опроса обьектов на готовность их работы
+    /// </summary>
+    /// <param name="typeOfObject"></param>
     public static void SetReadyObject(Type typeOfObject)
     {
         readyGameObjects[typeOfObject.Name] = true;
         if (readyGameObjects.All(g => g.Value == true))
         {
-            HexMapEditor.Load();
+            StartForReadyObjects();
         }
     }
 
-    public void UpdatePlayerState(User newPlayerState)
+    public static void SetReadyPlayerInfo(string Name)
     {
-        CurrentPlayer = newPlayerState;
+        readyPlayerInfo[Name] = true;
+        if (readyPlayerInfo.All(g => g.Value == true))
+        {
+            SetPlayerInfo();
+        }
     }
+
+    static void StartForReadyObjects()
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+		GetCurrentUser();
+        GetAllTeams();
+#endif
+        HexMapEditor.Load();
+    }
+
+    static void SetPlayerInfo()
+    {
+        PlayerTeam = GetPlayerTeam();
+        CurrentPlayer = GetCurrentPlayer();
+    }
+
     public static User GetCurrentPlayer()
     {
         return PlayerTeam
@@ -153,7 +179,7 @@ public class GameController : MonoBehaviour
             "{ \"id\":\"d8d25b0a-2491-412c-b446-5bc489b1a300\",\"teamName\":\"DreamTeam\",\"users\":[{ \"userName\":\"SomeOne\",\"id\":\"692b6354-fd36-43cf-9c70-d525c9bf2610\",\"points\":12}],\"points\":18,\"colorIndex\":{ \"r\":1.0,\"g\":1.0,\"b\":0.0,\"a\":1.0} }]";
 
         SetTeams(allTeams);
-        SetPlayer("vlad");
+        UserName = "vlad";
 #endif
     }
 
@@ -168,10 +194,6 @@ public class GameController : MonoBehaviour
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
-#if UNITY_WEBGL == true && UNITY_EDITOR == false
-		GetCurrentUser();
-        GetAllTeams();
-#endif
         SetReadyObject(this.GetType());
     }
 
@@ -198,6 +220,7 @@ public class GameController : MonoBehaviour
 
     public void SetPlayer(string UserName)
     {
+        Debug.Log($"UserName from React: {UserName}");
         GameController.UserName = UserName;
     }
 

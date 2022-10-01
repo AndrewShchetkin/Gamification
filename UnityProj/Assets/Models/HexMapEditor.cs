@@ -322,7 +322,7 @@ public class HexMapEditor : MonoBehaviour
 	{
 		SaveMapData map = JsonUtility.FromJson<SaveMapData>(mapJson);
 		hexGrid.Load(map);
-        if (!map.cells.Any(c => !string.IsNullOrEmpty(c.ownerId)))
+        if (map.cells.Any() && !map.cells.Any(c => !string.IsNullOrEmpty(c.ownerId)))
         {
 			TeamCellDestribution();
 		}
