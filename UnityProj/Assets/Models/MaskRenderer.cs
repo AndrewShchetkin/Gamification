@@ -16,15 +16,17 @@ public class MaskRenderer : MonoBehaviour
     /// I really wouldn't do it like this in a large game project but it is fine for a tutorial
     /// </summary>
     /// <param name="cell">The cell object to add to the list</param>
-    public void RegisterCell(HexCell cell)
+    public static void RegisterCell(HexCell cell)
     {
-        bufferElements.Add(new CellBufferElement 
+        BufferElements.Add(new CellBufferElement 
         {
             PositionX = cell.transform.position.x,
             PositionY = cell.transform.position.z,
             Visibility = cell.Visibility
         });
     }
+
+    private int frames = 1;
 
     //Properties
 
@@ -76,14 +78,15 @@ public class MaskRenderer : MonoBehaviour
     private static readonly int cellBufferId = Shader.PropertyToID("_CellBuffer");
 
     //This is the struct we parse to the compute shader for each cell
-    private struct CellBufferElement
+    public struct CellBufferElement
     {
         public float PositionX;
         public float PositionY;
         public float Visibility;
     }
 
-    private List<CellBufferElement> bufferElements = new List<CellBufferElement>();
+    public static List<CellBufferElement> BufferElements { get; set; } = new List<CellBufferElement>();
+
     private static ComputeBuffer buffer = null;
 
     /// <summary>
@@ -117,29 +120,33 @@ public class MaskRenderer : MonoBehaviour
     }
 
     //Setup all buffers and variables
-    public void UpdateRender(HexCell cell)
+    public void Update()
     {
+        frames++;
         //Recreate the buffer since the visibility updates
         //This is not extremely optimized as we could also simply change 
         //values but it is fine for a project as small as this one
-        var updatedCell = bufferElements.Single(b => b.PositionX == cell.transform.position.x && b.PositionY == cell.transform.position.z);
-        var index = bufferElements.IndexOf(updatedCell);
-        bufferElements[index] = new CellBufferElement
-        {
-            Visibility = cell.Visibility,
-            PositionX = cell.transform.position.x,
-            PositionY = cell.transform.position.z
-        };
-
+        
         if (buffer == null)
-            buffer = new ComputeBuffer(bufferElements.Count * 3, sizeof(float));
+            buffer = new ComputeBuffer(BufferElements.Count * 3, sizeof(float));
+
+        if (frames % 2 != 0)
+        {
+            return;
+        }
+        var buf = new CellBufferElement[BufferElements.Count];
+        buffer.GetData(buf);
+        if (buf.SequenceEqual(BufferElements.ToArray()))
+        {
+            return;
+        } 
 
         //Set the buffer data and parse it to the compute shader
-        buffer.SetData(bufferElements);
+        buffer.SetData(BufferElements);
         computeShader.SetBuffer(0, cellBufferId, buffer);
 
         //Set other variables needed in the compute function
-        computeShader.SetInt(cellCountId, bufferElements.Count);
+        computeShader.SetInt(cellCountId, BufferElements.Count);
         computeShader.SetFloat(radiusId, Radius / MapSize);
         computeShader.SetFloat(blendId, BlendDistance / MapSize * 100);
 
@@ -147,5 +154,6 @@ public class MaskRenderer : MonoBehaviour
         //Our thread group size is 8x8=64, 
         //thus we have to dispatch (TextureSize / 8) * (TextureSize / 8) thread groups
         computeShader.Dispatch(0, Mathf.CeilToInt(TextureSize / 8.0f), Mathf.CeilToInt(TextureSize / 8.0f), 1);
+        frames = 1;
     }
 }

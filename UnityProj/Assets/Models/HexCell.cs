@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using static MaskRenderer;
 
 public class HexCell : MonoBehaviour
 {
@@ -130,7 +131,7 @@ public class HexCell : MonoBehaviour
     private void Start()
     {
         maskRenderer = FindObjectOfType<MaskRenderer>();
-        maskRenderer.RegisterCell(this);
+        MaskRenderer.RegisterCell(this);
     }
 
     void Refresh()
@@ -324,7 +325,14 @@ public class HexCell : MonoBehaviour
         {
             lerpVal = (Time.time - startingTime) / 1.0f;
             Visibility = Mathf.Lerp(startingVal, targetVal, lerpVal);
-            maskRenderer.UpdateRender(this);
+
+            var updatedCell = BufferElements.Single(b => b.PositionX == transform.position.x && b.PositionY == transform.position.z);
+            BufferElements[BufferElements.IndexOf(updatedCell)] = new CellBufferElement
+            {
+                Visibility = Visibility,
+                PositionX = transform.position.x,
+                PositionY = transform.position.z
+            };
             yield return null;
         }
         Visibility = targetVal;
