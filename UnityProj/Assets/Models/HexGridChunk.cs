@@ -8,11 +8,13 @@ public class HexGridChunk : MonoBehaviour
 	public int z;
 	HexMesh hexMesh;
 	Canvas gridCanvas;
+	MaskMesh maskMesh;
 
 	void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
+		maskMesh = hexMesh.GetComponentInChildren<MaskMesh>();
 
 		cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
 		ShowUI(true);
@@ -31,6 +33,7 @@ public class HexGridChunk : MonoBehaviour
 	void LateUpdate()
 	{
 		hexMesh.Triangulate(cells);
+		hexMesh.Copy(maskMesh.hexMesh);
 		enabled = false;
 	}
 

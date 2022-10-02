@@ -2,6 +2,7 @@
 {
     Properties
     {
+
         //Hex texture
         [NoScaleOffset]_MainTex ("Color Texture", 2D) = "white" {}
         [NoScaleOffset]_MapTex ("Map Texture", 2D) = "white" {}
@@ -24,7 +25,7 @@
         CGPROGRAM
 
         //Our surface function is called surf and we are using the standard lighting
-        #pragma surface surf Standard
+        #pragma surface surf Standard Lambert alpha:fade
 
         //Global variables
 
@@ -64,7 +65,7 @@
             float4 tileMap = tex2D(_MapTex, IN.uv_MapTex);
 
             //Sample the map background texture
-            float4 mapBackground = tex2D(_MapBackground, IN.worldPos.xz / _MapSize);
+            float4 mapBackground = tex2D(_MapBackground, IN.worldPos.xz / _MapSize * 5);
 
             //Sample the noise texture
             float noise = tex2D(_Noise, IN.worldPos.xz / _MapSize).r;
@@ -74,7 +75,8 @@
 
             //Render the map if the calculated value is smaller than our cutoff
             if(maskNoise < _Cutoff)
-                tile = lerp(_MapColor * tileMap * mapBackground, _MapEdgeColor, maskNoise / _Cutoff);
+                tile = lerp(_MapColor * tileMap * tileMap.a * mapBackground, _MapEdgeColor, maskNoise / _Cutoff);
+                o.Alpha = tile.a;
 
             //Assign the color
             o.Albedo = tile.rgb;

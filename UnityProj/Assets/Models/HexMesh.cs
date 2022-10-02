@@ -24,6 +24,7 @@ public class HexMesh : MonoBehaviour
     /// Коллекция цветов
     /// </summary>
     static List<Color> colors = new List<Color>();
+
     /// <summary>
     /// Коллайдер для взаимодействия с объектами
     /// </summary>
@@ -65,7 +66,13 @@ public class HexMesh : MonoBehaviour
         hexMesh.RecalculateNormals();
         meshCollider.sharedMesh = hexMesh;
     }
-    
+    internal void Copy(Mesh mesh)
+    {
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.RecalculateNormals();
+    }
+
     /// <summary>
     /// Триангуляция ячейки (разбиение на треугольники)
     /// </summary>
