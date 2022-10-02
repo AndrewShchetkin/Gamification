@@ -9,7 +9,6 @@ using static MaskRenderer;
 
 public class HexCell : MonoBehaviour
 {
-    MaskRenderer maskRenderer;
     /// <summary>
     /// Координаты ячейки
     /// </summary>
@@ -130,7 +129,6 @@ public class HexCell : MonoBehaviour
 
     private void Start()
     {
-        maskRenderer = FindObjectOfType<MaskRenderer>();
         MaskRenderer.RegisterCell(this);
     }
 
@@ -296,7 +294,6 @@ public class HexCell : MonoBehaviour
     /// Ranges from 0 to 1 with 0 indicating that the cell is not visible
     /// </summary>
     public float Visibility { get; private set; }
-    private bool isVisible = true;
 
 
     /// <summary>

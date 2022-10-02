@@ -3,15 +3,15 @@ Shader "Custom/Highlight" {
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
-		[HideInInspector] _RendererColor ("RendererColor", Color) = (1,1,1,1)
-		[HideInInspector] _Flip ("Flip", Vector) = (1,1,1,1)
-		[PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
-		[PerRendererData] _EnableExternalAlpha ("Enable External Alpha", Float) = 0
+		 _RendererColor ("RendererColor", Color) = (1,1,1,1)
+		 _Flip ("Flip", Vector) = (1,1,1,1)
+		 _AlphaTex ("External Alpha", 2D) = "white" {}
+		 _EnableExternalAlpha ("Enable External Alpha", Float) = 0
 	}
 
 	SubShader {
 		Tags { 
-			"Queue"="Transparent+10"
+			"Queue"="Transparent"
 			"IgnoreProjector"="True"
 			"RenderType"="Transparent"
 			"PreviewType"="Plane"
@@ -24,6 +24,8 @@ Shader "Custom/Highlight" {
 		Blend One OneMinusSrcAlpha
 
 		Pass {
+			ZTest Off
+			Blend SrcAlpha OneMinusSrcAlpha
 			CGPROGRAM
 			#pragma vertex SpriteVert
 			#pragma fragment SpriteFrag

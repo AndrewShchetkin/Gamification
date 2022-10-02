@@ -13,7 +13,7 @@ TagManager:
   - UI
   - FogOfWar
   - Highlights
-  - 
+  - FogOfWar2
   - 
   - 
   - 
@@ -42,5 +42,5 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Custom
-    uniqueID: 2376830339
+    uniqueID: 1386598125
     locked: 0

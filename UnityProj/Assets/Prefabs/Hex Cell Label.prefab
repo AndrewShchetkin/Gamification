@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 51979460134105582}
   - component: {fileID: 7160840735769215613}
   - component: {fileID: 6453308690958528334}
+  - component: {fileID: 1599232351315882438}
   m_Layer: 7
   m_Name: Highlight
   m_TagString: Untagged
@@ -75,6 +76,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!210 &1599232351315882438
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723617634864672820}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 100
 --- !u!1 &8114662557958548836
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +99,8 @@ GameObject:
   - component: {fileID: 1028811274143808966}
   - component: {fileID: 4513875676441177937}
   - component: {fileID: 2086345975750225725}
-  m_Layer: 5
+  - component: {fileID: 4148877835480316199}
+  m_Layer: 7
   m_Name: Hex Cell Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,6 +191,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 10
   m_TargetDisplay: 0
+--- !u!210 &4148877835480316199
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114662557958548836}
+  m_Enabled: 1
+  m_SortingLayerID: 1386598125
+  m_SortingLayer: 1
+  m_SortingOrder: 30
 --- !u!1 &8630870850736279359
 GameObject:
   m_ObjectHideFlags: 0
