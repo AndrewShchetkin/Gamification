@@ -12,7 +12,8 @@ public class GameController : MonoBehaviour
     {
         { nameof(HexGrid), false },
         { nameof(HexMapEditor), false },
-        { nameof(GameController), false }
+        { nameof(GameController), false },
+        { nameof(MaskRenderer), false }
     };
 
     static Dictionary<string, bool> readyPlayerInfo = new Dictionary<string, bool>()
@@ -29,6 +30,8 @@ public class GameController : MonoBehaviour
         Color.gray,
         Color.yellow
     };
+
+    public static int AnimationController { get; set; }
     public Canvas editUI;
     /// <summary>
     /// Ограничение кадров
@@ -143,6 +146,10 @@ public class GameController : MonoBehaviour
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
 		GetCurrentUser();
         GetAllTeams();
+#endif
+#if UNITY_EDITOR == true
+        var hexMapEditor = FindObjectOfType<HexMapEditor>();
+        hexMapEditor.SetMapData("");
 #endif
         HexMapEditor.Load();
     }

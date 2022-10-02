@@ -1,15 +1,14 @@
 using Assets.Models;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System;
+using System.Collections;
 using System.Linq;
+using System.Threading;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class HexCell : MonoBehaviour
 {
+    MaskRenderer maskRenderer;
     /// <summary>
     /// Координаты ячейки
     /// </summary>
@@ -62,8 +61,8 @@ public class HexCell : MonoBehaviour
         {
             ownerId = value;
             EnableOwnerHighlight(ownerColorHighligh);
-            Array.ForEach(neighbors, n => DisableFog(n?.coordinates));
-            DisableFog(coordinates);
+            //Array.ForEach(neighbors, n => n?.DisableFogOfWar());
+            DisableFogOfWar();
 
             Debug.Log($"Ячейка с координатами {this.coordinates.X}, {this.coordinates.Y} захвачена группой с id: {value}");
         }
@@ -89,23 +88,24 @@ public class HexCell : MonoBehaviour
 
     bool walled;
 
-    private void DisableFog(HexCoordinates? coordinates)
+    private void DisableFogOfWar()
     {
-        var hexGridParent = GetComponentInParent<HexGrid>();
-        if (coordinates == null || GameController.PlayerTeam.id != OwnerId)
+        //var hexGridParent = GetComponentInParent<HexGrid>();
+        if (GameController.PlayerTeam.id != OwnerId)
         {
             return;
         }
-        var fogOfWar = hexGridParent.GetComponentsInChildren<FogOfWar>()
-            .Where(f => f.hexCoordinates.Equals(coordinates))
-            .Single();
-        var fogOfWarInstance = fogOfWar.gameObject.GetComponentInChildren<ParticleSystem>();
+        ToggleVisibility();
+        //var fogOfWar = hexGridParent.GetComponentsInChildren<FogOfWar>()
+        //    .Where(f => f.hexCoordinates.Equals(coordinates))
+        //    .Single();
+        //var fogOfWarInstance = fogOfWar.gameObject.GetComponentInChildren<ParticleSystem>();
         
-        if (!fogOfWarInstance.isStopped)
-        {
-            fogOfWarInstance.Stop();
-            fogOfWarInstance.Clear();
-        }
+        //if (!fogOfWarInstance.isStopped)
+        //{
+        //    fogOfWarInstance.Stop();
+        //    fogOfWarInstance.Clear();
+        //}
     }
 
     // Для сохранения(сохраняем не цвет, а его индекс)    
@@ -127,6 +127,11 @@ public class HexCell : MonoBehaviour
 
     public RectTransform uiRect;
 
+    private void Start()
+    {
+        maskRenderer = FindObjectOfType<MaskRenderer>();
+        maskRenderer.RegisterCell(this);
+    }
 
     void Refresh()
     {
@@ -284,4 +289,45 @@ public class HexCell : MonoBehaviour
         highlight.color = color;
         highlight.enabled = true;
     }
+
+    #region[FogOfWar]
+    /// <summary>
+    /// Ranges from 0 to 1 with 0 indicating that the cell is not visible
+    /// </summary>
+    public float Visibility { get; private set; }
+    private bool isVisible = true;
+
+
+    /// <summary>
+    /// Toggle the visibility and lerp to the new value from the current one
+    /// Interupts itself if still in a animation
+    /// </summary>
+    public void ToggleVisibility()
+    {
+        //isVisible = !isVisible;
+        StopAllCoroutines();
+        StartCoroutine(AnimateVisibility(1.0f));
+    }
+
+    /// <summary>
+    /// Visibility toggle animation
+    /// Pretty basic animation coroutine, the animation takes 1 second
+    /// </summary>
+    /// <param name="targetVal">Visibility value to end up with</param>
+    /// <returns>Yield</returns>
+    private IEnumerator AnimateVisibility(float targetVal)
+    {
+        float startingTime = Time.time;
+        float startingVal = Visibility;
+        float lerpVal = 0.0f;
+        while (lerpVal < 1.0f)
+        {
+            lerpVal = (Time.time - startingTime) / 1.0f;
+            Visibility = Mathf.Lerp(startingVal, targetVal, lerpVal);
+            maskRenderer.UpdateRender(this);
+            yield return null;
+        }
+        Visibility = targetVal;
+    }
+    #endregion
 }

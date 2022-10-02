@@ -254,7 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e943e0bf98e624b846c4dfaca9d175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameController: {fileID: 824299214}
   colors:
   - {r: 0.9172869, g: 0.9339623, b: 0.14538093, a: 0}
   - {r: 0.0588235, g: 0.93333334, b: 0.08198549, a: 0}
@@ -979,7 +978,6 @@ MonoBehaviour:
   - {r: 0.05882353, g: 0.19215687, b: 0.93333334, a: 0}
   - {r: 1, g: 0.3647059, b: 0, a: 0}
   - {r: 1, g: 1, b: 1, a: 0}
-  gameController: {fileID: 824299214}
 --- !u!4 &255305078
 Transform:
   m_ObjectHideFlags: 0
@@ -1750,6 +1748,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409615942}
   m_CullTransparentMesh: 1
+--- !u!1 &413045569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 413045570}
+  - component: {fileID: 413045571}
+  m_Layer: 0
+  m_Name: MaskRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &413045570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413045569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 36.844902, z: -68.6647}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413045571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413045569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5562ceba988e60d419dfcd150f31ca5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  computeShader: {fileID: 7200000, guid: c5920b0d1a078ff4c9bc19db89ce7038, type: 3}
+  TextureSize: 1024
+  MapSize: 1000
+  Radius: 15
+  BlendDistance: 0.5
 --- !u!1 &426025473
 GameObject:
   m_ObjectHideFlags: 0
