@@ -87,6 +87,8 @@ public class MaskRenderer : MonoBehaviour
 
     public static List<CellBufferElement> BufferElements { get; set; } = new List<CellBufferElement>();
 
+    public static bool IsBufferHaveChanges { get; set; } 
+
     private static ComputeBuffer buffer = null;
 
     /// <summary>
@@ -123,20 +125,17 @@ public class MaskRenderer : MonoBehaviour
     public void Update()
     {
         frames++;
-        //Recreate the buffer since the visibility updates
-        //This is not extremely optimized as we could also simply change 
-        //values but it is fine for a project as small as this one
         
         if (buffer == null)
             buffer = new ComputeBuffer(BufferElements.Count * 3, sizeof(float));
 
         if (frames % 2 != 0)
         {
+            frames = 1;
             return;
         }
-        var buf = new CellBufferElement[BufferElements.Count];
-        buffer.GetData(buf);
-        if (buf.SequenceEqual(BufferElements.ToArray()))
+
+        if (!IsBufferHaveChanges)
         {
             return;
         } 
@@ -154,6 +153,7 @@ public class MaskRenderer : MonoBehaviour
         //Our thread group size is 8x8=64, 
         //thus we have to dispatch (TextureSize / 8) * (TextureSize / 8) thread groups
         computeShader.Dispatch(0, Mathf.CeilToInt(TextureSize / 8.0f), Mathf.CeilToInt(TextureSize / 8.0f), 1);
+        IsBufferHaveChanges = false;
         frames = 1;
     }
 }

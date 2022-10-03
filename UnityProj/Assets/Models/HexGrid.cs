@@ -239,7 +239,7 @@ public class HexGrid : MonoBehaviour
 
 		FogOfWar fogOfWar = Instantiate<FogOfWar>(fogOfWarPrefab);
 		fogOfWar.gameObject.transform.SetParent(transform);
-		fogOfWar.InstatiateFog(position, cell.coordinates);
+		//fogOfWar.InstatiateFog(position, cell.coordinates);
 		
 		cell.Elevation = 0;
 

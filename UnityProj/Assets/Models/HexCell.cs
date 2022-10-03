@@ -330,6 +330,7 @@ public class HexCell : MonoBehaviour
                 PositionX = transform.position.x,
                 PositionY = transform.position.z
             };
+            IsBufferHaveChanges = true;
             yield return null;
         }
         Visibility = targetVal;
