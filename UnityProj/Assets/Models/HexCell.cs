@@ -323,12 +323,12 @@ public class HexCell : MonoBehaviour
             lerpVal = (Time.time - startingTime) / 1.0f;
             Visibility = Mathf.Lerp(startingVal, targetVal, lerpVal);
 
-            var updatedCell = BufferElements.Single(b => b.PositionX == transform.position.x && b.PositionY == transform.position.z);
+            var updatedCell = BufferElements.Single(b => b.PositionX == (transform.position.x + XOffset) && b.PositionY == (transform.position.z + YOffset));
             BufferElements[BufferElements.IndexOf(updatedCell)] = new CellBufferElement
             {
                 Visibility = Visibility,
-                PositionX = transform.position.x,
-                PositionY = transform.position.z
+                PositionX = transform.position.x + XOffset,
+                PositionY = transform.position.z + YOffset
             };
             IsBufferHaveChanges = true;
             yield return null;

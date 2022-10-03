@@ -20,11 +20,15 @@ public class MaskRenderer : MonoBehaviour
     {
         BufferElements.Add(new CellBufferElement 
         {
-            PositionX = cell.transform.position.x,
-            PositionY = cell.transform.position.z,
+            PositionX = cell.transform.position.x + XOffset,
+            PositionY = cell.transform.position.z + YOffset,
             Visibility = cell.Visibility
         });
     }
+
+    // Не понятно с чем связанный оффсет по координатам, зависит от размера текстуры
+    public const int XOffset = -4;
+    public const int YOffset = -10;
 
     private int frames = 1;
 
@@ -147,7 +151,7 @@ public class MaskRenderer : MonoBehaviour
         //Set other variables needed in the compute function
         computeShader.SetInt(cellCountId, BufferElements.Count);
         computeShader.SetFloat(radiusId, Radius / MapSize);
-        computeShader.SetFloat(blendId, BlendDistance / MapSize * 100);
+        computeShader.SetFloat(blendId, BlendDistance / MapSize * 50);
 
         //Execute the compute shader
         //Our thread group size is 8x8=64, 

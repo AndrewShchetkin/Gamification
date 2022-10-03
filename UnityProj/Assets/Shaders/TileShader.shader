@@ -65,7 +65,7 @@
             float4 tileMap = tex2D(_MapTex, IN.uv_MapTex);
 
             //Sample the map background texture
-            float4 mapBackground = tex2D(_MapBackground, IN.worldPos.xz / _MapSize * 5);
+            float4 mapBackground = tex2D(_MapBackground, IN.worldPos.xz / _MapSize * 2);
 
             //Sample the noise texture
             float noise = tex2D(_Noise, IN.worldPos.xz / _MapSize).r;
