@@ -11,7 +11,7 @@ Shader "Custom/Highlight" {
 
 	SubShader {
 		Tags { 
-			"Queue"="Transparent"
+			"Queue"="Background"
 			"IgnoreProjector"="True"
 			"RenderType"="Transparent"
 			"PreviewType"="Plane"
