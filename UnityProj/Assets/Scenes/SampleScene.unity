@@ -970,7 +970,6 @@ MonoBehaviour:
   cellPrefab: {fileID: 8485139230368286537, guid: 2b42cc000b2417947ab2e690967c024d, type: 3}
   cellLabelPrefab: {fileID: 4513875676441177937, guid: 7e6472a208f8b264f8eb8e06d5512d0c, type: 3}
   chunkPrefab: {fileID: 8283592208098908577, guid: 470a70256824e204ab1b03509f9f6e1e, type: 3}
-  fogOfWarPrefab: {fileID: 5954830537209425797, guid: 4e2ad518a7a29d54fa9a22f78a6e1160, type: 3}
   noiseSource: {fileID: 2800000, guid: 93de3be4ba29f494ab95c77b9c8bc2c3, type: 3}
   colors:
   - {r: 0.91764706, g: 0.93333334, b: 0.14509805, a: 0}
@@ -2854,7 +2853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   editUI: {fileID: 1286443286}
-  targetFrameRate: 30
+  targetFrameRate: 60
 --- !u!4 &824299218
 Transform:
   m_ObjectHideFlags: 0

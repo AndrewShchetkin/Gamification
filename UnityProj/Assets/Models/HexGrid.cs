@@ -44,11 +44,6 @@ public class HexGrid : MonoBehaviour
 	public HexGridChunk chunkPrefab;
 
 	/// <summary>
-	/// Префаб тумана
-	/// </summary>
-	public FogOfWar fogOfWarPrefab;
-
-	/// <summary>
 	/// Канвас грида
 	/// </summary>
 	// Canvas gridCanvas;
@@ -236,10 +231,6 @@ public class HexGrid : MonoBehaviour
 			new Vector2(position.x, position.z);
 		label.text = cell.coordinates.ToStringOnSeparateLines();
 		cell.uiRect = label.rectTransform;
-
-		FogOfWar fogOfWar = Instantiate<FogOfWar>(fogOfWarPrefab);
-		fogOfWar.gameObject.transform.SetParent(transform);
-		//fogOfWar.InstatiateFog(position, cell.coordinates);
 		
 		cell.Elevation = 0;
 
