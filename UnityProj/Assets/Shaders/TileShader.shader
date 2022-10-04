@@ -17,8 +17,10 @@
         _MapColor("Map Color", Color) = (1,1,1,1)
         _MapEdgeColor("Map Edge Color", Color) = (1,1,1,1)
 
-        //Map background color
+        //Map background 
         [NoScaleOffset]_MapBackground("Map Background Texture", 2D) = "white" {}
+        //Map background mask
+        [NoScaleOffset]_MapBackgroundMask("Map Background Mask", 2D) = "white" {}
     }
     SubShader
     {
@@ -53,6 +55,7 @@
         float4 _MapColor;
         float4 _MapEdgeColor;
         sampler2D _MapBackground;
+        sampler2D _MapBackgroundMask;
 
         //Surface function, we are only interested in setting the albedo we can leave the rest as default
         void surf (Input IN, inout SurfaceOutputStandard o)
@@ -66,6 +69,8 @@
 
             //Sample the map background texture
             float4 mapBackground = tex2D(_MapBackground, IN.worldPos.xz / _MapSize * 2);
+            //Sample the map background texture
+            float4 mapBackgroundMask = tex2D(_MapBackgroundMask, IN.worldPos.xz / _MapSize * 5);
 
             //Sample the noise texture
             float noise = tex2D(_Noise, IN.worldPos.xz / _MapSize).r;
@@ -75,7 +80,7 @@
 
             //Render the map if the calculated value is smaller than our cutoff
             if(maskNoise < _Cutoff)
-                tile = lerp(_MapColor * tileMap * tileMap.a * mapBackground, _MapEdgeColor, maskNoise / _Cutoff);
+                tile = lerp(_MapColor * tileMap * tileMap.a * mapBackground * mapBackgroundMask, _MapEdgeColor, maskNoise / _Cutoff);
                 o.Alpha = tile.a;
 
             //Assign the color
