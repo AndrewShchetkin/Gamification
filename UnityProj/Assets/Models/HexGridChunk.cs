@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
 
 public class HexGridChunk : MonoBehaviour
@@ -9,15 +11,35 @@ public class HexGridChunk : MonoBehaviour
 	HexMesh hexMesh;
 	Canvas gridCanvas;
 	MaskMesh maskMesh;
+	Material material;
+	Texture2D texture;
 
 	void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 		maskMesh = hexMesh.GetComponentInChildren<MaskMesh>();
+		texture = new Texture2D(64, 64, TextureFormat.ARGB32, false);
+
+		Color[] colors = new Color[64 * 64];
+        for (int i = 0; i < 64 * 64; i++)
+        {
+			colors[i] = new Color(1, 1, 1, 1);
+
+		}
+		texture.SetPixels(colors);
+		texture.Apply();
 
 		cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
 		ShowUI(true);
+	}
+
+	public void UpdateTexture(int x, int y)
+    {		
+		material = maskMesh.GetComponent<Renderer>().material;
+		texture.SetPixel(x, y, new Color(0, 0, 0, 0));
+		texture.Apply();
+		material.mainTexture = texture;
 	}
 
 	//void Start()
@@ -67,6 +89,6 @@ public class HexGridChunk : MonoBehaviour
 
 	public HexCell GetRandomCell()
     {
-		return cells[Random.Range(0, cells.Length)];
+		return cells[UnityEngine.Random.Range(0, cells.Length)];
     }
 }

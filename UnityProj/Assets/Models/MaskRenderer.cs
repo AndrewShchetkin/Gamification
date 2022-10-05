@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 /// <summary>
 /// Component that controls the compute shader and assigns the necessary variables
@@ -100,10 +102,17 @@ public class MaskRenderer : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        foreach (RenderTextureFormat format in Enum.GetValues(typeof(RenderTextureFormat)))
+        {
+            var isWork = SystemInfo.SupportsRandomWriteOnRenderTextureFormat(format);
+            Debug.Log($"{format} work: {isWork}");
+        }
+        var formatTexture = SystemInfo.GetCompatibleFormat(GraphicsFormat.A10R10G10B10_XRSRGBPack32, FormatUsage.Linear);
         //Create a new render texture for the mask
-        maskTexture = new RenderTexture(TextureSize, TextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear) 
+        
+        maskTexture = new RenderTexture(TextureSize, TextureSize, 0, formatTexture)
         { 
-            enableRandomWrite = true 
+           //enableRandomWrite = true 
         };
         maskTexture.Create();
 
@@ -128,6 +137,7 @@ public class MaskRenderer : MonoBehaviour
     //Setup all buffers and variables
     public void Update()
     {
+        return;
         frames++;
         
         if (buffer == null)
@@ -157,6 +167,7 @@ public class MaskRenderer : MonoBehaviour
         //Our thread group size is 8x8=64, 
         //thus we have to dispatch (TextureSize / 8) * (TextureSize / 8) thread groups
         computeShader.Dispatch(0, Mathf.CeilToInt(TextureSize / 8.0f), Mathf.CeilToInt(TextureSize / 8.0f), 1);
+
         IsBufferHaveChanges = false;
         frames = 1;
     }

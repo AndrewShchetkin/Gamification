@@ -96,11 +96,13 @@ public class HexCell : MonoBehaviour
             return;
         }
         ToggleVisibility();
+        var chunck = gameObject.GetComponentInParent<HexGridChunk>();
+        chunck.UpdateTexture(1, 1);
         //var fogOfWar = hexGridParent.GetComponentsInChildren<FogOfWar>()
         //    .Where(f => f.hexCoordinates.Equals(coordinates))
         //    .Single();
         //var fogOfWarInstance = fogOfWar.gameObject.GetComponentInChildren<ParticleSystem>();
-        
+
         //if (!fogOfWarInstance.isStopped)
         //{
         //    fogOfWarInstance.Stop();

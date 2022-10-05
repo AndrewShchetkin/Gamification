@@ -77,11 +77,12 @@
 
             //Add noise to the blend area to make the edges of the map more random
             float maskNoise = clamp(maskVal - pow(1.0f - maskVal, 0.1f) * noise, 0, 1);
-
+            //o.Alpha = tile.a
             //Render the map if the calculated value is smaller than our cutoff
             if(maskNoise < _Cutoff)
                 tile = lerp(_MapColor * tileMap * tileMap.a * mapBackground * mapBackgroundMask, _MapEdgeColor, maskNoise / _Cutoff);
-                o.Alpha = tile.a;
+             
+            o.Alpha = tile.a;
 
             //Assign the color
             o.Albedo = tile.rgb;
