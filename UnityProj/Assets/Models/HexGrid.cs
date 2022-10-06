@@ -10,16 +10,24 @@ using UnityEngine.UI;
 public class HexGrid : MonoBehaviour
 {
 	public int cellCountX, cellCountZ;
-	public int NoGameChunckCount = 2;
+	public static int NoGameChunckCount = 2;
+
+	public int CellsCount
+    {
+        get
+        {
+			return cells.Length;
+        }		
+    }
 	/// <summary>
 	/// Количество игровых сегментов на карте
 	/// </summary>
-	public int ChunkCountX = 5, ChunkCountZ = 5;
+	public static int ChunkCountX = 5, ChunkCountZ = 5;
 	/// <summary>
 	/// Количество всех сегментов на карте
 	/// </summary>
-	internal int allChunkCountX => ChunkCountX + NoGameChunckCount;
-	internal int allChunkCountZ => ChunkCountZ + NoGameChunckCount;
+	public static int allChunkCountX => ChunkCountX + NoGameChunckCount;
+	public static int allChunkCountZ => ChunkCountZ + NoGameChunckCount;
 	/// <summary>
 	/// Цвет по умолчани(убрано для сохранения карты)
 	/// </summary>

@@ -139,7 +139,7 @@ public class MaskRenderer : MonoBehaviour
     {
         return;
         frames++;
-        
+
         if (buffer == null)
             buffer = new ComputeBuffer(BufferElements.Count * 3, sizeof(float));
 
@@ -152,7 +152,7 @@ public class MaskRenderer : MonoBehaviour
         if (!IsBufferHaveChanges)
         {
             return;
-        } 
+        }
 
         //Set the buffer data and parse it to the compute shader
         buffer.SetData(BufferElements);

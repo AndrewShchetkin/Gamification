@@ -19,13 +19,13 @@ public class HexGridChunk : MonoBehaviour
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 		maskMesh = hexMesh.GetComponentInChildren<MaskMesh>();
-		texture = new Texture2D(64, 64, TextureFormat.ARGB32, false);
-
-		Color[] colors = new Color[64 * 64];
-        for (int i = 0; i < 64 * 64; i++)
+		var mapSizeX = HexGrid.allChunkCountX * HexMetrics.chunkSizeX;
+		var mapSizeY = HexGrid.allChunkCountZ * HexMetrics.chunkSizeZ;
+		texture = new Texture2D(mapSizeX, mapSizeY, TextureFormat.ARGB32, false);
+		Color[] colors = new Color[mapSizeX * mapSizeY];
+        for (int i = 0; i < colors.Length; i++)
         {
 			colors[i] = new Color(1, 1, 1, 1);
-
 		}
 		texture.SetPixels(colors);
 		texture.Apply();
@@ -37,9 +37,9 @@ public class HexGridChunk : MonoBehaviour
 	public void UpdateTexture(int x, int y)
     {		
 		material = maskMesh.GetComponent<Renderer>().material;
-		texture.SetPixel(x, y, new Color(0, 0, 0, 0));
+		texture.SetPixel(x,y, new Color(0, 0, 0, 0));
 		texture.Apply();
-		material.mainTexture = texture;
+		material.SetTexture("_Mask", texture);
 	}
 
 	//void Start()

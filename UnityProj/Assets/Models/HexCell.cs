@@ -97,7 +97,7 @@ public class HexCell : MonoBehaviour
         }
         ToggleVisibility();
         var chunck = gameObject.GetComponentInParent<HexGridChunk>();
-        chunck.UpdateTexture(1, 1);
+        chunck.UpdateTexture(coordinates.X, coordinates.Y);
         //var fogOfWar = hexGridParent.GetComponentsInChildren<FogOfWar>()
         //    .Where(f => f.hexCoordinates.Equals(coordinates))
         //    .Single();
