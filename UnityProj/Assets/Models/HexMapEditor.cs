@@ -165,6 +165,11 @@ public class HexMapEditor : MonoBehaviour
 			cell.ownerColorHighligh = playerTeam.colorIndex;
 			cell.OwnerId = playerTeam.id;
 			Cell updatedCell = new Cell(cell.ColorIndex, cell.Elevation, cell.coordinates.X, cell.coordinates.Y, cell.coordinates.Z, playerTeam.id);
+
+			// fog of war
+			HexGrid.EditTexture(cell.uiRect.position);
+			cell.chunk.UpdateTexture();
+
 			UpdateTargetCell(updatedCell);
 			GameController.DemoPoints -= 1;
 		}

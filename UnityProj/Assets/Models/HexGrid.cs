@@ -85,10 +85,23 @@ public class HexGrid : MonoBehaviour
 	/// </summary>
 	public Color[] colors;
 
-    private void Start()
+	public static Texture2D texture;
+
+	private void Start()
     {
 		GameController.SetReadyObject(this.GetType());
 		//hexMesh.Triangulate(cells);
+
+		var mapSizeX = allChunkCountX * HexMetrics.chunkSizeX * 3;
+		var mapSizeY = allChunkCountZ * HexMetrics.chunkSizeZ * 3;
+		texture = new Texture2D(mapSizeX, mapSizeY, TextureFormat.ARGB32, false);
+		Color[] colors = new Color[mapSizeX * mapSizeY];
+		for (int i = 0; i < colors.Length; i++)
+		{
+			colors[i] = new Color(0, 0, 0, 0);
+		}
+		texture.SetPixels(colors);
+		texture.Apply();
 	}
 
     /// <summary>
@@ -273,6 +286,17 @@ public class HexGrid : MonoBehaviour
 		HexCoordinates coordinates = HexCoordinates.FromPosition(position);
 		int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
 		return cells[index];
+	}
+
+	public static void EditTexture(Vector3 position)
+	{
+		double mapSizeX = allChunkCountX * HexMetrics.chunkSizeX * 3;
+		double mapSizeY = allChunkCountZ * HexMetrics.chunkSizeZ * 3;
+		var calcX = (int)Math.Round((mapSizeX * position.x / 1000.0));
+		var calcY = (int)Math.Round((mapSizeY * position.z / 1000.0));
+		
+		texture.SetPixel(calcX, calcY, new Color(1, 1, 1, 1));
+		texture.Apply();
 	}
 
 	/// <summary>

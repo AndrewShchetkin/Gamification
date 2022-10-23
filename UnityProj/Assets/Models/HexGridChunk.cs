@@ -12,34 +12,21 @@ public class HexGridChunk : MonoBehaviour
 	Canvas gridCanvas;
 	MaskMesh maskMesh;
 	Material material;
-	Texture2D texture;
 
 	void Awake()
 	{
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 		maskMesh = hexMesh.GetComponentInChildren<MaskMesh>();
-		var mapSizeX = HexGrid.allChunkCountX * HexMetrics.chunkSizeX;
-		var mapSizeY = HexGrid.allChunkCountZ * HexMetrics.chunkSizeZ;
-		texture = new Texture2D(mapSizeX, mapSizeY, TextureFormat.ARGB32, false);
-		Color[] colors = new Color[mapSizeX * mapSizeY];
-        for (int i = 0; i < colors.Length; i++)
-        {
-			colors[i] = new Color(1, 1, 1, 1);
-		}
-		texture.SetPixels(colors);
-		texture.Apply();
+		material = maskMesh.GetComponent<Renderer>().material;
 
 		cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
 		ShowUI(true);
 	}
 
-	public void UpdateTexture(int x, int y)
-    {		
-		material = maskMesh.GetComponent<Renderer>().material;
-		texture.SetPixel(x,y, new Color(0, 0, 0, 0));
-		texture.Apply();
-		material.SetTexture("_Mask", texture);
+	public void UpdateTexture()
+    {
+		material.SetTexture("_Mask", HexGrid.texture);
 	}
 
 	//void Start()
